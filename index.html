@@ -878,12 +878,22 @@ function onTempleSelect(val, prefix){
 
 function searchAddr(q){ if(!q||q.length<2)return[]; return ADDR_DB.filter(r=>r.t.includes(q)||r.a.includes(q)||r.p.includes(q)||r.z.includes(q)).slice(0,10); }
 function buildAddrWidget(prefix, container){
-  container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
-    <div class="field"><label>ตำบล/แขวง</label><div class="addr-wrap"><input id="${prefix}-sub" placeholder="พิมพ์ค้นหา..." autocomplete="off" oninput="addrSearch(this,'${prefix}')"><div class="addr-list" id="${prefix}-list"></div></div></div>
-    <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต" readonly style="background:#f9fafb"></div>
-    <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด" readonly style="background:#f9fafb"></div>
-    <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส" readonly style="background:#f9fafb"></div>
-  </div>`;
+  const isTemple = ['ord','upa','kam','anu','temple','leave'].includes(prefix);
+  if(isTemple){
+    container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+      <div class="field"><label>ตำบล/แขวง</label><input id="${prefix}-sub" placeholder="ตำบล/แขวง"></div>
+      <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต"></div>
+      <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด"></div>
+      <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส"></div>
+    </div>`;
+  } else {
+    container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+      <div class="field"><label>ตำบล/แขวง</label><input id="${prefix}-sub" placeholder="ตำบล/แขวง"></div>
+      <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต"></div>
+      <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด"></div>
+      <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส"></div>
+    </div>`;
+  }
 }
 function addrSearch(inp, prefix){
   const q=inp.value.trim(), list=document.getElementById(prefix+'-list');
