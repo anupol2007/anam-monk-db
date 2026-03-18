@@ -720,14 +720,21 @@ tr:hover td{background:#f9fafb}
 
 <script>
 /* ===== SUPABASE CONFIG ===== */
-const SUPABASE_URL = 'https://yhxrvsavqidmikzjkwxx.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_sSEtAPUUsqEzxoSqmTifag_Euujh1gI';
+const SUPABASE_URL = 'https://zyrdihxkpmkbasuiajsd.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_aDbfNHb_77C2xAlhwxTcig_DgJLJK7e';
 const API = SUPABASE_URL + '/rest/v1';
 const HEADERS = {
   'Content-Type': 'application/json',
   'apikey': SUPABASE_KEY,
   'Authorization': 'Bearer ' + SUPABASE_KEY
 };
+/* ===== LOCAL USERS (always works) ===== */
+const LOCAL_USERS = {
+  'anuphon':   {password:'133620',  display:'Anuphon',   role:'editor'},
+  'theerayut': {password:'thee2516',display:'Theerayut', role:'editor'},
+  'admin':     {password:'0000',    display:'Admin',     role:'editor'}
+};
+
 
 async function sbGet(table, params=''){
   const r = await fetch(API+'/'+table+'?'+params, {headers:{...HEADERS,'Prefer':'return=representation'}});
@@ -750,7 +757,7 @@ async function sbDelete(table, id){
 }
 
 /* ===== STATE ===== */
-const ADMIN_IDS = ['theerayut','anuphon'];
+const ADMIN_IDS = ['theerayut','anuphon','admin'];
 let currentUser = null;
 let monks = [], filtered = [];
 let posCount = 0;
@@ -786,24 +793,40 @@ async function doLogin(){
   const btn=document.getElementById('login-btn');
   if(!id||!pw){err.textContent='กรุณากรอก ID และรหัสผ่าน';return;}
   btn.disabled=true; btn.textContent='กำลังตรวจสอบ...'; err.textContent='';
-  try {
-    const rows = await sbGet('app_users','id=eq.'+encodeURIComponent(id)+'&select=id,display,password,role');
-    if(!rows.length||rows[0].password!==pw){
-      err.textContent='ID หรือรหัสผ่านไม่ถูกต้อง';
-      document.getElementById('login-pw').value='';
-      return;
-    }
-    const u=rows[0];
-    currentUser={id:u.id, display:u.display, role:u.role};
+
+  /* Check local users first - always works */
+  const local=LOCAL_USERS[id];
+  if(local&&local.password===pw){
+    currentUser={id:id,display:local.display,role:local.role};
     document.getElementById('login-screen').style.display='none';
     document.getElementById('main-app').style.display='block';
     updateUIForRole();
     initWidgets();
+    btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
     await loadMonks();
-    toast('ยินดีต้อนรับ '+u.display+' ('+roleLabel(u.role)+')');
-  } catch(e){
-    err.textContent='เกิดข้อผิดพลาด: '+e.message;
-  } finally {
+    toast('ยินดีต้อนรับ '+local.display);
+    return;
+  }
+
+  /* Try Supabase */
+  try{
+    const rows=await sbGet('app_users','id=eq.'+encodeURIComponent(id)+'&select=id,display,password,role');
+    if(!rows.length||rows[0].password!==pw){
+      err.textContent='ID หรือรหัสผ่านไม่ถูกต้อง';
+      document.getElementById('login-pw').value='';
+    } else {
+      const u=rows[0];
+      currentUser={id:u.id,display:u.display,role:u.role};
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('main-app').style.display='block';
+      updateUIForRole();
+      initWidgets();
+      await loadMonks();
+      toast('ยินดีต้อนรับ '+u.display+' ('+roleLabel(u.role)+')');
+    }
+  }catch(e){
+    err.textContent='ไม่สามารถเชื่อมต่อได้: '+e.message;
+  }finally{
     btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
   }
 }
@@ -1158,47 +1181,7 @@ function getFormData(){
     positions:[]
   };
 }
-function getFormData_OLD(){
-  const positions=[...document.querySelectorAll('.pos-row')].map(r=>{
-    const n=r.id.split('-')[2];
-    return {name:(document.getElementById('pos-name-'+n)||{value:''}).value.trim(), year:(document.getElementById('pos-year-'+n)||{value:''}).value.trim()};
-  }).filter(p=>p.name);
-  const pansaText=document.getElementById('pansa-display').textContent;
-  const eduMonks=['พระปริยัตินิเทศ','ครูสอนแผนกสามัญ','ครูสอนแผนกธรรม','ครูสอนแผนกบาลี','ครูพระสอนศีลธรรม','อาจารย์มหาวิทยาลัย']
-    .filter((v,i)=>document.getElementById('f-edu-monk'+(i+1))&&document.getElementById('f-edu-monk'+(i+1)).checked).join(', ');
-  return {
-    type:gr('f-type'), name:gv('f-name'), chaya:gv('f-chaya'), age:gv('f-age')||null, idcard:gv('f-idcard'),
-    firstname:gv('f-firstname'), lastname:gv('f-lastname'),
-    bday:gv('f-bday')||null, bmonth:gv('f-bmonth'), byear:gv('f-byear')||null,
-    race:gv('f-race'), nation:gv('f-nation'), career:gv('f-career'), skill:gv('f-skill'),
-    addr_no:gv('f-addr-no'), addr_moo:gv('f-addr-moo'), addr_soi:gv('f-addr-soi'), addr_road:gv('f-addr-road'),
-    home_sub:gv('home-sub'), home_dist:gv('home-dist'), home_prov:gv('home-prov'), home_zip:gv('home-zip'),
-    father_name:gv('f-father-name'), father_last:gv('f-father-last'), father_race:gv('f-father-race'), father_nation:gv('f-father-nation'),
-    mother_name:gv('f-mother-name'), mother_last:gv('f-mother-last'), mother_race:gv('f-mother-race'), mother_nation:gv('f-mother-nation'),
-    ord_day:gv('f-ord-day')||null, ord_month:gv('f-ord-month'), ord_year:gv('f-ord-year')||null,
-    pansa:pansaText.startsWith('—')?'':pansaText,
-    book_no:gv('f-book-no'), book_day:gv('f-book-day')||null, book_month:gv('f-book-month'), book_year:gv('f-book-year')||null,
-    ord_temple:gv('f-ord-temple'), ord_sub:gv('ord-sub'), ord_dist:gv('ord-dist'), ord_prov:gv('ord-prov'),
-    upa:gv('f-upa'), upa_temple:gv('f-upa-temple'), upa_sub:gv('upa-sub'), upa_dist:gv('upa-dist'), upa_prov:gv('upa-prov'),
-    kam:gv('f-kam'), kam_temple:gv('f-kam-temple'), kam_sub:gv('kam-sub'), kam_dist:gv('kam-dist'), kam_prov:gv('kam-prov'),
-    anu:gv('f-anu'), anu_temple:gv('f-anu-temple'), anu_sub:gv('anu-sub'), anu_dist:gv('anu-dist'), anu_prov:gv('anu-prov'),
-    cur_day:gv('f-cur-day')||null, cur_month:gv('f-cur-month'), cur_year:gv('f-cur-year')||null,
-    temple:gv('f-temple'), abbot_chaya:gv('f-abbot-chaya'),
-    temple_sub:gv('temple-sub'), temple_dist:gv('temple-dist'), temple_prov:gv('temple-prov'), temple_zip:gv('temple-zip'),
-    rank:gv('f-rank'), status:gv('f-status')||'บวช',
-    edu:gv('f-edu'), edu_place:gv('f-edu-place'), edu_year:gv('f-edu-year')||null,
-    dharma:gv('f-dharma'), dharma_place:gv('f-dharma-place'), dharma_prov:gv('f-dharma-prov'), dharma_year:gv('f-dharma-year')||null,
-    pali:gv('f-pali'), pali_place:gv('f-pali-place'), pali_prov:gv('f-pali-prov'), pali_year:gv('f-pali-year')||null,
-    mission_type:gr('f-missiontype'), edu_monks:eduMonks,
-    positions:positions,
-    leave_day:gv('f-leave-day')||null, leave_month:gv('f-leave-month'), leave_year:gv('f-leave-year')||null,
-    leave_reason:gr('f-leavereason'), leave_new_temple:gv('f-leave-newtemple'),
-    leave_sub:gv('leave-sub'), leave_dist:gv('leave-dist'), leave_prov:gv('leave-prov'),
-    note:gv('f-note')
-  };
-}
-
-async function saveMonk(){
+function saveMonk(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์บันทึกข้อมูล',true);return;}
   const name=gv('f-name'), temple=gv('f-temple');
   if(!name||!temple){toast('กรุณากรอกชื่อและวัดสังกัด',true);return;}
@@ -1227,7 +1210,7 @@ async function saveMonk(){
 
 function fillForm(m){
   const sv=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
-  const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||)+'"]'); if(r) r.checked=true; };
+  const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||'')+'"]'); if(r) r.checked=true; };
   sr('f-type', m.type||'พระภิกษุ');
   sv('f-name',m.name); sv('f-chaya',m.chaya); sv('f-age',m.age); sv('f-idcard',m.idcard);
   sv('f-firstname',m.firstname); sv('f-lastname',m.lastname);
