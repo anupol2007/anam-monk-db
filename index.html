@@ -8,16 +8,16 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Sarabun',sans-serif;background:#FDF5EC;color:#1a1a18}
 .app-wrap{font-family:'Sarabun',sans-serif}
-.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#FDF0DC}
-.login-card{background:rgba(255,255,255,0.97);border:1px solid rgba(200,89,10,0.25);border-radius:16px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(44,18,4,0.5)}
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1A0A00 0%,#4A1C08 25%,#8B3A06 55%,#C8590A 80%,#E8A24A 100%);position:relative;overflow:hidden}
+.login-card{background:rgba(255,252,245,0.97);border:2px solid rgba(200,89,10,0.35);border-radius:20px;padding:44px 48px;width:60%;max-width:900px;min-width:360px;box-shadow:0 24px 80px rgba(26,10,0,0.7),inset 0 1px 0 rgba(255,213,128,0.3)}
 .login-logo-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#C8590A,#E8A24A);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;box-shadow:0 6px 20px rgba(200,89,10,0.45)}
 .login-title{font-size:22px;font-weight:700;text-align:center;margin-bottom:4px;color:#3D1C02}
 .login-sub{font-size:13px;color:#8B5E3C;text-align:center;margin-bottom:28px;font-weight:500}
 .lf{margin-bottom:16px}
 .lf label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
 .lf input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;color:#1a1a18;background:#fff}
-.lf input:focus{outline:none;border-color:#C8590A;box-shadow:0 0 0 3px rgba(200,89,10,0.1)}
-.login-btn{width:100%;padding:12px;background:linear-gradient(135deg,#C8590A,#E8A24A);color:white;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;letter-spacing:0.02em;box-shadow:0 4px 12px rgba(200,89,10,0.35)}
+.lf input:focus{outline:none;border-color:#C8590A;box-shadow:0 0 0 3px rgba(200,89,10,0.15),0 2px 8px rgba(200,89,10,0.1)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,#8B3A06,#C8590A,#E8A24A);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;letter-spacing:0.06em;box-shadow:0 6px 20px rgba(139,58,6,0.5);text-shadow:0 1px 2px rgba(0,0,0,0.3)}
 .login-btn:hover{background:linear-gradient(135deg,#8B3A06,#C8590A)}
 .login-btn:disabled{background:#9ca3af;cursor:not-allowed}
 .login-error{color:#dc2626;font-size:13px;text-align:center;margin-top:10px;min-height:20px}
@@ -182,10 +182,116 @@ tr:hover td{background:#f9fafb}
 
 <!-- LOGIN -->
 <div class="login-screen" id="login-screen">
+  <!-- Chinese Lanterns -->
+  <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="lg1" cx="50%" cy="40%" r="55%">
+        <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.95"/>
+        <stop offset="60%" stop-color="#CC3300" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#8B1A00" stop-opacity="0.85"/>
+      </radialGradient>
+      <radialGradient id="lg2" cx="50%" cy="40%" r="55%">
+        <stop offset="0%" stop-color="#FFD700" stop-opacity="0.95"/>
+        <stop offset="60%" stop-color="#E8A200" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#8B6000" stop-opacity="0.85"/>
+      </radialGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow2">
+        <feGaussianBlur stdDeviation="8" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Lantern macro: group -->
+    <!-- LANTERN 1 - top left -->
+    <g transform="translate(80,0)" filter="url(#glow)">
+      <line x1="0" y1="0" x2="0" y2="22" stroke="#FFD580" stroke-width="1.5" opacity="0.7"/>
+      <rect x="-4" y="18" width="8" height="4" rx="2" fill="#FFD580" opacity="0.8"/>
+      <ellipse cx="0" cy="80" rx="26" ry="58" fill="url(#lg1)"/>
+      <ellipse cx="0" cy="42" rx="20" ry="8" fill="#CC3300" opacity="0.9"/>
+      <ellipse cx="0" cy="118" rx="20" ry="8" fill="#CC3300" opacity="0.9"/>
+      <rect x="-24" y="42" width="48" height="76" rx="2" fill="url(#lg1)" opacity="0.15"/>
+      <!-- ribs -->
+      <line x1="-22" y1="58" x2="22" y2="58" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <line x1="-24" y1="80" x2="24" y2="80" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <line x1="-22" y1="102" x2="22" y2="102" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <!-- glow center -->
+      <ellipse cx="0" cy="78" rx="14" ry="22" fill="#FFD580" opacity="0.18"/>
+      <!-- tassel -->
+      <line x1="0" y1="126" x2="0" y2="148" stroke="#FFD580" stroke-width="1.5" opacity="0.8"/>
+      <line x1="-5" y1="134" x2="-5" y2="155" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <line x1="5" y1="134" x2="5" y2="155" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <ellipse cx="0" cy="150" rx="4" ry="3" fill="#FFD580" opacity="0.7"/>
+      <!-- 福 character -->
+      <text x="0" y="88" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFD580" opacity="0.9" font-family="serif">福</text>
+    </g>
+    <!-- LANTERN 2 - top left (smaller, offset) -->
+    <g transform="translate(160,-20)" filter="url(#glow)">
+      <line x1="0" y1="0" x2="0" y2="18" stroke="#FFD580" stroke-width="1.5" opacity="0.7"/>
+      <rect x="-3" y="15" width="6" height="3" rx="1.5" fill="#FFD580" opacity="0.8"/>
+      <ellipse cx="0" cy="66" rx="20" ry="46" fill="url(#lg2)"/>
+      <ellipse cx="0" cy="32" rx="16" ry="7" fill="#B8860B" opacity="0.9"/>
+      <ellipse cx="0" cy="100" rx="16" ry="7" fill="#B8860B" opacity="0.9"/>
+      <line x1="-18" y1="46" x2="18" y2="46" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <line x1="-20" y1="66" x2="20" y2="66" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <line x1="-18" y1="86" x2="18" y2="86" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <ellipse cx="0" cy="64" rx="10" ry="18" fill="#FFD700" opacity="0.15"/>
+      <line x1="0" y1="107" x2="0" y2="124" stroke="#FFD580" stroke-width="1.5" opacity="0.8"/>
+      <line x1="-4" y1="112" x2="-4" y2="128" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <line x1="4" y1="112" x2="4" y2="128" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <ellipse cx="0" cy="127" rx="3" ry="2.5" fill="#FFD580" opacity="0.7"/>
+      <text x="0" y="73" text-anchor="middle" font-size="18" font-weight="bold" fill="#8B4513" opacity="0.85" font-family="serif">壽</text>
+    </g>
+    <!-- LANTERN 3 - top right -->
+    <g transform="translate(1360,0)" filter="url(#glow)">
+      <line x1="0" y1="0" x2="0" y2="22" stroke="#FFD580" stroke-width="1.5" opacity="0.7"/>
+      <rect x="-4" y="18" width="8" height="4" rx="2" fill="#FFD580" opacity="0.8"/>
+      <ellipse cx="0" cy="80" rx="26" ry="58" fill="url(#lg1)"/>
+      <ellipse cx="0" cy="42" rx="20" ry="8" fill="#CC3300" opacity="0.9"/>
+      <ellipse cx="0" cy="118" rx="20" ry="8" fill="#CC3300" opacity="0.9"/>
+      <line x1="-22" y1="58" x2="22" y2="58" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <line x1="-24" y1="80" x2="24" y2="80" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <line x1="-22" y1="102" x2="22" y2="102" stroke="#FF8800" stroke-width="0.8" opacity="0.4"/>
+      <ellipse cx="0" cy="78" rx="14" ry="22" fill="#FFD580" opacity="0.18"/>
+      <line x1="0" y1="126" x2="0" y2="148" stroke="#FFD580" stroke-width="1.5" opacity="0.8"/>
+      <line x1="-5" y1="134" x2="-5" y2="155" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <line x1="5" y1="134" x2="5" y2="155" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <ellipse cx="0" cy="150" rx="4" ry="3" fill="#FFD580" opacity="0.7"/>
+      <text x="0" y="88" text-anchor="middle" font-size="22" font-weight="bold" fill="#FFD580" opacity="0.9" font-family="serif">福</text>
+    </g>
+    <!-- LANTERN 4 - top right (smaller) -->
+    <g transform="translate(1280,-20)" filter="url(#glow)">
+      <line x1="0" y1="0" x2="0" y2="18" stroke="#FFD580" stroke-width="1.5" opacity="0.7"/>
+      <rect x="-3" y="15" width="6" height="3" rx="1.5" fill="#FFD580" opacity="0.8"/>
+      <ellipse cx="0" cy="66" rx="20" ry="46" fill="url(#lg2)"/>
+      <ellipse cx="0" cy="32" rx="16" ry="7" fill="#B8860B" opacity="0.9"/>
+      <ellipse cx="0" cy="100" rx="16" ry="7" fill="#B8860B" opacity="0.9"/>
+      <line x1="-18" y1="46" x2="18" y2="46" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <line x1="-20" y1="66" x2="20" y2="66" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <line x1="-18" y1="86" x2="18" y2="86" stroke="#E8A200" stroke-width="0.7" opacity="0.4"/>
+      <ellipse cx="0" cy="64" rx="10" ry="18" fill="#FFD700" opacity="0.15"/>
+      <line x1="0" y1="107" x2="0" y2="124" stroke="#FFD580" stroke-width="1.5" opacity="0.8"/>
+      <line x1="-4" y1="112" x2="-4" y2="128" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <line x1="4" y1="112" x2="4" y2="128" stroke="#FFD580" stroke-width="1" opacity="0.6"/>
+      <ellipse cx="0" cy="127" rx="3" ry="2.5" fill="#FFD580" opacity="0.7"/>
+      <text x="0" y="73" text-anchor="middle" font-size="18" font-weight="bold" fill="#8B4513" opacity="0.85" font-family="serif">壽</text>
+    </g>
+  </svg>
+  <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(255,213,128,0.1);top:-150px;left:-150px;pointer-events:none"></div>
+  <div style="position:absolute;width:700px;height:700px;border-radius:50%;border:1px solid rgba(255,213,128,0.06);bottom:-250px;right:-250px;pointer-events:none"></div>
+  <div style="position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(200,89,10,0.3),transparent);top:8%;right:8%;pointer-events:none"></div>
+  <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,162,74,0.25),transparent);bottom:12%;left:6%;pointer-events:none"></div>
+  <div style="position:absolute;font-size:80px;opacity:0.04;color:#FFD580;top:50%;left:5%;transform:translateY(-50%);pointer-events:none;line-height:1">&#9775;</div>
+  <div style="position:absolute;font-size:80px;opacity:0.04;color:#FFD580;top:50%;right:5%;transform:translateY(-50%);pointer-events:none;line-height:1">&#9775;</div>
   <div class="login-card">
+    <div style="text-align:center;letter-spacing:10px;color:#C8590A;font-size:12px;margin-bottom:8px;opacity:0.8">✦ ✦ ✦</div>
     <div class="login-logo-icon">&#9775;</div>
     <div class="login-title">ระบบฐานข้อมูลพระ</div>
-    <div class="login-sub">อนัมนิกาย — กรุณาเข้าสู่ระบบ</div>
+    <div style="text-align:center;font-size:13px;color:#C8590A;font-weight:700;letter-spacing:3px;margin-bottom:8px">อนัมนิกาย</div>
+    <div style="display:flex;align-items:center;gap:8px;margin:0 16px 20px"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,89,10,0.3))"></div><span style="color:#C8590A;font-size:12px">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,89,10,0.3))"></div></div>
+    <div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div>
     <div class="lf"><label>ชื่อผู้ใช้งาน (ID)</label><input type="text" id="login-id" placeholder="กรอก ID" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="lf"><label>รหัสผ่าน</label><input type="password" id="login-pw" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
@@ -594,7 +700,6 @@ tr:hover td{background:#f9fafb}
 <option value="สำนักสงฆ์ตาลเลียนอนัมพรต">สำนักสงฆ์ตาลเลียนอนัมพรต</option>
 <option value="สำนักสงฆ์แดนสุขาวดีวิถีเซน">สำนักสงฆ์แดนสุขาวดีวิถีเซน</option>
 </select></div>
-      <div class="field"><label>สังกัดนิกาย</label><select id="f-sect"><option>อนัมนิกาย</option><option>จีนนิกาย</option></select></div>
       <div class="field"><label>ที่อยู่วัด</label><input id="f-temple-addr" placeholder="" readonly style="background:#FEF3E8"></div>
       <div class="field"><label>ตำบล/แขวง</label><input id="f-temple-sub" placeholder="" readonly style="background:#FEF3E8"></div>
       <div class="field"><label>อำเภอ/เขต</label><input id="f-temple-dist" placeholder="" readonly style="background:#FEF3E8"></div>
