@@ -260,6 +260,283 @@ tr:hover td{background:#f9fafb}
 <!-- ADD / EDIT FORM -->
 <div class="page" id="page-add">
   <input type="hidden" id="edit-id" value="">
+
+  <!-- ส่วนที่ 1: ประวัติเดิม (ก่อนอุปสมบท) -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">1</span> ประวัติเดิม (ก่อนอุปสมบท)</div>
+    <div class="fg2">
+      <div class="field field-full"><label>ประเภท *</label><div class="radio-group"><label><input type="radio" name="f-type" value="พระภิกษุ" checked> พระภิกษุ</label><label><input type="radio" name="f-type" value="สามเณร"> สามเณร</label></div></div>
+      <div class="field"><label>ชื่อจริง *</label><input id="f-firstname" placeholder="ชื่อจริง"></div>
+      <div class="field"><label>นามสกุล *</label><input id="f-lastname" placeholder="นามสกุล"></div>
+      <div class="field"><label>ชื่อเล่น</label><input id="f-nickname" placeholder="ชื่อเล่น"></div>
+      <div class="field"><label>วันเกิด (วัน/เดือน/ปี พ.ศ.)</label><input id="f-bday" placeholder="เช่น 1 มกราคม 2500"></div>
+      <div class="field"><label>สัญชาติ</label><select id="f-nation"><option>ไทย</option><option>เวียดนาม</option><option>จีน</option><option>อื่นๆ</option></select></div>
+      <div class="field"><label>เชื้อชาติ</label><input id="f-race" placeholder="เชื้อชาติ"></div>
+      <div class="field"><label>เลขประจำตัวประชาชน / Passport</label><input id="f-idcard" placeholder="x-xxxx-xxxxx-xx-x" maxlength="17"></div>
+    </div>
+    <div class="subsection"><div class="subsection-title">ที่อยู่เดิม</div>
+      <div class="fg2">
+        <div class="field"><label>จังหวัด</label><input id="f-addr-prov" placeholder="จังหวัด"></div>
+        <div class="field"><label>เขต/อำเภอ</label><input id="f-addr-dist" placeholder="เขต/อำเภอ"></div>
+        <div class="field"><label>แขวง/ตำบล</label><input id="f-addr-sub" placeholder="แขวง/ตำบล"></div>
+        <div class="field"><label>รหัสไปรษณีย์</label><input id="f-addr-zip" placeholder="รหัสไปรษณีย์"></div>
+        <div class="field field-full"><label>ที่อยู่เดิม (บ้านเลขที่ ถนน ซอย)</label><input id="f-addr-full" placeholder="บ้านเลขที่ ถนน ซอย หมู่บ้าน"></div>
+      </div>
+    </div>
+    <div class="subsection"><div class="subsection-title">ข้อมูลบิดา-มารดา</div>
+      <div class="fg2">
+        <div class="field"><label>ชื่อ-นามสกุล บิดา</label><input id="f-father" placeholder="ชื่อ-นามสกุลบิดา"></div>
+        <div class="field"><label>ชื่อ-นามสกุล มารดา</label><input id="f-mother" placeholder="ชื่อ-นามสกุลมารดา"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 2: การบรรพชาอุปสมบท -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">2</span> การบรรพชาอุปสมบท</div>
+    <div class="subsection"><div class="subsection-title">2.1 บรรพชาสามเณร</div>
+      <div class="fg2">
+        <div class="field"><label>วัน/เดือน/ปี ที่บรรพชาสามเณร</label><input id="f-samanera-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+        <div class="field"><label>วัดที่บรรพชาสามเณร</label><select id="f-samanera-temple" onchange="onTempleSelect(this.value,'samanera')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-samanera-addr" placeholder="ที่อยู่วัดที่บรรพชาสามเณร"></div>
+      </div>
+    </div>
+    <div class="subsection"><div class="subsection-title">2.2 อุปสมบท</div>
+      <div class="fg2">
+        <div class="field"><label>วัน/เดือน/ปี ที่อุปสมบท *</label><input id="f-ord-date" placeholder="วัน/เดือน/ปี พ.ศ." oninput="calcPansaNew()"></div>
+        <div class="field"><label>วัดที่อุปสมบท</label><select id="f-ord-temple" onchange="onTempleSelect(this.value,'ord')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-ord-addr" placeholder="ที่อยู่วัดที่อุปสมบท"></div>
+        <div class="field"><label>ฉายา</label><input id="f-chaya" placeholder="ฉายาภาษาบาลี"></div>
+      </div>
+      <div class="pansa-box"><div class="pansa-label">พรรษา (คำนวณอัตโนมัติ)</div><div class="pansa-val" id="pansa-display">— กรอกวัน/เดือน/ปีที่อุปสมบท</div></div>
+      <div class="subsection-title" style="margin-top:10px">หนังสือสุทธิ</div>
+      <div class="fg3">
+        <div class="field"><label>วัน/เดือน/ปี ที่ออกหนังสือสุทธิ</label><input id="f-book-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+        <div class="field"><label>หนังสือสุทธิเล่มที่</label><input id="f-book-vol" placeholder="เล่มที่"></div>
+        <div class="field"><label>หนังสือสุทธิเลขที่</label><input id="f-book-no" placeholder="เลขที่"></div>
+      </div>
+      <div class="subsection-title" style="margin-top:10px">พระอุปัชฌาย์</div>
+      <div class="fg2">
+        <div class="field"><label>ชื่อพระอุปัชฌาย์</label><input id="f-upa" placeholder="ชื่อพระอุปัชฌาย์"></div>
+        <div class="field"><label>สังกัดวัดของพระอุปัชฌาย์</label><select id="f-upa-temple" onchange="onTempleSelect(this.value,'upa')"><option value="">-- เลือกวัด --</option></select></div>
+      </div>
+      <div class="subsection-title" style="margin-top:10px">พระกรรมวาจาจารย์</div>
+      <div class="fg2">
+        <div class="field"><label>ชื่อพระกรรมวาจาจารย์</label><input id="f-kam" placeholder="ชื่อพระกรรมวาจาจารย์"></div>
+        <div class="field"><label>วัดที่สังกัดของพระกรรมวาจาจารย์</label><select id="f-kam-temple" onchange="onTempleSelect(this.value,'kam')"><option value="">-- เลือกวัด --</option></select></div>
+      </div>
+      <div class="subsection-title" style="margin-top:10px">พระอนุสาวนาจารย์</div>
+      <div class="fg2">
+        <div class="field"><label>ชื่อพระอนุสาวนาจารย์</label><input id="f-anu" placeholder="ชื่อพระอนุสาวนาจารย์"></div>
+        <div class="field"><label>วัดที่สังกัดของพระอนุสาวนาจารย์</label><select id="f-anu-temple" onchange="onTempleSelect(this.value,'anu')"><option value="">-- เลือกวัด --</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 3: สถานภาพปัจจุบัน -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">3</span> สถานภาพปัจจุบัน</div>
+    <div class="fg2">
+      <div class="field"><label>สังกัดวัด *</label><select id="f-temple" onchange="onTempleSelect(this.value,'main')"><option value="">-- เลือกวัดสังกัด --</option></select></div>
+      <div class="field"><label>สังกัดนิกาย</label><select id="f-sect"><option>อนัมนิกาย</option><option>จีนนิกาย</option></select></div>
+      <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-temple-addr" placeholder="ที่อยู่วัดสังกัด (กรอกอัตโนมัติเมื่อเลือกวัด)"></div>
+      <div class="field"><label>เบอร์ติดต่อภายในวัด</label><input id="f-temple-tel" placeholder="เบอร์โทรวัด"></div>
+      <div class="field"><label>เบอร์มือถือ</label><input id="f-mobile" placeholder="เบอร์มือถือ"></div>
+      <div class="field"><label>ฉายาเจ้าอาวาส</label><input id="f-abbot-chaya" placeholder="ฉายาเจ้าอาวาส"></div>
+      <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><input id="f-rank" placeholder="เช่น เจ้าอาวาส"></div>
+    </div>
+    <div class="fg2">
+      <div class="field"><label>สถานะปัจจุบัน</label>
+        <select id="f-status">
+          <option value="บวช">พระภิกษุ (บวชอยู่)</option>
+          <option value="สามเณร">สามเณร</option>
+          <option value="มรณภาพ">มรณภาพ</option>
+          <option value="ลาสิกขา">ลาสิกขา</option>
+        </select>
+      </div>
+      <div class="field"><label>วันที่สังกัดวัด / วันที่ลาสิกขา / วันมรณภาพ</label><input id="f-status-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 4: ข้อมูลพระอุปัชฌาย์ (ถ้าเคยได้รับการแต่งตั้ง) -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">4</span> ข้อมูลพระอุปัชฌาย์ (ถ้าเคยได้รับการแต่งตั้ง)</div>
+    <div class="fg3">
+      <div class="field"><label>ปีที่ได้รับแต่งตั้ง พ.ศ.</label><input id="f-upajja-year" type="number" placeholder="พ.ศ."></div>
+      <div class="field field-full"><label>ได้รับแต่งตั้งเป็น</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="f-upajja1"> พระอุปัชฌาย์</label>
+          <label><input type="checkbox" id="f-upajja2"> พระกรรมวาจาจารย์</label>
+          <label><input type="checkbox" id="f-upajja3"> พระอนุสาวนาจารย์</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 5: วิทยฐานะ ธรรม/บาลี -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">5</span> วิทยฐานะทางการศึกษา ธรรม/บาลี</div>
+    <div class="subsection"><div class="subsection-title">แผนกธรรม (นักธรรม)</div>
+      <div id="dharma-rows">
+        <div class="fg3 dharma-row">
+          <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ."></div>
+          <div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div>
+          <div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>
+        </div>
+      </div>
+      <button class="btn btn-add" onclick="addDharmaRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+    </div>
+    <div class="subsection" style="margin-top:10px"><div class="subsection-title">แผนกบาลี (เปรียญธรรม)</div>
+      <div id="pali-rows">
+        <div class="fg3 pali-row">
+          <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ."></div>
+          <div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div>
+          <div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>
+        </div>
+      </div>
+      <button class="btn btn-add" onclick="addPaliRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 6: วิทยฐานะ สามัญ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">6</span> วิทยฐานะทางการศึกษาสามัญ</div>
+    <div id="edu-rows">
+      <div class="fg4 edu-row">
+        <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div>
+        <div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div>
+        <div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div>
+        <div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div>
+      </div>
+    </div>
+    <button class="btn btn-add" onclick="addEduRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+  </div>
+
+  <!-- ส่วนที่ 7: สมณศักดิ์ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">7</span> สมณศักดิ์ที่รับพระราชทาน</div>
+    <div class="fg2">
+      <div class="field"><label>วัน/เดือน/ปี ที่ได้รับพระราชทาน</label><input id="f-honor-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+      <div class="field"><label>ชั้นสมณศักดิ์</label><input id="f-honor-class" placeholder="ชั้นสมณศักดิ์"></div>
+      <div class="field"><label>ราชทินนาม</label><input id="f-honor-name" placeholder="ราชทินนาม"></div>
+      <div class="field"><label>ราชทินนาม (เต็ม)</label><input id="f-honor-fullname" placeholder="ราชทินนามเต็ม"></div>
+      <div class="field"><label>ลำดับชั้น</label><input id="f-honor-rank" placeholder="ลำดับชั้น"></div>
+      <div class="field"><label>พัดยศ</label><input id="f-honor-fan" placeholder="พัดยศ"></div>
+      <div class="field"><label>ฝ่าย</label><div class="radio-group"><label><input type="radio" name="f-honor-side" value="วิปัสสนาธุระ"> วิปัสสนาธุระ</label><label><input type="radio" name="f-honor-side" value="คันถธุระ"> คันถธุระ</label></div></div>
+    </div>
+    <div class="subsection"><div class="subsection-title">พระฐานานุกรม (ถ้ามี)</div>
+      <div id="thananu-rows">
+        <div class="fg3 thananu-row">
+          <div class="field"><label>รูปที่</label><input class="t-num" placeholder="รูปที่" readonly></div>
+          <div class="field"><label>ราชทินนาม</label><input class="t-name" placeholder="ราชทินนาม"></div>
+          <div class="field"><label>ตำแหน่ง</label><input class="t-pos" placeholder="ตำแหน่ง"></div>
+        </div>
+      </div>
+      <button class="btn btn-add" onclick="addThananuRow()" style="margin-top:4px">+ เพิ่มพระฐานานุกรม</button>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 8: ประวัติฐานานุกรมที่ได้รับ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">8</span> ประวัติฐานานุกรมที่ได้รับ</div>
+    <div id="thananu-hist-rows">
+      <div class="thananu-hist-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div class="fg2">
+          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับ</label><input class="th-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field"><label>ตำแหน่งฐานานุกรม</label><input class="th-pos" placeholder="ตำแหน่ง"></div>
+          <div class="field"><label>ราชทินนาม</label><input class="th-name" placeholder="ราชทินนาม"></div>
+          <div class="field"><label>ชั้นฐานานุกรม</label><div class="radio-group"><label><input type="radio" name="th-class-1" value="พระราชาคณะ"> พระราชาคณะ</label><label><input type="radio" name="th-class-1" value="พระสังฆาธิการ"> พระสังฆาธิการ</label><label><input type="radio" name="th-class-1" value="ฐานานุกรมใน"> ฐานานุกรมใน</label></div></div>
+          <div class="field field-full"><label>ชื่อเจ้าของฐานานุกรม</label><input class="th-owner" placeholder="ชื่อเจ้าของฐานานุกรม"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-add" onclick="addThananuHistRow()">+ เพิ่มประวัติ</button>
+  </div>
+
+  <!-- ส่วนที่ 9: ตำแหน่งการปกครองภายในวัด -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">9</span> ตำแหน่งการปกครองภายในวัด</div>
+    <div id="temple-pos-rows">
+      <div class="temple-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div class="fg2">
+          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="tp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field"><label>วัน/เดือน/ปี สิ้นสุดตำแหน่ง</label><input class="tp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field"><label>ตำแหน่งประจำวัด</label><input class="tp-pos" placeholder="ตำแหน่ง"></div>
+          <div class="field"><label>ลำดับชั้น</label><input class="tp-rank" placeholder="ลำดับชั้น"></div>
+          <div class="field"><label>วัดที่ดำรงตำแหน่ง</label><select class="tp-temple" onchange="onTemplePosSelect(this)"><option value="">-- เลือกวัด --</option></select></div>
+          <div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="tp-status-1" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="tp-status-1" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-add" onclick="addTemplePosRow()">+ เพิ่มตำแหน่ง</button>
+  </div>
+
+  <!-- ส่วนที่ 10: ตำแหน่งการปกครองคณะสงฆ์ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">10</span> ตำแหน่งการปกครองคณะสงฆ์</div>
+    <div id="sangha-pos-rows">
+      <div class="sangha-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div class="fg2">
+          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="sp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field"><label>วัน/เดือน/ปี ที่สิ้นสุดตำแหน่ง</label><input class="sp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field field-full"><label>ตำแหน่งการปกครอง</label><input class="sp-pos" placeholder="ตำแหน่งการปกครอง"></div>
+          <div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="sp-status-1" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="sp-status-1" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div>
+          <div class="field"><label>หน</label><input class="sp-hon" placeholder="หน"></div>
+          <div class="field"><label>ภาค</label><input class="sp-phak" placeholder="ภาค"></div>
+          <div class="field"><label>จังหวัด</label><input class="sp-prov" placeholder="จังหวัด"></div>
+          <div class="field"><label>อำเภอ/เขต</label><input class="sp-dist" placeholder="อำเภอ/เขต"></div>
+          <div class="field"><label>แขวง/ตำบล</label><input class="sp-sub" placeholder="แขวง/ตำบล"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-add" onclick="addSanghaPosRow()">+ เพิ่มตำแหน่ง</button>
+  </div>
+
+  <!-- ส่วนที่ 11: ตำแหน่งงานพิเศษ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">11</span> ตำแหน่งงานพิเศษ</div>
+    <div id="special-pos-rows">
+      <div class="special-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div class="fg2">
+          <div class="field"><label>วัน/เดือน/ปี ที่มอบหมาย</label><input class="xp-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+          <div class="field"><label>ชื่องาน</label><input class="xp-name" placeholder="ชื่องาน"></div>
+          <div class="field field-full"><label>ตำแหน่งงานพิเศษ</label><input class="xp-pos" placeholder="ตำแหน่งงานพิเศษ"></div>
+          <div class="field field-full"><label>รายละเอียด</label><textarea class="xp-detail" placeholder="รายละเอียด" style="min-height:50px"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-add" onclick="addSpecialPosRow()">+ เพิ่มตำแหน่ง</button>
+  </div>
+
+  <!-- ส่วนที่ 12: งานคณะสงฆ์ 6 ด้าน -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">12</span> งานคณะสงฆ์ 6 ด้าน</div>
+    <div class="fg2">
+      <div class="field"><label>วัน/เดือน/ปี ที่เข้าบริหาร</label><input id="f-sangha6-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+      <div class="field"><label>ประเภทงานคณะสงฆ์ 6 ด้าน</label><select id="f-sangha6-type"><option value="">-- เลือก --</option><option>การปกครอง</option><option>การศึกษา</option><option>การเผยแผ่</option><option>การสาธารณูปการ</option><option>การสาธารณสงเคราะห์</option><option>การศึกษาสงเคราะห์</option></select></div>
+      <div class="field field-full"><label>รายละเอียดการบริหารคณะสงฆ์</label><textarea id="f-sangha6-detail" placeholder="รายละเอียด" style="min-height:60px"></textarea></div>
+    </div>
+  </div>
+
+  <!-- ส่วนที่ 13: ตำแหน่งงานเผยแผ่ -->
+  <div class="form-section">
+    <div class="form-section-title"><span class="sec-num">13</span> ตำแหน่งงานเผยแผ่</div>
+    <div class="field"><div class="checkbox-group">
+      <label><input type="checkbox" id="f-mission1"> พระจริยานิเทศ</label>
+      <label><input type="checkbox" id="f-mission2"> พระธรรมทูต</label>
+      <label><input type="checkbox" id="f-mission3"> สำนักปฏิบัติธรรม</label>
+      <label><input type="checkbox" id="f-mission4"> อาจารย์มหาวิทยาลัย</label>
+      <label><input type="checkbox" id="f-mission5"> ครูสอนพระปริยัติธรรม</label>
+    </div></div>
+    <div class="field" style="margin-top:8px"><label>หมายเหตุ</label><textarea id="f-note" placeholder="ข้อมูลเพิ่มเติม..." style="min-height:60px"></textarea></div>
+  </div>
+
+  <div class="form-actions">
+    <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
+    <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
+  </div>
+</div>
+  <input type="hidden" id="edit-id" value="">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">1</span> ข้อมูลพื้นฐาน</div>
     <div class="fg2">
@@ -321,19 +598,19 @@ tr:hover td{background:#f9fafb}
       <div class="field"><label>พ.ศ.</label><input id="f-book-year" type="number" placeholder="พ.ศ."></div>
     </div>
     <div class="subsection"><div class="subsection-title">วัดที่บรรพชา/อุปสมบท</div>
-      <div class="fg2"><div class="field field-full"><label>วัดที่บวช</label><select id="f-ord-temple" onchange="onTempleSelect(this.value,'ord')"><option value="">-- เลือกวัด --</option></select></div></div>
+      <div class="fg2"><div class="field"><label>ชื่อวัด</label><input id="f-ord-temple" placeholder="ชื่อวัด"></div></div>
       <div id="addr-ord-widget"></div>
     </div>
     <div class="subsection"><div class="subsection-title">พระอุปัชฌาย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อพระอุปัชฌาย์</label><input id="f-upa" placeholder="ชื่อพระอุปัชฌาย์"></div><div class="field"><label>สังกัดวัด</label><select id="f-upa-temple" onchange="onTempleSelect(this.value,'upa')"><option value="">-- เลือกวัด --</option></select></div></div>
+      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-upa" placeholder="ชื่อพระอุปัชฌาย์"></div><div class="field"><label>สังกัดวัด</label><input id="f-upa-temple" placeholder="วัด"></div></div>
       <div id="addr-upa-widget"></div>
     </div>
     <div class="subsection"><div class="subsection-title">พระกรรมวาจาจารย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อพระกรรมวาจาจารย์</label><input id="f-kam" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><select id="f-kam-temple" onchange="onTempleSelect(this.value,'kam')"><option value="">-- เลือกวัด --</option></select></div></div>
+      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-kam" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><input id="f-kam-temple" placeholder="วัด"></div></div>
       <div id="addr-kam-widget"></div>
     </div>
     <div class="subsection"><div class="subsection-title">พระอนุสาวนาจารย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อพระอนุสาวนาจารย์</label><input id="f-anu" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><select id="f-anu-temple" onchange="onTempleSelect(this.value,'anu')"><option value="">-- เลือกวัด --</option></select></div></div>
+      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-anu" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><input id="f-anu-temple" placeholder="วัด"></div></div>
       <div id="addr-anu-widget"></div>
     </div>
   </div>
@@ -343,7 +620,7 @@ tr:hover td{background:#f9fafb}
       <div class="field"><label>สังกัดวัดนี้เมื่อวัน</label><input id="f-cur-day" type="number" placeholder="วัน"></div>
       <div class="field"><label>เดือน</label><select id="f-cur-month"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
       <div class="field"><label>พ.ศ.</label><input id="f-cur-year" type="number" placeholder="พ.ศ."></div>
-      <div class="field field-full"><label>วัดสังกัด *</label><select id="f-temple" onchange="onTempleSelect(this.value,'main')"><option value="">-- เลือกวัดสังกัด --</option></select></div>
+      <div class="field"><label>ชื่อวัดสังกัด *</label><input id="f-temple" placeholder="ชื่อวัดสังกัดปัจจุบัน"></div>
       <div class="field"><label>ฉายาเจ้าอาวาส</label><input id="f-abbot-chaya" placeholder="ฉายาเจ้าอาวาส"></div>
       <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><input id="f-rank" placeholder="เช่น เจ้าอาวาส"></div>
       <div class="field"><label>สถานะ</label><select id="f-status"><option value="บวช">กำลังบวช</option><option value="พ้นสังกัด">พ้นสังกัด</option></select></div>
@@ -443,8 +720,8 @@ tr:hover td{background:#f9fafb}
 
 <script>
 /* ===== SUPABASE CONFIG ===== */
-const SUPABASE_URL = 'https://zyrdihxkpmkbasuiajsd.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_aDbfNHb_77C2xAlhwxTcig_DgJLJK7e';
+const SUPABASE_URL = 'https://yhxrvsavqidmikzjkwxx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_sSEtAPUUsqEzxoSqmTifag_Euujh1gI';
 const API = SUPABASE_URL + '/rest/v1';
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -594,7 +871,7 @@ function renderDash(){
   document.getElementById('stat-temple').textContent=[...new Set(monks.map(m=>m.temple).filter(Boolean))].length;
   const recent=monks.slice(-5).reverse();
   document.getElementById('dash-table').innerHTML=recent.length
-    ?recent.map(m=>`<tr><td>${m.name}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</td><td>${m.type||'-'}</td><td>${m.temple||'-'}</td><td>${m.nation||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
+    ?recent.map(m=>`<tr><td>${m.name}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.type||'-'}</td><td>${m.temple||'-'}</td><td>${m.nation||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
     :'<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
 }
 
@@ -606,13 +883,13 @@ function renderList(data){
   if(viewer){
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>นามสกุลเดิม</th><th>สังกัดวัด</th><th>เจ้าอาวาส</th><th>อายุ</th><th>พรรษา</th><th>เลขสุทธิ</th><th>วันเกิด</th><th>สถานะ</th>';
     document.getElementById('list-table').innerHTML=data.length
-      ?data.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
+      ?data.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
       :'<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
   } else {
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตรประชาชน</th><th>วัดสังกัด</th><th>พรรษา</th><th>สถานะ</th><th>จัดการ</th>';
     document.getElementById('list-table').innerHTML=data.length
       ?data.map((m,i)=>`<tr><td>${i+1}</td>
-        <td><span style="cursor:pointer;color:#2563eb;text-decoration:underline" onclick="showDetail(${m.id})">${m.name||''}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</span></td>
+        <td><span style="cursor:pointer;color:#2563eb;text-decoration:underline" onclick="showDetail(${m.id})">${m.name||''}${m.chaya?' ('+m.chaya+')':''}</span></td>
         <td>${m.type||'-'}</td>
         <td style="font-family:monospace;font-size:12px">${m.idcard||'-'}</td>
         <td>${m.temple||'-'}</td>
@@ -643,7 +920,7 @@ function showDetail(id){
     html=`<div class="viewer-notice">&#128274; แสดงเฉพาะข้อมูลที่ได้รับอนุญาต (Viewer)</div>
     <div class="detail-header">
       <div class="monk-avatar">${(m.name||'พ').charAt(0)}</div>
-      <div><div style="font-size:18px;font-weight:600">${m.name||'-'}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</div>
+      <div><div style="font-size:18px;font-weight:600">${m.name||'-'}${m.chaya?' ('+m.chaya+')':''}</div>
       <div style="font-size:13px;color:#6b7280;margin-top:2px">${m.temple||'-'}</div></div>
       <div style="margin-left:auto"><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></div>
     </div>
@@ -658,7 +935,7 @@ function showDetail(id){
     const pos=(m.positions||[]).map((p,i)=>dr('ตำแหน่งที่'+(i+1),p.name+(p.year?' (พ.ศ.'+p.year+')':''))).join('');
     html=`<div class="detail-header">
       <div class="monk-avatar">${(m.name||'พ').charAt(0)}</div>
-      <div><div style="font-size:18px;font-weight:600">${m.name||'-'}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</div>
+      <div><div style="font-size:18px;font-weight:600">${m.name||'-'}${m.chaya?' ('+m.chaya+')':''}</div>
       <div style="font-size:13px;color:#6b7280;margin-top:2px">${m.rank||''} · ${m.temple||'-'}</div></div>
       <div style="margin-left:auto;display:flex;gap:8px">
         <span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span>
@@ -703,197 +980,16 @@ function showDetail(id){
 
 /* ===== ADDRESS DATA & WIDGETS ===== */
 const ADDR_DB=[
-  {p:'กรุงเทพมหานคร',a:'พระนคร',t:'พระบรมมหาราชวัง',z:'10200'},{p:'กรุงเทพมหานคร',a:'พระนคร',t:'วังบูรพาภิรมย์',z:'10200'},{p:'กรุงเทพมหานคร',a:'พระนคร',t:'วัดราชบพิธ',z:'10200'},{p:'กรุงเทพมหานคร',a:'พระนคร',t:'สำราญราษฎร์',z:'10200'},{p:'กรุงเทพมหานคร',a:'พระนคร',t:'ศาลเจ้าพ่อเสือ',z:'10200'},
-  {p:'กรุงเทพมหานคร',a:'ดุสิต',t:'ดุสิต',z:'10300'},{p:'กรุงเทพมหานคร',a:'ดุสิต',t:'วชิรพยาบาล',z:'10300'},{p:'กรุงเทพมหานคร',a:'ดุสิต',t:'สวนจิตรลดา',z:'10303'},{p:'กรุงเทพมหานคร',a:'ดุสิต',t:'ถนนนครไชยศรี',z:'10300'},
-  {p:'กรุงเทพมหานคร',a:'บางกอกน้อย',t:'ศิริราช',z:'10700'},{p:'กรุงเทพมหานคร',a:'บางกอกน้อย',t:'บ้านช่างหล่อ',z:'10700'},{p:'กรุงเทพมหานคร',a:'บางกอกน้อย',t:'อรุณอมรินทร์',z:'10700'},
-  {p:'กรุงเทพมหานคร',a:'ราชเทวี',t:'ถนนเพชรบุรี',z:'10400'},{p:'กรุงเทพมหานคร',a:'ราชเทวี',t:'ถนนพญาไท',z:'10400'},{p:'กรุงเทพมหานคร',a:'ราชเทวี',t:'มักกะสัน',z:'10400'},{p:'กรุงเทพมหานคร',a:'ราชเทวี',t:'ทุ่งพญาไท',z:'10400'},
-  {p:'กรุงเทพมหานคร',a:'บางกะปิ',t:'หัวหมาก',z:'10240'},{p:'กรุงเทพมหานคร',a:'บางกะปิ',t:'คลองจั่น',z:'10240'},
-  {p:'กรุงเทพมหานคร',a:'ลาดพร้าว',t:'ลาดพร้าว',z:'10230'},{p:'กรุงเทพมหานคร',a:'ลาดพร้าว',t:'จรเข้บัว',z:'10230'},
-  {p:'กรุงเทพมหานคร',a:'จตุจักร',t:'จตุจักร',z:'10900'},{p:'กรุงเทพมหานคร',a:'จตุจักร',t:'เสนานิคม',z:'10900'},{p:'กรุงเทพมหานคร',a:'จตุจักร',t:'จันทรเกษม',z:'10900'},{p:'กรุงเทพมหานคร',a:'จตุจักร',t:'ลาดยาว',z:'10900'},
-  {p:'กรุงเทพมหานคร',a:'บางรัก',t:'สีลม',z:'10500'},{p:'กรุงเทพมหานคร',a:'บางรัก',t:'มหาพฤฒาราม',z:'10500'},{p:'กรุงเทพมหานคร',a:'บางรัก',t:'สี่พระยา',z:'10500'},{p:'กรุงเทพมหานคร',a:'บางรัก',t:'บางรัก',z:'10500'},
-  {p:'กรุงเทพมหานคร',a:'สาทร',t:'ยานนาวา',z:'10120'},{p:'กรุงเทพมหานคร',a:'สาทร',t:'ทุ่งวัดดอน',z:'10120'},{p:'กรุงเทพมหานคร',a:'สาทร',t:'ทุ่งมหาเมฆ',z:'10120'},
-  {p:'กรุงเทพมหานคร',a:'คลองสาน',t:'คลองสาน',z:'10600'},{p:'กรุงเทพมหานคร',a:'คลองสาน',t:'บางลำภูล่าง',z:'10600'},{p:'กรุงเทพมหานคร',a:'คลองสาน',t:'สมเด็จเจ้าพระยา',z:'10600'},
-  {p:'กรุงเทพมหานคร',a:'ธนบุรี',t:'ตลาดพลู',z:'10600'},{p:'กรุงเทพมหานคร',a:'ธนบุรี',t:'บุคคโล',z:'10600'},{p:'กรุงเทพมหานคร',a:'ธนบุรี',t:'วัดกัลยาณ์',z:'10600'},
-  {p:'กรุงเทพมหานคร',a:'ลาดกระบัง',t:'ลาดกระบัง',z:'10520'},{p:'กรุงเทพมหานคร',a:'มีนบุรี',t:'มีนบุรี',z:'10510'},{p:'กรุงเทพมหานคร',a:'หนองจอก',t:'หนองจอก',z:'10530'},
-  {p:'กรุงเทพมหานคร',a:'วังทองหลาง',t:'วังทองหลาง',z:'10310'},{p:'กรุงเทพมหานคร',a:'สวนหลวง',t:'สวนหลวง',z:'10250'},{p:'กรุงเทพมหานคร',a:'ประเวศ',t:'ประเวศ',z:'10250'},
-  {p:'กรุงเทพมหานคร',a:'พระโขนง',t:'บางจาก',z:'10260'},{p:'กรุงเทพมหานคร',a:'บึงกุ่ม',t:'คลองกุ่ม',z:'10230'},{p:'กรุงเทพมหานคร',a:'บางนา',t:'บางนา',z:'10260'},
-  {p:'กรุงเทพมหานคร',a:'ราษฎร์บูรณะ',t:'ราษฎร์บูรณะ',z:'10140'},{p:'กรุงเทพมหานคร',a:'ทุ่งครุ',t:'บางมด',z:'10140'},
-  {p:'นนทบุรี',a:'เมืองนนทบุรี',t:'สวนใหญ่',z:'11000'},{p:'นนทบุรี',a:'เมืองนนทบุรี',t:'ตลาดขวัญ',z:'11000'},{p:'นนทบุรี',a:'เมืองนนทบุรี',t:'บางเขน',z:'11000'},{p:'นนทบุรี',a:'เมืองนนทบุรี',t:'บางกระสอ',z:'11000'},
-  {p:'นนทบุรี',a:'ปากเกร็ด',t:'ปากเกร็ด',z:'11120'},{p:'นนทบุรี',a:'ปากเกร็ด',t:'บ้านใหม่',z:'11120'},{p:'นนทบุรี',a:'ปากเกร็ด',t:'คลองเกลือ',z:'11120'},{p:'นนทบุรี',a:'ปากเกร็ด',t:'บางตลาด',z:'11120'},
-  {p:'นนทบุรี',a:'บางใหญ่',t:'บางใหญ่',z:'11140'},{p:'นนทบุรี',a:'บางบัวทอง',t:'บางบัวทอง',z:'11110'},{p:'นนทบุรี',a:'บางกรวย',t:'บางกรวย',z:'11130'},{p:'นนทบุรี',a:'ไทรน้อย',t:'ไทรน้อย',z:'11150'},
-  {p:'ปทุมธานี',a:'เมืองปทุมธานี',t:'บางปรอก',z:'12000'},{p:'ปทุมธานี',a:'เมืองปทุมธานี',t:'บ้านใหม่',z:'12000'},{p:'ปทุมธานี',a:'ธัญบุรี',t:'รังสิต',z:'12110'},{p:'ปทุมธานี',a:'ธัญบุรี',t:'ประชาธิปัตย์',z:'12130'},{p:'ปทุมธานี',a:'คลองหลวง',t:'คลองหนึ่ง',z:'12120'},{p:'ปทุมธานี',a:'ลำลูกกา',t:'ลำลูกกา',z:'12150'},
-  {p:'สมุทรปราการ',a:'เมืองสมุทรปราการ',t:'ปากน้ำ',z:'10270'},{p:'สมุทรปราการ',a:'เมืองสมุทรปราการ',t:'สำโรงเหนือ',z:'10270'},{p:'สมุทรปราการ',a:'บางพลี',t:'บางพลีใหญ่',z:'10540'},{p:'สมุทรปราการ',a:'พระประแดง',t:'ตลาด',z:'10130'},{p:'สมุทรปราการ',a:'บางบ่อ',t:'บางบ่อ',z:'10550'},
-  {p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'ศรีภูมิ',z:'50200'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'พระสิงห์',z:'50200'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'ช้างเผือก',z:'50300'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'สุเทพ',z:'50200'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'หายยา',z:'50100'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'ป่าแดด',z:'50100'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'วัดเกต',z:'50000'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'ท่าศาลา',z:'50000'},
-  {p:'เชียงใหม่',a:'สันทราย',t:'สันทรายหลวง',z:'50210'},{p:'เชียงใหม่',a:'หางดง',t:'หางดง',z:'50230'},{p:'เชียงใหม่',a:'สันกำแพง',t:'สันกำแพง',z:'50130'},{p:'เชียงใหม่',a:'สันป่าตอง',t:'ยุหว่า',z:'50120'},{p:'เชียงใหม่',a:'จอมทอง',t:'บ้านหลวง',z:'50160'},{p:'เชียงใหม่',a:'ดอยสะเก็ด',t:'เชิงดอย',z:'50220'},
-  {p:'เชียงราย',a:'เมืองเชียงราย',t:'เวียง',z:'57000'},{p:'เชียงราย',a:'เมืองเชียงราย',t:'รอบเวียง',z:'57000'},{p:'เชียงราย',a:'เมืองเชียงราย',t:'บ้านดู่',z:'57100'},{p:'เชียงราย',a:'แม่สาย',t:'แม่สาย',z:'57130'},{p:'เชียงราย',a:'เชียงแสน',t:'เวียง',z:'57150'},{p:'เชียงราย',a:'พาน',t:'เมืองพาน',z:'57120'},
-  {p:'ลำปาง',a:'เมืองลำปาง',t:'เวียงเหนือ',z:'52000'},{p:'ลำปาง',a:'เมืองลำปาง',t:'หัวเวียง',z:'52000'},{p:'ลำปาง',a:'เมืองลำปาง',t:'สบตุ๋ย',z:'52100'},{p:'ลำปาง',a:'แม่เมาะ',t:'แม่เมาะ',z:'52220'},
-  {p:'ลำพูน',a:'เมืองลำพูน',t:'ในเมือง',z:'51000'},{p:'ลำพูน',a:'เมืองลำพูน',t:'เหมืองง่า',z:'51000'},{p:'ลำพูน',a:'บ้านโฮ่ง',t:'บ้านโฮ่ง',z:'51130'},
-  {p:'แม่ฮ่องสอน',a:'เมืองแม่ฮ่องสอน',t:'จองคำ',z:'58000'},{p:'แม่ฮ่องสอน',a:'ปาย',t:'เวียงใต้',z:'58130'},
-  {p:'น่าน',a:'เมืองน่าน',t:'ในเมือง',z:'55000'},{p:'น่าน',a:'เมืองน่าน',t:'ผาสิงห์',z:'55000'},{p:'น่าน',a:'ท่าวังผา',t:'ท่าวังผา',z:'55140'},
-  {p:'พะเยา',a:'เมืองพะเยา',t:'เวียง',z:'56000'},{p:'พะเยา',a:'เมืองพะเยา',t:'แม่ต๋ำ',z:'56000'},
-  {p:'แพร่',a:'เมืองแพร่',t:'ในเมือง',z:'54000'},{p:'แพร่',a:'เมืองแพร่',t:'นาจักร',z:'54000'},
-  {p:'อุตรดิตถ์',a:'เมืองอุตรดิตถ์',t:'ท่าอิฐ',z:'53000'},{p:'อุตรดิตถ์',a:'เมืองอุตรดิตถ์',t:'ท่าเสา',z:'53000'},
-  {p:'ตาก',a:'เมืองตาก',t:'ระแหง',z:'63000'},{p:'ตาก',a:'แม่สอด',t:'แม่สอด',z:'63110'},
-  {p:'สุโขทัย',a:'เมืองสุโขทัย',t:'ธานี',z:'64000'},{p:'สุโขทัย',a:'เมืองสุโขทัย',t:'บ้านสวน',z:'64000'},
-  {p:'กำแพงเพชร',a:'เมืองกำแพงเพชร',t:'ในเมือง',z:'62000'},{p:'กำแพงเพชร',a:'เมืองกำแพงเพชร',t:'ไตรตรึงษ์',z:'62000'},
-  {p:'พิษณุโลก',a:'เมืองพิษณุโลก',t:'ในเมือง',z:'65000'},{p:'พิษณุโลก',a:'เมืองพิษณุโลก',t:'อรัญญิก',z:'65000'},{p:'พิษณุโลก',a:'เมืองพิษณุโลก',t:'วังน้ำคู้',z:'65230'},{p:'พิษณุโลก',a:'บางระกำ',t:'บางระกำ',z:'65140'},
-  {p:'พิจิตร',a:'เมืองพิจิตร',t:'ในเมือง',z:'66000'},{p:'พิจิตร',a:'เมืองพิจิตร',t:'ท่าหลวง',z:'66000'},
-  {p:'เพชรบูรณ์',a:'เมืองเพชรบูรณ์',t:'ในเมือง',z:'67000'},{p:'เพชรบูรณ์',a:'เมืองเพชรบูรณ์',t:'สะเดียง',z:'67000'},
-  {p:'นครสวรรค์',a:'เมืองนครสวรรค์',t:'ปากน้ำโพ',z:'60000'},{p:'นครสวรรค์',a:'เมืองนครสวรรค์',t:'วัดไทร',z:'60000'},{p:'นครสวรรค์',a:'เมืองนครสวรรค์',t:'นครสวรรค์ตก',z:'60000'},{p:'นครสวรรค์',a:'เมืองนครสวรรค์',t:'นครสวรรค์ออก',z:'60000'},
-  {p:'อุทัยธานี',a:'เมืองอุทัยธานี',t:'อุทัยใหม่',z:'61000'},{p:'อุทัยธานี',a:'เมืองอุทัยธานี',t:'น้ำซึม',z:'61000'},
-  {p:'ชัยนาท',a:'เมืองชัยนาท',t:'ในเมือง',z:'17000'},{p:'ชัยนาท',a:'เมืองชัยนาท',t:'บ้านกล้วย',z:'17000'},
-  {p:'พระนครศรีอยุธยา',a:'พระนครศรีอยุธยา',t:'ประตูชัย',z:'13000'},{p:'พระนครศรีอยุธยา',a:'พระนครศรีอยุธยา',t:'กระมัง',z:'13000'},{p:'พระนครศรีอยุธยา',a:'พระนครศรีอยุธยา',t:'หอรัตนไชย',z:'13000'},{p:'พระนครศรีอยุธยา',a:'อุทัย',t:'อุทัย',z:'13210'},
-  {p:'ลพบุรี',a:'เมืองลพบุรี',t:'ท่าหิน',z:'15000'},{p:'ลพบุรี',a:'เมืองลพบุรี',t:'กกโก',z:'15000'},{p:'ลพบุรี',a:'เมืองลพบุรี',t:'โพธิ์เก้าต้น',z:'15000'},
-  {p:'สิงห์บุรี',a:'เมืองสิงห์บุรี',t:'บางพุทรา',z:'16000'},{p:'สิงห์บุรี',a:'เมืองสิงห์บุรี',t:'โพกรวม',z:'16000'},
-  {p:'อ่างทอง',a:'เมืองอ่างทอง',t:'ตลาดหลวง',z:'14000'},{p:'อ่างทอง',a:'เมืองอ่างทอง',t:'บางแก้ว',z:'14000'},
-  {p:'สระบุรี',a:'เมืองสระบุรี',t:'ปากเพรียว',z:'18000'},{p:'สระบุรี',a:'เมืองสระบุรี',t:'ดาวเรือง',z:'18000'},{p:'สระบุรี',a:'แก่งคอย',t:'แก่งคอย',z:'18110'},
-  {p:'นครนายก',a:'เมืองนครนายก',t:'นครนายก',z:'26000'},{p:'นครนายก',a:'เมืองนครนายก',t:'ท่าช้าง',z:'26000'},
-  {p:'ปราจีนบุรี',a:'เมืองปราจีนบุรี',t:'หน้าเมือง',z:'25000'},{p:'ปราจีนบุรี',a:'เมืองปราจีนบุรี',t:'รอบเมือง',z:'25000'},
-  {p:'ฉะเชิงเทรา',a:'เมืองฉะเชิงเทรา',t:'หน้าเมือง',z:'24000'},{p:'ฉะเชิงเทรา',a:'เมืองฉะเชิงเทรา',t:'ท่าไข่',z:'24000'},{p:'ฉะเชิงเทรา',a:'บางปะกง',t:'บางปะกง',z:'24130'},
-  {p:'สระแก้ว',a:'เมืองสระแก้ว',t:'สระแก้ว',z:'27000'},{p:'สระแก้ว',a:'อรัญประเทศ',t:'อรัญประเทศ',z:'27120'},
-  {p:'ชลบุรี',a:'เมืองชลบุรี',t:'บางปลาสร้อย',z:'20000'},{p:'ชลบุรี',a:'เมืองชลบุรี',t:'มะขามหย่ง',z:'20000'},{p:'ชลบุรี',a:'บางละมุง',t:'บางละมุง',z:'20150'},{p:'ชลบุรี',a:'บางละมุง',t:'นาเกลือ',z:'20150'},{p:'ชลบุรี',a:'ศรีราชา',t:'ศรีราชา',z:'20110'},{p:'ชลบุรี',a:'พัทยา',t:'หนองปรือ',z:'20150'},{p:'ชลบุรี',a:'บ้านบึง',t:'บ้านบึง',z:'20170'},
-  {p:'ระยอง',a:'เมืองระยอง',t:'เนินพระ',z:'21000'},{p:'ระยอง',a:'เมืองระยอง',t:'ท่าประดู่',z:'21000'},{p:'ระยอง',a:'มาบตาพุด',t:'มาบตาพุด',z:'21150'},{p:'ระยอง',a:'บ้านฉาง',t:'บ้านฉาง',z:'21130'},
-  {p:'จันทบุรี',a:'เมืองจันทบุรี',t:'ตลาด',z:'22000'},{p:'จันทบุรี',a:'เมืองจันทบุรี',t:'วัดใหม่',z:'22000'},{p:'จันทบุรี',a:'แหลมสิงห์',t:'ปากน้ำแหลมสิงห์',z:'22130'},
-  {p:'ตราด',a:'เมืองตราด',t:'บางพระ',z:'23000'},{p:'ตราด',a:'เมืองตราด',t:'วังกระแจะ',z:'23000'},
-  {p:'นครราชสีมา',a:'เมืองนครราชสีมา',t:'ในเมือง',z:'30000'},{p:'นครราชสีมา',a:'เมืองนครราชสีมา',t:'โพธิ์กลาง',z:'30000'},{p:'นครราชสีมา',a:'เมืองนครราชสีมา',t:'หนองจะบก',z:'30000'},{p:'นครราชสีมา',a:'ปากช่อง',t:'ปากช่อง',z:'30130'},{p:'นครราชสีมา',a:'โชคชัย',t:'โชคชัย',z:'30190'},{p:'นครราชสีมา',a:'สูงเนิน',t:'สูงเนิน',z:'30170'},
-  {p:'ชัยภูมิ',a:'เมืองชัยภูมิ',t:'ในเมือง',z:'36000'},{p:'ชัยภูมิ',a:'เมืองชัยภูมิ',t:'รอบเมือง',z:'36000'},{p:'ชัยภูมิ',a:'บ้านเขว้า',t:'บ้านเขว้า',z:'36170'},
-  {p:'บุรีรัมย์',a:'เมืองบุรีรัมย์',t:'ในเมือง',z:'31000'},{p:'บุรีรัมย์',a:'เมืองบุรีรัมย์',t:'อิสาณ',z:'31000'},{p:'บุรีรัมย์',a:'นางรอง',t:'นางรอง',z:'31110'},
-  {p:'สุรินทร์',a:'เมืองสุรินทร์',t:'ในเมือง',z:'32000'},{p:'สุรินทร์',a:'เมืองสุรินทร์',t:'ตั้งใจ',z:'32000'},{p:'สุรินทร์',a:'ปราสาท',t:'กังแอน',z:'32140'},
-  {p:'ศรีสะเกษ',a:'เมืองศรีสะเกษ',t:'เมืองเหนือ',z:'33000'},{p:'ศรีสะเกษ',a:'เมืองศรีสะเกษ',t:'เมืองใต้',z:'33000'},{p:'ศรีสะเกษ',a:'กันทรลักษ์',t:'บึงมะลู',z:'33110'},
-  {p:'อุบลราชธานี',a:'เมืองอุบลราชธานี',t:'ในเมือง',z:'34000'},{p:'อุบลราชธานี',a:'เมืองอุบลราชธานี',t:'หัวเรือ',z:'34000'},{p:'อุบลราชธานี',a:'เมืองอุบลราชธานี',t:'ขามใหญ่',z:'34000'},{p:'อุบลราชธานี',a:'วารินชำราบ',t:'วารินชำราบ',z:'34190'},
-  {p:'ยโสธร',a:'เมืองยโสธร',t:'ในเมือง',z:'35000'},{p:'ยโสธร',a:'เมืองยโสธร',t:'สำราญ',z:'35000'},
-  {p:'อำนาจเจริญ',a:'เมืองอำนาจเจริญ',t:'บุ่ง',z:'37000'},{p:'อำนาจเจริญ',a:'เมืองอำนาจเจริญ',t:'โนนโพธิ์',z:'37000'},
-  {p:'มุกดาหาร',a:'เมืองมุกดาหาร',t:'มุกดาหาร',z:'49000'},{p:'มุกดาหาร',a:'เมืองมุกดาหาร',t:'ศรีบุญเรือง',z:'49000'},
-  {p:'ร้อยเอ็ด',a:'เมืองร้อยเอ็ด',t:'ในเมือง',z:'45000'},{p:'ร้อยเอ็ด',a:'เมืองร้อยเอ็ด',t:'รอบเมือง',z:'45000'},{p:'ร้อยเอ็ด',a:'สุวรรณภูมิ',t:'สระคู',z:'45130'},
-  {p:'มหาสารคาม',a:'เมืองมหาสารคาม',t:'ตลาด',z:'44000'},{p:'มหาสารคาม',a:'เมืองมหาสารคาม',t:'เขวา',z:'44000'},{p:'มหาสารคาม',a:'กันทรวิชัย',t:'โคกพระ',z:'44150'},
-  {p:'กาฬสินธุ์',a:'เมืองกาฬสินธุ์',t:'กาฬสินธุ์',z:'46000'},{p:'กาฬสินธุ์',a:'เมืองกาฬสินธุ์',t:'เหนือ',z:'46000'},
-  {p:'ขอนแก่น',a:'เมืองขอนแก่น',t:'ในเมือง',z:'40000'},{p:'ขอนแก่น',a:'เมืองขอนแก่น',t:'สาวะถี',z:'40000'},{p:'ขอนแก่น',a:'เมืองขอนแก่น',t:'พระลับ',z:'40000'},{p:'ขอนแก่น',a:'บ้านไผ่',t:'บ้านไผ่',z:'40110'},{p:'ขอนแก่น',a:'น้ำพอง',t:'น้ำพอง',z:'40140'},
-  {p:'อุดรธานี',a:'เมืองอุดรธานี',t:'หมากแข้ง',z:'41000'},{p:'อุดรธานี',a:'เมืองอุดรธานี',t:'บ้านเลื่อม',z:'41000'},{p:'อุดรธานี',a:'เมืองอุดรธานี',t:'นิคมสงเคราะห์',z:'41000'},{p:'อุดรธานี',a:'กุมภวาปี',t:'ตูมใต้',z:'41110'},
-  {p:'หนองคาย',a:'เมืองหนองคาย',t:'ในเมือง',z:'43000'},{p:'หนองคาย',a:'เมืองหนองคาย',t:'มีชัย',z:'43000'},{p:'หนองคาย',a:'ท่าบ่อ',t:'ท่าบ่อ',z:'43110'},
-  {p:'บึงกาฬ',a:'เมืองบึงกาฬ',t:'บึงกาฬ',z:'38000'},{p:'บึงกาฬ',a:'เมืองบึงกาฬ',t:'วิศิษฐ์',z:'38000'},
-  {p:'เลย',a:'เมืองเลย',t:'กุดป่อง',z:'42000'},{p:'เลย',a:'เมืองเลย',t:'เมือง',z:'42000'},{p:'เลย',a:'วังสะพุง',t:'วังสะพุง',z:'42130'},
-  {p:'หนองบัวลำภู',a:'เมืองหนองบัวลำภู',t:'หนองบัวลำภู',z:'39000'},{p:'หนองบัวลำภู',a:'เมืองหนองบัวลำภู',t:'ลำภู',z:'39000'},
-  {p:'สกลนคร',a:'เมืองสกลนคร',t:'ธาตุเชิงชุม',z:'47000'},{p:'สกลนคร',a:'เมืองสกลนคร',t:'งิ้วด่อน',z:'47000'},{p:'สกลนคร',a:'สว่างแดนดิน',t:'สว่างแดนดิน',z:'47110'},
-  {p:'นครพนม',a:'เมืองนครพนม',t:'ในเมือง',z:'48000'},{p:'นครพนม',a:'เมืองนครพนม',t:'หนองญาติ',z:'48000'},{p:'นครพนม',a:'ท่าอุเทน',t:'ท่าอุเทน',z:'48120'},
-  {p:'นครปฐม',a:'เมืองนครปฐม',t:'พระปฐมเจดีย์',z:'73000'},{p:'นครปฐม',a:'เมืองนครปฐม',t:'บางแขม',z:'73000'},{p:'นครปฐม',a:'เมืองนครปฐม',t:'สามควายเนียม',z:'73000'},{p:'นครปฐม',a:'นครชัยศรี',t:'นครชัยศรี',z:'73120'},{p:'นครปฐม',a:'สามพราน',t:'สามพราน',z:'73110'},
-  {p:'สมุทรสาคร',a:'เมืองสมุทรสาคร',t:'มหาชัย',z:'74000'},{p:'สมุทรสาคร',a:'เมืองสมุทรสาคร',t:'ท่าฉลอม',z:'74000'},{p:'สมุทรสาคร',a:'กระทุ่มแบน',t:'ตลาดกระทุ่มแบน',z:'74110'},
-  {p:'สมุทรสงคราม',a:'เมืองสมุทรสงคราม',t:'แม่กลอง',z:'75000'},{p:'สมุทรสงคราม',a:'เมืองสมุทรสงคราม',t:'ลาดใหญ่',z:'75000'},
-  {p:'ราชบุรี',a:'เมืองราชบุรี',t:'หน้าเมือง',z:'70000'},{p:'ราชบุรี',a:'เมืองราชบุรี',t:'เจดีย์หัก',z:'70000'},{p:'ราชบุรี',a:'โพธาราม',t:'โพธาราม',z:'70120'},{p:'ราชบุรี',a:'บ้านโป่ง',t:'เบิกไพร',z:'70110'},
-  {p:'กาญจนบุรี',a:'เมืองกาญจนบุรี',t:'บ้านเหนือ',z:'71000'},{p:'กาญจนบุรี',a:'เมืองกาญจนบุรี',t:'บ้านใต้',z:'71000'},{p:'กาญจนบุรี',a:'ท่ามะกา',t:'ท่ามะกา',z:'71120'},
-  {p:'สุพรรณบุรี',a:'เมืองสุพรรณบุรี',t:'ท่าพี่เลี้ยง',z:'72000'},{p:'สุพรรณบุรี',a:'เมืองสุพรรณบุรี',t:'รั้วใหญ่',z:'72000'},{p:'สุพรรณบุรี',a:'สองพี่น้อง',t:'สองพี่น้อง',z:'72110'},
-  {p:'เพชรบุรี',a:'เมืองเพชรบุรี',t:'ท่าราบ',z:'76000'},{p:'เพชรบุรี',a:'เมืองเพชรบุรี',t:'คลองกระแชง',z:'76000'},{p:'เพชรบุรี',a:'ชะอำ',t:'ชะอำ',z:'76120'},
-  {p:'ประจวบคีรีขันธ์',a:'เมืองประจวบคีรีขันธ์',t:'ประจวบคีรีขันธ์',z:'77000'},{p:'ประจวบคีรีขันธ์',a:'หัวหิน',t:'หัวหิน',z:'77110'},{p:'ประจวบคีรีขันธ์',a:'หัวหิน',t:'หนองแก',z:'77110'},
-  {p:'สงขลา',a:'เมืองสงขลา',t:'บ่อยาง',z:'90000'},{p:'สงขลา',a:'เมืองสงขลา',t:'เขารูปช้าง',z:'90000'},{p:'สงขลา',a:'หาดใหญ่',t:'หาดใหญ่',z:'90110'},{p:'สงขลา',a:'หาดใหญ่',t:'คอหงส์',z:'90110'},{p:'สงขลา',a:'หาดใหญ่',t:'ทุ่งใหญ่',z:'90110'},{p:'สงขลา',a:'สทิงพระ',t:'จะทิ้งพระ',z:'90190'},
-  {p:'ภูเก็ต',a:'เมืองภูเก็ต',t:'ตลาดใหญ่',z:'83000'},{p:'ภูเก็ต',a:'เมืองภูเก็ต',t:'ตลาดเหนือ',z:'83000'},{p:'ภูเก็ต',a:'กะทู้',t:'กะทู้',z:'83120'},{p:'ภูเก็ต',a:'ถลาง',t:'เทพกระษัตรี',z:'83110'},
-  {p:'สุราษฎร์ธานี',a:'เมืองสุราษฎร์ธานี',t:'ตลาด',z:'84000'},{p:'สุราษฎร์ธานี',a:'เมืองสุราษฎร์ธานี',t:'มะขามเตี้ย',z:'84000'},{p:'สุราษฎร์ธานี',a:'เกาะสมุย',t:'บ่อผุด',z:'84320'},{p:'สุราษฎร์ธานี',a:'เกาะสมุย',t:'แม่น้ำ',z:'84330'},
-  {p:'นครศรีธรรมราช',a:'เมืองนครศรีธรรมราช',t:'ในเมือง',z:'80000'},{p:'นครศรีธรรมราช',a:'เมืองนครศรีธรรมราช',t:'คลัง',z:'80000'},{p:'นครศรีธรรมราช',a:'ทุ่งสง',t:'ปากแพรก',z:'80110'},
-  {p:'กระบี่',a:'เมืองกระบี่',t:'กระบี่ใหญ่',z:'81000'},{p:'กระบี่',a:'เมืองกระบี่',t:'กระบี่น้อย',z:'81000'},
-  {p:'พังงา',a:'เมืองพังงา',t:'ท้ายช้าง',z:'82000'},{p:'พังงา',a:'เกาะยาว',t:'เกาะยาวน้อย',z:'82160'},
-  {p:'ระนอง',a:'เมืองระนอง',t:'เขานิเวศน์',z:'85000'},{p:'ระนอง',a:'เมืองระนอง',t:'บางริ้น',z:'85000'},
-  {p:'ชุมพร',a:'เมืองชุมพร',t:'ท่าตะเภา',z:'86000'},{p:'ชุมพร',a:'เมืองชุมพร',t:'นาชะอัง',z:'86000'},
-  {p:'พัทลุง',a:'เมืองพัทลุง',t:'คูหาสวรรค์',z:'93000'},{p:'พัทลุง',a:'เมืองพัทลุง',t:'เขาเจียก',z:'93000'},
-  {p:'ตรัง',a:'เมืองตรัง',t:'ทับเที่ยง',z:'92000'},{p:'ตรัง',a:'เมืองตรัง',t:'นาพละ',z:'92000'},{p:'ตรัง',a:'กันตัง',t:'กันตัง',z:'92110'},
-  {p:'สตูล',a:'เมืองสตูล',t:'พิมาน',z:'91000'},{p:'สตูล',a:'เมืองสตูล',t:'คลองขุด',z:'91000'},
-  {p:'ปัตตานี',a:'เมืองปัตตานี',t:'สะบารัง',z:'94000'},{p:'ปัตตานี',a:'เมืองปัตตานี',t:'อาเนาะรู',z:'94000'},
-  {p:'ยะลา',a:'เมืองยะลา',t:'สะเตง',z:'95000'},{p:'ยะลา',a:'เมืองยะลา',t:'สะเตงนอก',z:'95000'},{p:'ยะลา',a:'เบตง',t:'เบตง',z:'95110'},
-  {p:'นราธิวาส',a:'เมืองนราธิวาส',t:'บางนาค',z:'96000'},{p:'นราธิวาส',a:'เมืองนราธิวาส',t:'ลำภู',z:'96000'},{p:'นราธิวาส',a:'สุไหงโก-ลก',t:'สุไหงโก-ลก',z:'96120'}
+  {p:'กรุงเทพมหานคร',a:'พระนคร',t:'พระบรมมหาราชวัง',z:'10200'},{p:'กรุงเทพมหานคร',a:'พระนคร',t:'วังบูรพาภิรมย์',z:'10200'},{p:'กรุงเทพมหานคร',a:'ดุสิต',t:'ดุสิต',z:'10300'},{p:'กรุงเทพมหานคร',a:'ราชเทวี',t:'ถนนเพชรบุรี',z:'10400'},{p:'กรุงเทพมหานคร',a:'บางกะปิ',t:'หัวหมาก',z:'10240'},{p:'กรุงเทพมหานคร',a:'ลาดพร้าว',t:'ลาดพร้าว',z:'10230'},{p:'กรุงเทพมหานคร',a:'จตุจักร',t:'จตุจักร',z:'10900'},{p:'กรุงเทพมหานคร',a:'บางรัก',t:'สีลม',z:'10500'},{p:'กรุงเทพมหานคร',a:'สาทร',t:'ยานนาวา',z:'10120'},{p:'กรุงเทพมหานคร',a:'ลาดกระบัง',t:'ลาดกระบัง',z:'10520'},{p:'กรุงเทพมหานคร',a:'มีนบุรี',t:'มีนบุรี',z:'10510'},{p:'กรุงเทพมหานคร',a:'คลองสาน',t:'คลองสาน',z:'10600'},{p:'นนทบุรี',a:'เมืองนนทบุรี',t:'สวนใหญ่',z:'11000'},{p:'นนทบุรี',a:'ปากเกร็ด',t:'ปากเกร็ด',z:'11120'},{p:'นนทบุรี',a:'บางบัวทอง',t:'บางบัวทอง',z:'11110'},{p:'ปทุมธานี',a:'เมืองปทุมธานี',t:'บางปรอก',z:'12000'},{p:'ปทุมธานี',a:'ธัญบุรี',t:'รังสิต',z:'12110'},{p:'สมุทรปราการ',a:'เมืองสมุทรปราการ',t:'ปากน้ำ',z:'10270'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'ศรีภูมิ',z:'50200'},{p:'เชียงใหม่',a:'เมืองเชียงใหม่',t:'พระสิงห์',z:'50200'},{p:'เชียงราย',a:'เมืองเชียงราย',t:'เวียง',z:'57000'},{p:'ขอนแก่น',a:'เมืองขอนแก่น',t:'ในเมือง',z:'40000'},{p:'อุดรธานี',a:'เมืองอุดรธานี',t:'หมากแข้ง',z:'41000'},{p:'นครราชสีมา',a:'เมืองนครราชสีมา',t:'ในเมือง',z:'30000'},{p:'อุบลราชธานี',a:'เมืองอุบลราชธานี',t:'ในเมือง',z:'34000'},{p:'สงขลา',a:'หาดใหญ่',t:'หาดใหญ่',z:'90110'},{p:'ภูเก็ต',a:'เมืองภูเก็ต',t:'ตลาดใหญ่',z:'83000'},{p:'สุราษฎร์ธานี',a:'เมืองสุราษฎร์ธานี',t:'ตลาด',z:'84000'},{p:'นครศรีธรรมราช',a:'เมืองนครศรีธรรมราช',t:'ในเมือง',z:'80000'},{p:'สมุทรสาคร',a:'เมืองสมุทรสาคร',t:'มหาชัย',z:'74000'},{p:'ราชบุรี',a:'เมืองราชบุรี',t:'หน้าเมือง',z:'70000'},{p:'นครปฐม',a:'เมืองนครปฐม',t:'พระปฐมเจดีย์',z:'73000'},{p:'ลพบุรี',a:'เมืองลพบุรี',t:'ท่าหิน',z:'15000'},{p:'พิษณุโลก',a:'เมืองพิษณุโลก',t:'ในเมือง',z:'65000'},{p:'เชียงใหม่',a:'สันทราย',t:'สันทรายหลวง',z:'50210'},{p:'ชลบุรี',a:'เมืองชลบุรี',t:'บางปลาสร้อย',z:'20000'},{p:'ชลบุรี',a:'บางละมุง',t:'บางละมุง',z:'20150'},{p:'ระยอง',a:'เมืองระยอง',t:'เนินพระ',z:'21000'},{p:'พระนครศรีอยุธยา',a:'พระนครศรีอยุธยา',t:'ประตูชัย',z:'13000'},{p:'หนองคาย',a:'เมืองหนองคาย',t:'ในเมือง',z:'43000'},{p:'อุบลราชธานี',a:'เมืองอุบลราชธานี',t:'หัวเรือ',z:'34000'},{p:'นครพนม',a:'เมืองนครพนม',t:'ในเมือง',z:'48000'}
 ];
-
-/* ===== ANAM TEMPLE DATABASE ===== */
-const TEMPLE_DB = [
-  {name:'วัดสมณานัมบริหาร (กั๋นเพื๊อกตื่อ)', sub:'สี่แยกมหานาค', dist:'ดุสิต', prov:'กรุงเทพมหานคร', zip:'10300', addr:'416 ถนนลูกหลวง'},
-  {name:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)', sub:'ตลาดน้อย', dist:'สัมพันธวงศ์', prov:'กรุงเทพมหานคร', zip:'10100', addr:'864 ถนนเจริญกรุง'},
-  {name:'วัดชัยภูมิการาม (ตี๋หง่านตื่อ)', sub:'จักรวรรดิ', dist:'สัมพันธวงศ์', prov:'กรุงเทพมหานคร', zip:'10100', addr:'30 ถนนเยาวพานิช'},
-  {name:'วัดมงคลสมาคม (โห่ยคั้นตื่อ)', sub:'สัมพันธวงศ์', dist:'สัมพันธวงศ์', prov:'กรุงเทพมหานคร', zip:'10100', addr:'48 ถนนแปลงนาม'},
-  {name:'วัดโลกานุเคราะห์ (ตื้อเต๊ตื่อ)', sub:'จักรวรรดิ', dist:'สัมพันธวงศ์', prov:'กรุงเทพมหานคร', zip:'10100', addr:'126 ถนนราชวงศ์'},
-  {name:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)', sub:'สัมพันธวงศ์', dist:'สัมพันธวงศ์', prov:'กรุงเทพมหานคร', zip:'10100', addr:'97 ถนนราชวงศ์'},
-  {name:'วัดอนัมนิกายาราม (กว๋างเพื๊อกตื่อ)', sub:'บางซื่อ', dist:'บางซื่อ', prov:'กรุงเทพมหานคร', zip:'10800', addr:'803/1 ถนนประชาราษฎร์ สาย 1'},
-  {name:'วัดถาวรวราราม (คั้นถ่อตื่อ)', sub:'บ้านเหนือ', dist:'เมืองกาญจนบุรี', prov:'กาญจนบุรี', zip:'71000', addr:'3 ถนนเจ้าขุนเณร'},
-  {name:'วัดเจริญบุญไพศาล (ฮึงเพื๊อกตื่อ)', sub:'ท่ามะขาม', dist:'เมืองกาญจนบุรี', prov:'กาญจนบุรี', zip:'71000', addr:'179 หมู่ 3 บ้านหนองแฟบ'},
-  {name:'วัดถ้ำเขาน้อย (ล็องเซิงตื่อ)', sub:'ม่วงชุม', dist:'ท่าม่วง', prov:'กาญจนบุรี', zip:'71110', addr:'18/1 หมู่ 5 บ้านม่วงชุม'},
-  {name:'วัดเขตร์นาบุญญาราม (เพื๊อกเดี้ยนตื่อ)', sub:'ตลาด', dist:'เมืองจันทบุรี', prov:'จันทบุรี', zip:'22000', addr:'28 ถนนขวาง'},
-  {name:'วัดนพรัตน์วนาราม (เพื๊อกถ่อตื่อ)', sub:'ปัถวี', dist:'มะขาม', prov:'จันทบุรี', zip:'22150', addr:'บ้านทุ่งบอน หมู่ 1'},
-  {name:'วัดอุภัยภาติการาม (ตามบ๋าวก็องเผิกตื่อ)', sub:'หน้าเมือง', dist:'เมืองฉะเชิงเทรา', prov:'ฉะเชิงเทรา', zip:'24000', addr:'475/7ก ถนนศุภกิจ'},
-  {name:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)', sub:'บางช้าง', dist:'สามพราน', prov:'นครปฐม', zip:'73110', addr:'108/8 หมู่ 8 ซอยโรงเจ'},
-  {name:'วัดถาวรวรารามหาดใหญ่ (คั้นถ่อตื่อ)', sub:'หาดใหญ่', dist:'หาดใหญ่', prov:'สงขลา', zip:'90110', addr:'33 ซอยวัดถาวร ถนนศุภสารรังสรรค์'},
-  {name:'วัดมหายานกาญจนมาสราษฎร์บำรุง (คั้นซันตื่อ)', sub:'สะเตง', dist:'เมืองยะลา', prov:'ยะลา', zip:'95000', addr:'9 ถนนมหาภาส'},
-  {name:'วัดศิริจรรยาธรรมปัญญาราม (ฮึงเยิงตื่อ)', sub:'รังสิต', dist:'ธัญบุรี', prov:'ปทุมธานี', zip:'12110', addr:'104/3 หมู่ 3 ถนนรังสิต-นครนายก'},
-  {name:'วัดมหาโพธิสัตว์อนัมนิกายาราม (กวางอ็อมตื่อ)', sub:'ท่าเคย', dist:'สวนผึ้ง', prov:'ราชบุรี', zip:'70180', addr:'331/5 หมู่ 1 บ้านชัฏป่าหวาย'},
-  {name:'วัดแสงมณีศรีมหายาน (โผทั้งตื่อ)', sub:'เตาปูน', dist:'โพธาราม', prov:'ราชบุรี', zip:'70120', addr:'185 หมู่ 3 บ้านดอนมะขามเฒ่า'},
-  {name:'วัดหมื่นปีวนาราม (หย่างถ่อตื่อ)', sub:'ปากแรต', dist:'บ้านโป่ง', prov:'ราชบุรี', zip:'70110', addr:'251 หมู่ 11 บ้านปากแรต'},
-  {name:'วัดศรัทธายิ้มพานิชวราราม (โผเจี๊ยวตื่อ)', sub:'ท่าทราย', dist:'เมืองสมุทรสาคร', prov:'สมุทรสาคร', zip:'74000', addr:'63/66 ถนนนรราชอุทิศ'},
-  {name:'วัดอนัมนิกายเฉลิมพระชนมพรรษากาล (หง็อกทันตื่อ)', sub:'ดอนมะนาว', dist:'สองพี่น้อง', prov:'สุพรรณบุรี', zip:'72110', addr:'208 หมู่ 1'},
-  {name:'วัดสุนทรประดิษฐ์ (คั้นอังตื่อ)', sub:'หมากแข้ง', dist:'เมืองอุดรธานี', prov:'อุดรธานี', zip:'41000', addr:'44/3 ถนนอดุลยเดช'},
-  {name:'วัดสุขาวดีอนัมวนาราม (กึกหลากตื่อ)', sub:'สะเมิงเหนือ', dist:'สะเมิง', prov:'เชียงใหม่', zip:'50250', addr:'90 หมู่ 6 บ้านแม่ปะ'},
-  {name:'สำนักสงฆ์ถ้ำกลองทิพย์', sub:'สองพี่น้อง', dist:'ท่าใหม่', prov:'จันทบุรี', zip:'22120', addr:'หมู่ 1 บ้านสิ้ว'},
-  {name:'สำนักสงฆ์ตาลเลียนอนัมพรต', sub:'ตาลเลียน', dist:'กุดจับ', prov:'อุดรธานี', zip:'41250', addr:'หมู่ 1 บ้านตาลเลียน'},
-  {name:'สำนักสงฆ์แดนสุขาวดีวิถีเซน', sub:'สวนผึ้ง', dist:'สวนผึ้ง', prov:'ราชบุรี', zip:'70180', addr:'302 หมู่ 2 บ้านหนองผักบุ้ง'},
-];
-
-function getTempleOptions(){
-  return '<option value="">-- เลือกวัดสังกัด --</option>' +
-    TEMPLE_DB.map(t=>`<option value="${t.name}">${t.name}</option>`).join('');
-}
-
-function onTempleSelect(val, prefix){
-  const t = TEMPLE_DB.find(x=>x.name===val);
-  if(!t) return;
-  const g=id=>document.getElementById(id);
-  if(prefix==='main'){
-    if(g('f-temple')) g('f-temple').value=t.name;
-    if(g('temple-sub')) g('temple-sub').value=t.sub;
-    if(g('temple-dist')) g('temple-dist').value=t.dist;
-    if(g('temple-prov')) g('temple-prov').value=t.prov;
-    if(g('temple-zip')) g('temple-zip').value=t.zip;
-  }
-  if(prefix==='ord'){
-    if(g('f-ord-temple')) g('f-ord-temple').value=t.name;
-    if(g('ord-sub')) g('ord-sub').value=t.sub;
-    if(g('ord-dist')) g('ord-dist').value=t.dist;
-    if(g('ord-prov')) g('ord-prov').value=t.prov;
-    if(g('ord-zip')) g('ord-zip').value=t.zip;
-  }
-  if(prefix==='upa'){
-    if(g('f-upa-temple')) g('f-upa-temple').value=t.name;
-    if(g('upa-sub')) g('upa-sub').value=t.sub;
-    if(g('upa-dist')) g('upa-dist').value=t.dist;
-    if(g('upa-prov')) g('upa-prov').value=t.prov;
-    if(g('upa-zip')) g('upa-zip').value=t.zip;
-  }
-  if(prefix==='kam'){
-    if(g('f-kam-temple')) g('f-kam-temple').value=t.name;
-    if(g('kam-sub')) g('kam-sub').value=t.sub;
-    if(g('kam-dist')) g('kam-dist').value=t.dist;
-    if(g('kam-prov')) g('kam-prov').value=t.prov;
-    if(g('kam-zip')) g('kam-zip').value=t.zip;
-  }
-  if(prefix==='anu'){
-    if(g('f-anu-temple')) g('f-anu-temple').value=t.name;
-    if(g('anu-sub')) g('anu-sub').value=t.sub;
-    if(g('anu-dist')) g('anu-dist').value=t.dist;
-    if(g('anu-prov')) g('anu-prov').value=t.prov;
-    if(g('anu-zip')) g('anu-zip').value=t.zip;
-  }
-}
-
 function searchAddr(q){ if(!q||q.length<2)return[]; return ADDR_DB.filter(r=>r.t.includes(q)||r.a.includes(q)||r.p.includes(q)||r.z.includes(q)).slice(0,10); }
 function buildAddrWidget(prefix, container){
-  const isTemple = ['ord','upa','kam','anu','temple','leave'].includes(prefix);
-  if(isTemple){
-    container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
-      <div class="field"><label>ตำบล/แขวง</label><input id="${prefix}-sub" placeholder="ตำบล/แขวง"></div>
-      <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต"></div>
-      <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด"></div>
-      <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส"></div>
-    </div>`;
-  } else {
-    container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
-      <div class="field"><label>ตำบล/แขวง</label><input id="${prefix}-sub" placeholder="ตำบล/แขวง"></div>
-      <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต"></div>
-      <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด"></div>
-      <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส"></div>
-    </div>`;
-  }
+  container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+    <div class="field"><label>ตำบล/แขวง</label><div class="addr-wrap"><input id="${prefix}-sub" placeholder="พิมพ์ค้นหา..." autocomplete="off" oninput="addrSearch(this,'${prefix}')"><div class="addr-list" id="${prefix}-list"></div></div></div>
+    <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต" readonly style="background:#f9fafb"></div>
+    <div class="field"><label>จังหวัด</label><input id="${prefix}-prov" placeholder="จังหวัด" readonly style="background:#f9fafb"></div>
+    <div class="field"><label>รหัสไปรษณีย์</label><input id="${prefix}-zip" placeholder="รหัส" readonly style="background:#f9fafb"></div>
+  </div>`;
 }
 function addrSearch(inp, prefix){
   const q=inp.value.trim(), list=document.getElementById(prefix+'-list');
@@ -911,18 +1007,9 @@ function pickAddr(prefix,sub,dist,prov,zip){
 }
 document.addEventListener('click',e=>{ if(!e.target.closest('.addr-wrap')) document.querySelectorAll('.addr-list').forEach(l=>l.classList.remove('show')); });
 
-function initTempleSelects(){
-  const opts = getTempleOptions();
-  ['f-temple','f-ord-temple','f-upa-temple','f-kam-temple','f-anu-temple'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el && el.tagName==='SELECT') el.innerHTML=opts;
-  });
-}
-
 function initWidgets(){
   ['home','ord','upa','kam','anu','temple','leave'].forEach(p=>buildAddrWidget(p, document.getElementById('addr-'+p+'-widget')));
-  initTempleSelects();
-  document.getElementById('pos-list').innerHTML=''; posCount=0; addPosRow();
+  if(document.getElementById('pos-list')) { document.getElementById('pos-list').innerHTML=''; posCount=0; }
 }
 
 /* ===== POSITION ROWS ===== */
@@ -946,13 +1033,82 @@ function calcPansa(){
   const yearBE=parseInt(document.getElementById('f-ord-year').value)||0;
   const disp=document.getElementById('pansa-display');
   if(!day||!monthTh||!yearBE){disp.textContent='— กรอกวันบวชเพื่อคำนวณ';return;}
-  const nowYearBE=new Date().getFullYear()+543;
-  if(yearBE>nowYearBE){disp.textContent='— ปีที่บวชยังไม่ถึง';return;}
-  const pansa=nowYearBE-yearBE;
-  const mIdx=MONTHS_TH.indexOf(monthTh);
-  const ordDate=new Date(yearBE-543,mIdx<0?0:mIdx,day||1);
-  const days=Math.floor((new Date()-ordDate)/86400000);
-  disp.textContent=pansa+' พรรษา ('+days+' วัน)';
+  const mIdx=MONTHS_TH.indexOf(monthTh); if(mIdx<0)return;
+  const ordDate=new Date(yearBE-543,mIdx,day), now=new Date();
+  if(ordDate>now){disp.textContent='— วันที่บวชยังไม่ถึง';return;}
+  let y=now.getFullYear()-ordDate.getFullYear();
+  const md=now.getMonth()-ordDate.getMonth();
+  if(md<0||(md===0&&now.getDate()<ordDate.getDate()))y--;
+  y=Math.max(0,y);
+  const days=Math.floor((now-ordDate)/86400000);
+  disp.textContent=y+' พรรษา ('+days+' วัน)';
+}
+
+/* ===== DYNAMIC ROW HELPERS ===== */
+let thananuCount = 1;
+function addDharmaRow(){
+  const div=document.createElement('div');div.className='fg3 dharma-row';
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>`;
+  document.getElementById('dharma-rows').appendChild(div);
+}
+function addPaliRow(){
+  const div=document.createElement('div');div.className='fg3 pali-row';
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>`;
+  document.getElementById('pali-rows').appendChild(div);
+}
+function addEduRow(){
+  const div=document.createElement('div');div.className='fg4 edu-row';
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div>`;
+  document.getElementById('edu-rows').appendChild(div);
+}
+function addThananuRow(){
+  thananuCount++;
+  const div=document.createElement('div');div.className='fg3 thananu-row';
+  div.innerHTML=`<div class="field"><label>รูปที่</label><input class="t-num" value="${thananuCount}" readonly></div><div class="field"><label>ราชทินนาม</label><input class="t-name" placeholder="ราชทินนาม"></div><div class="field"><label>ตำแหน่ง</label><input class="t-pos" placeholder="ตำแหน่ง"></div>`;
+  document.getElementById('thananu-rows').appendChild(div);
+}
+function addThananuHistRow(){
+  const n=document.querySelectorAll('.thananu-hist-row').length+1;
+  const div=document.createElement('div');div.className='thananu-hist-row';div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+  div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับ</label><input class="th-date" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field"><label>ตำแหน่งฐานานุกรม</label><input class="th-pos" placeholder="ตำแหน่ง"></div><div class="field"><label>ราชทินนาม</label><input class="th-name" placeholder="ราชทินนาม"></div><div class="field"><label>ชั้นฐานานุกรม</label><div class="radio-group"><label><input type="radio" name="th-class-${n}" value="พระราชาคณะ"> พระราชาคณะ</label><label><input type="radio" name="th-class-${n}" value="พระสังฆาธิการ"> พระสังฆาธิการ</label><label><input type="radio" name="th-class-${n}" value="ฐานานุกรมใน"> ฐานานุกรมใน</label></div></div><div class="field field-full"><label>ชื่อเจ้าของฐานานุกรม</label><input class="th-owner" placeholder="ชื่อเจ้าของฐานานุกรม"></div></div>`;
+  document.getElementById('thananu-hist-rows').appendChild(div);
+}
+function addTemplePosRow(){
+  const n=document.querySelectorAll('.temple-pos-row').length+1;
+  const div=document.createElement('div');div.className='temple-pos-row';div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+  div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="tp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field"><label>วัน/เดือน/ปี สิ้นสุดตำแหน่ง</label><input class="tp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field"><label>ตำแหน่งประจำวัด</label><input class="tp-pos" placeholder="ตำแหน่ง"></div><div class="field"><label>ลำดับชั้น</label><input class="tp-rank" placeholder="ลำดับชั้น"></div><div class="field"><label>วัดที่ดำรงตำแหน่ง</label><select class="tp-temple" onchange="onTemplePosSelect(this)">${getTempleOptions()}</select></div><div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="tp-status-${n}" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="tp-status-${n}" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div></div>`;
+  document.getElementById('temple-pos-rows').appendChild(div);
+}
+function onTemplePosSelect(sel){
+  const t=TEMPLE_DB.find(x=>x.name===sel.value);
+  if(!t) return;
+  const row=sel.closest('.temple-pos-row');
+  const addrInput=row ? row.querySelector('.tp-addr') : null;
+  if(addrInput) addrInput.value=[t.addr,t.sub,t.dist,t.prov,t.zip].filter(Boolean).join(' ');
+}
+function addSanghaPosRow(){
+  const n=document.querySelectorAll('.sangha-pos-row').length+1;
+  const div=document.createElement('div');div.className='sangha-pos-row';div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+  div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="sp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field"><label>วัน/เดือน/ปี ที่สิ้นสุดตำแหน่ง</label><input class="sp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field field-full"><label>ตำแหน่งการปกครอง</label><input class="sp-pos" placeholder="ตำแหน่ง"></div><div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="sp-status-${n}" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="sp-status-${n}" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div><div class="field"><label>หน</label><input class="sp-hon" placeholder="หน"></div><div class="field"><label>ภาค</label><input class="sp-phak" placeholder="ภาค"></div><div class="field"><label>จังหวัด</label><input class="sp-prov" placeholder="จังหวัด"></div><div class="field"><label>อำเภอ/เขต</label><input class="sp-dist" placeholder="อำเภอ/เขต"></div><div class="field"><label>แขวง/ตำบล</label><input class="sp-sub" placeholder="แขวง/ตำบล"></div></div>`;
+  document.getElementById('sangha-pos-rows').appendChild(div);
+}
+function addSpecialPosRow(){
+  const div=document.createElement('div');div.className='special-pos-row';div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+  div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่มอบหมาย</label><input class="xp-date" placeholder="วัน/เดือน/ปี พ.ศ."></div><div class="field"><label>ชื่องาน</label><input class="xp-name" placeholder="ชื่องาน"></div><div class="field field-full"><label>ตำแหน่งงานพิเศษ</label><input class="xp-pos" placeholder="ตำแหน่ง"></div><div class="field field-full"><label>รายละเอียด</label><textarea class="xp-detail" placeholder="รายละเอียด" style="min-height:50px"></textarea></div></div>`;
+  document.getElementById('special-pos-rows').appendChild(div);
+}
+
+/* Pansa from free text date e.g. "14 เมษายน 2568" */
+function calcPansaNew(){
+  const val=document.getElementById('f-ord-date').value.trim();
+  const disp=document.getElementById('pansa-display');
+  if(!val){disp.textContent='— กรอกวัน/เดือน/ปีที่อุปสมบท';return;}
+  const parts=val.split(/[\s\/]+/);
+  const yearBE=parseInt(parts[parts.length-1]);
+  if(!yearBE||yearBE<2400){disp.textContent='— กรอกปี พ.ศ. ให้ถูกต้อง';return;}
+  const nowBE=new Date().getFullYear()+543;
+  const pansa=Math.max(0,nowBE-yearBE);
+  disp.textContent=pansa+' พรรษา';
 }
 
 /* ===== SAVE / EDIT MONK ===== */
@@ -960,6 +1116,49 @@ function gv(id){ const el=document.getElementById(id); return el?el.value.trim()
 function gr(name){ const r=document.querySelector('input[name="'+name+'"]:checked'); return r?r.value:''; }
 
 function getFormData(){
+  const dharmaRows=[...document.querySelectorAll('.dharma-row')].map(r=>({year:(r.querySelector('.d-year')||{value:''}).value,level:(r.querySelector('.d-level')||{value:''}).value,school:(r.querySelector('.d-school')||{value:''}).value})).filter(r=>r.level||r.year);
+  const paliRows=[...document.querySelectorAll('.pali-row')].map(r=>({year:(r.querySelector('.p-year')||{value:''}).value,level:(r.querySelector('.p-level')||{value:''}).value,school:(r.querySelector('.p-school')||{value:''}).value})).filter(r=>r.level||r.year);
+  const eduRows=[...document.querySelectorAll('.edu-row')].map(r=>({year:(r.querySelector('.e-year')||{value:''}).value,level:(r.querySelector('.e-level')||{value:''}).value,school:(r.querySelector('.e-school')||{value:''}).value,major:(r.querySelector('.e-major')||{value:''}).value})).filter(r=>r.level||r.year);
+  const thananuRows=[...document.querySelectorAll('.thananu-row')].map(r=>({num:(r.querySelector('.t-num')||{value:''}).value,name:(r.querySelector('.t-name')||{value:''}).value,pos:(r.querySelector('.t-pos')||{value:''}).value})).filter(r=>r.name);
+  const thananuHistRows=[...document.querySelectorAll('.thananu-hist-row')].map((r,i)=>{const rr=document.querySelector('input[name="th-class-'+(i+1)+'"]:checked');return{date:(r.querySelector('.th-date')||{value:''}).value,pos:(r.querySelector('.th-pos')||{value:''}).value,name:(r.querySelector('.th-name')||{value:''}).value,cls:rr?rr.value:'',owner:(r.querySelector('.th-owner')||{value:''}).value};}).filter(r=>r.name||r.date);
+  const templePosRows=[...document.querySelectorAll('.temple-pos-row')].map((r,i)=>{const rr=document.querySelector('input[name="tp-status-'+(i+1)+'"]:checked');return{start:(r.querySelector('.tp-start')||{value:''}).value,end:(r.querySelector('.tp-end')||{value:''}).value,pos:(r.querySelector('.tp-pos')||{value:''}).value,rank:(r.querySelector('.tp-rank')||{value:''}).value,temple:(r.querySelector('.tp-temple')||{value:''}).value,status:rr?rr.value:''};}).filter(r=>r.pos||r.temple);
+  const sanghaPosRows=[...document.querySelectorAll('.sangha-pos-row')].map((r,i)=>{const rr=document.querySelector('input[name="sp-status-'+(i+1)+'"]:checked');return{start:(r.querySelector('.sp-start')||{value:''}).value,end:(r.querySelector('.sp-end')||{value:''}).value,pos:(r.querySelector('.sp-pos')||{value:''}).value,status:rr?rr.value:'',hon:(r.querySelector('.sp-hon')||{value:''}).value,phak:(r.querySelector('.sp-phak')||{value:''}).value,prov:(r.querySelector('.sp-prov')||{value:''}).value,dist:(r.querySelector('.sp-dist')||{value:''}).value,sub:(r.querySelector('.sp-sub')||{value:''}).value};}).filter(r=>r.pos);
+  const specialPosRows=[...document.querySelectorAll('.special-pos-row')].map(r=>({date:(r.querySelector('.xp-date')||{value:''}).value,name:(r.querySelector('.xp-name')||{value:''}).value,pos:(r.querySelector('.xp-pos')||{value:''}).value,detail:(r.querySelector('.xp-detail')||{value:''}).value})).filter(r=>r.name||r.pos);
+  const missions=['f-mission1','f-mission2','f-mission3','f-mission4','f-mission5'].map((id,i)=>{const el=document.getElementById(id);const labels=['พระจริยานิเทศ','พระธรรมทูต','สำนักปฏิบัติธรรม','อาจารย์มหาวิทยาลัย','ครูสอนพระปริยัติธรรม'];return el&&el.checked?labels[i]:'';}).filter(Boolean).join(', ');
+  const upajja=['f-upajja1','f-upajja2','f-upajja3'].map((id,i)=>{const el=document.getElementById(id);const labels=['พระอุปัชฌาย์','พระกรรมวาจาจารย์','พระอนุสาวนาจารย์'];return el&&el.checked?labels[i]:'';}).filter(Boolean).join(', ');
+  const pansaText=document.getElementById('pansa-display').textContent;
+  return {
+    type:gr('f-type'), name:gv('f-firstname'), chaya:gv('f-chaya'),
+    firstname:gv('f-firstname'), lastname:gv('f-lastname'), nickname:gv('f-nickname'),
+    bday:gv('f-bday'), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
+    addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
+    addr_zip:gv('f-addr-zip'), addr_full:gv('f-addr-full'),
+    father_name:gv('f-father'), mother_name:gv('f-mother'),
+    samanera_date:gv('f-samanera-date'), samanera_temple:gv('f-samanera-temple'), samanera_addr:gv('f-samanera-addr'),
+    ord_date:gv('f-ord-date'), ord_temple:gv('f-ord-temple'), ord_addr:gv('f-ord-addr'),
+    pansa:pansaText.startsWith('—')?'':pansaText,
+    book_date:gv('f-book-date'), book_vol:gv('f-book-vol'), book_no:gv('f-book-no'),
+    upa:gv('f-upa'), upa_temple:gv('f-upa-temple'),
+    kam:gv('f-kam'), kam_temple:gv('f-kam-temple'),
+    anu:gv('f-anu'), anu_temple:gv('f-anu-temple'),
+    temple:gv('f-temple'), sect:gv('f-sect'), temple_addr:gv('f-temple-addr'),
+    temple_tel:gv('f-temple-tel'), mobile:gv('f-mobile'),
+    abbot_chaya:gv('f-abbot-chaya'), rank:gv('f-rank'),
+    status:gv('f-status')||'บวช', status_date:gv('f-status-date'),
+    upajja_year:gv('f-upajja-year'), upajja_roles:upajja,
+    dharma_rows:dharmaRows, pali_rows:paliRows, edu_rows:eduRows,
+    honor_date:gv('f-honor-date'), honor_class:gv('f-honor-class'), honor_name:gv('f-honor-name'),
+    honor_fullname:gv('f-honor-fullname'), honor_rank:gv('f-honor-rank'), honor_fan:gv('f-honor-fan'),
+    honor_side:gr('f-honor-side'),
+    thananu_rows:thananuRows, thananu_hist_rows:thananuHistRows,
+    temple_pos_rows:templePosRows, sangha_pos_rows:sanghaPosRows,
+    special_pos_rows:specialPosRows,
+    sangha6_date:gv('f-sangha6-date'), sangha6_type:gv('f-sangha6-type'), sangha6_detail:gv('f-sangha6-detail'),
+    missions:missions, note:gv('f-note'),
+    positions:[]
+  };
+}
+function getFormData_OLD(){
   const positions=[...document.querySelectorAll('.pos-row')].map(r=>{
     const n=r.id.split('-')[2];
     return {name:(document.getElementById('pos-name-'+n)||{value:''}).value.trim(), year:(document.getElementById('pos-year-'+n)||{value:''}).value.trim()};
@@ -1028,7 +1227,7 @@ async function saveMonk(){
 
 function fillForm(m){
   const sv=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
-  const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||'')+'"]'); if(r) r.checked=true; };
+  const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||)+'"]'); if(r) r.checked=true; };
   sr('f-type', m.type||'พระภิกษุ');
   sv('f-name',m.name); sv('f-chaya',m.chaya); sv('f-age',m.age); sv('f-idcard',m.idcard);
   sv('f-firstname',m.firstname); sv('f-lastname',m.lastname);
@@ -1040,13 +1239,12 @@ function fillForm(m){
   sv('f-mother-name',m.mother_name); sv('f-mother-last',m.mother_last);
   sv('f-ord-day',m.ord_day); sv('f-ord-month',m.ord_month); sv('f-ord-year',m.ord_year);
   sv('f-book-no',m.book_no); sv('f-book-day',m.book_day); sv('f-book-month',m.book_month); sv('f-book-year',m.book_year);
-  const ss=(id,v)=>{const el=document.getElementById(id);if(el){el.value=v||'';if(el.tagName==='SELECT'&&!el.value&&v){const opt=document.createElement('option');opt.value=v;opt.textContent=v;el.appendChild(opt);el.value=v;}}};
-  ss('f-ord-temple',m.ord_temple); sv('ord-sub',m.ord_sub); sv('ord-dist',m.ord_dist); sv('ord-prov',m.ord_prov);
+  sv('f-ord-temple',m.ord_temple); sv('ord-sub',m.ord_sub); sv('ord-dist',m.ord_dist); sv('ord-prov',m.ord_prov);
   sv('f-upa',m.upa); sv('f-upa-temple',m.upa_temple); sv('upa-sub',m.upa_sub); sv('upa-dist',m.upa_dist); sv('upa-prov',m.upa_prov);
   sv('f-kam',m.kam); sv('f-kam-temple',m.kam_temple);
   sv('f-anu',m.anu); sv('f-anu-temple',m.anu_temple);
   sv('f-cur-day',m.cur_day); sv('f-cur-month',m.cur_month); sv('f-cur-year',m.cur_year);
-  ss('f-temple',m.temple); sv('f-abbot-chaya',m.abbot_chaya);
+  sv('f-temple',m.temple); sv('f-abbot-chaya',m.abbot_chaya);
   sv('temple-sub',m.temple_sub); sv('temple-dist',m.temple_dist); sv('temple-prov',m.temple_prov); sv('temple-zip',m.temple_zip);
   sv('f-rank',m.rank); sv('f-status',m.status||'บวช');
   sv('f-edu',m.edu||''); sv('f-edu-place',m.edu_place); sv('f-edu-year',m.edu_year);
@@ -1074,15 +1272,25 @@ function editMonk(id){
 }
 
 function clearForm(){
+  thananuCount=1;
+  document.getElementById('dharma-rows').innerHTML=`<div class="fg3 dharma-row"><div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div></div>`;
+  document.getElementById('pali-rows').innerHTML=`<div class="fg3 pali-row"><div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div></div>`;
+  document.getElementById('edu-rows').innerHTML=`<div class="fg4 edu-row"><div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div></div>`;
+  document.getElementById('thananu-rows').innerHTML=`<div class="fg3 thananu-row"><div class="field"><label>รูปที่</label><input class="t-num" value="1" readonly></div><div class="field"><label>ราชทินนาม</label><input class="t-name" placeholder="ราชทินนาม"></div><div class="field"><label>ตำแหน่ง</label><input class="t-pos" placeholder="ตำแหน่ง"></div></div>`;
+  document.getElementById('thananu-hist-rows').innerHTML='';
+  document.getElementById('temple-pos-rows').innerHTML='';
+  document.getElementById('sangha-pos-rows').innerHTML='';
+  document.getElementById('special-pos-rows').innerHTML='';
+  document.getElementById('pansa-display').textContent='— กรอกวัน/เดือน/ปีที่อุปสมบท';
+  document.getElementById('edit-id').value='';
+  document.getElementById('save-btn').textContent='บันทึกข้อมูล';
   document.querySelectorAll('#page-add input:not([type=radio]):not([type=checkbox])').forEach(el=>el.value='');
   document.querySelectorAll('#page-add select').forEach(el=>el.selectedIndex=0);
   document.querySelectorAll('#page-add textarea').forEach(el=>el.value='');
   document.querySelectorAll('#page-add input[type=checkbox]').forEach(el=>el.checked=false);
   const ft=document.querySelector('input[name="f-type"]'); if(ft) ft.checked=true;
-  document.getElementById('pansa-display').textContent='— กรอกวันบวชเพื่อคำนวณ';
-  document.getElementById('edit-id').value='';
-  document.getElementById('save-btn').textContent='บันทึกข้อมูล';
-  document.getElementById('pos-list').innerHTML=''; posCount=0; addPosRow();
+  initTempleSelects();
+  document.querySelectorAll('.tp-temple').forEach(el=>{ el.innerHTML=getTempleOptions(); });
 }
 
 async function deleteMonk(id){
@@ -1182,7 +1390,7 @@ function exportJSON(){
 }
 function printReport(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์',true);return;}
-  const rows=monks.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' '+m.chaya:''}${m.lastname?' ('+m.lastname+')':''}</td><td>${m.type||'-'}</td><td>${m.idcard||'-'}</td><td>${m.temple||'-'}</td><td>${m.pansa||'-'}</td><td>${m.nation||'-'}</td><td>${m.status||'-'}</td></tr>`).join('');
+  const rows=monks.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.type||'-'}</td><td>${m.idcard||'-'}</td><td>${m.temple||'-'}</td><td>${m.pansa||'-'}</td><td>${m.nation||'-'}</td><td>${m.status||'-'}</td></tr>`).join('');
   const w=window.open('');
   w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>รายงาน</title><style>body{font-family:'Sarabun',sans-serif;padding:24px}h2{font-size:16px;margin-bottom:4px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #ccc;padding:8px;font-size:12px}th{background:#f5f5f4}</style></head><body><h2>ทะเบียนรายชื่อพระภิกษุ-สามเณร อนัมนิกาย</h2><p style="font-size:12px;color:#666">พิมพ์: ${new Date().toLocaleDateString('th-TH')} | โดย: ${currentUser?currentUser.display:'-'}</p><table><thead><tr><th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตร</th><th>วัด</th><th>พรรษา</th><th>สัญชาติ</th><th>สถานะ</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);
   w.print();
