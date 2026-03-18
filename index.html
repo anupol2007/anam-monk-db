@@ -288,7 +288,7 @@ tr:hover td{background:#f9fafb}
   <div class="login-card">
     <div style="text-align:center;letter-spacing:10px;color:#C8590A;font-size:12px;margin-bottom:8px;opacity:0.8">✦ ✦ ✦</div>
     <div class="login-logo-icon">&#9775;</div>
-    <div class="login-title">ระบบฐานข้อมูลพระ</div>
+    <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:4px">ยินดีต้อนรับ เข้าสู่</div><div class="login-title" style="font-size:20px;line-height:1.4">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
     <div style="text-align:center;font-size:13px;color:#C8590A;font-weight:700;letter-spacing:3px;margin-bottom:8px">อนัมนิกาย</div>
     <div style="display:flex;align-items:center;gap:8px;margin:0 16px 20px"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,89,10,0.3))"></div><span style="color:#C8590A;font-size:12px">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,89,10,0.3))"></div></div>
     <div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div>
@@ -350,6 +350,26 @@ tr:hover td{background:#f9fafb}
     <div class="stat-card"><div class="stat-label">พ้นสังกัดแล้ว</div><div class="stat-value sv-amber" id="stat-leave">—</div></div>
     <div class="stat-card"><div class="stat-label">วัดในระบบ</div><div class="stat-value sv-blue" id="stat-temple">—</div></div>
   </div>
+  <!-- Charts row -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+    <div class="table-wrap" style="padding:16px">
+      <div style="font-size:13px;font-weight:600;color:#5C2A04;margin-bottom:12px">&#9685; แยกตามประเภท</div>
+      <div id="chart-type"></div>
+    </div>
+    <div class="table-wrap" style="padding:16px">
+      <div style="font-size:13px;font-weight:600;color:#5C2A04;margin-bottom:12px">&#9685; แยกตามสัญชาติ</div>
+      <div id="chart-nation"></div>
+    </div>
+    <div class="table-wrap" style="padding:16px">
+      <div style="font-size:13px;font-weight:600;color:#5C2A04;margin-bottom:12px">&#9685; แยกตามสถานะ</div>
+      <div id="chart-status"></div>
+    </div>
+  </div>
+  <!-- Bar chart by temple -->
+  <div class="table-wrap" style="padding:16px;margin-bottom:20px">
+    <div style="font-size:13px;font-weight:600;color:#5C2A04;margin-bottom:12px">&#9685; จำนวนพระแยกตามวัด (Top 10)</div>
+    <div id="chart-temple"></div>
+  </div>
   <div class="table-wrap">
     <div class="table-header"><span>รายชื่อล่าสุด</span><button class="btn btn-sm" onclick="nav('list',document.getElementById('nav-list'))">ดูทั้งหมด</button></div>
     <table><thead><tr><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>วัดสังกัด</th><th>สัญชาติ</th><th>สถานะ</th></tr></thead><tbody id="dash-table"><tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:24px">กำลังโหลด...</td></tr></tbody></table>
@@ -358,6 +378,32 @@ tr:hover td{background:#f9fafb}
 
 <!-- LIST -->
 <div class="page" id="page-list">
+  <!-- Filter bar -->
+  <div style="background:#fff;border:1px solid #f0dfc8;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+    <div style="font-size:13px;font-weight:600;color:#5C2A04;flex-shrink:0">&#9663; กรองข้อมูล</div>
+    <select id="filter-temple" onchange="applyFilters()" style="padding:6px 10px;border:1px solid #f0dfc8;border-radius:7px;font-size:13px;font-family:'Sarabun',sans-serif;color:#374151;flex:1;min-width:180px">
+      <option value="">— สังกัดวัด (ทั้งหมด) —</option>
+    </select>
+    <select id="filter-type" onchange="applyFilters()" style="padding:6px 10px;border:1px solid #f0dfc8;border-radius:7px;font-size:13px;font-family:'Sarabun',sans-serif;color:#374151">
+      <option value="">— ประเภท (ทั้งหมด) —</option>
+      <option value="พระภิกษุ">พระภิกษุ</option>
+      <option value="สามเณร">สามเณร</option>
+    </select>
+    <select id="filter-status" onchange="applyFilters()" style="padding:6px 10px;border:1px solid #f0dfc8;border-radius:7px;font-size:13px;font-family:'Sarabun',sans-serif;color:#374151">
+      <option value="">— สถานะ (ทั้งหมด) —</option>
+      <option value="บวช">กำลังบวช</option>
+      <option value="ลาสิกขา">ลาสิกขา</option>
+      <option value="มรณภาพ">มรณภาพ</option>
+    </select>
+    <select id="filter-pansa" onchange="applyFilters()" style="padding:6px 10px;border:1px solid #f0dfc8;border-radius:7px;font-size:13px;font-family:'Sarabun',sans-serif;color:#374151">
+      <option value="">— พรรษา (ทั้งหมด) —</option>
+      <option value="0-4">0-4 พรรษา</option>
+      <option value="5-9">5-9 พรรษา</option>
+      <option value="10-19">10-19 พรรษา</option>
+      <option value="20+">20+ พรรษา</option>
+    </select>
+    <button class="btn btn-sm" onclick="clearFilters()" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A">&#10005; ล้างตัวกรอง</button>
+  </div>
   <div class="table-wrap">
     <div class="table-header"><span id="list-count">กำลังโหลด...</span></div>
     <div style="overflow-x:auto"><table><thead><tr id="list-head"></tr></thead><tbody id="list-table"></tbody></table></div>
@@ -366,7 +412,7 @@ tr:hover td{background:#f9fafb}
 
 <!-- DETAIL -->
 <div class="page" id="page-detail">
-  <div style="margin-bottom:14px"><button class="btn btn-sm" onclick="nav('list',document.getElementById('nav-list'))">&#8592; กลับ</button></div>
+  <div style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center"><button class="btn btn-sm" onclick="nav('list',document.getElementById('nav-list'))">&#8592; กลับ</button><div id="detail-print-btn"></div></div>
   <div class="detail-wrap" id="detail-content"></div>
 </div>
 
@@ -1157,7 +1203,7 @@ function nav(page, el){
   const titles={dashboard:'ภาพรวมระบบ',list:'รายชื่อพระ/สามเณร',add:'เพิ่มข้อมูล',export:'Export ข้อมูล',detail:'รายละเอียด',users:'จัดการผู้ใช้งาน'};
   document.getElementById('page-title').textContent=titles[page]||'';
   if(page==='dashboard') renderDash();
-  if(page==='list') renderList(filtered);
+  if(page==='list'){renderList(filtered);initFilterTemple();}
   if(page==='users') loadAndRenderUsers();
   if(page==='add'){
     document.getElementById('edit-id').value='';
@@ -1175,6 +1221,45 @@ function renderDash(){
   document.getElementById('dash-table').innerHTML=recent.length
     ?recent.map(m=>`<tr><td>${m.name}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.type||'-'}</td><td>${m.temple||'-'}</td><td>${m.nation||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
     :'<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
+  renderCharts();
+}
+
+function renderCharts(){
+  if(!monks.length) return;
+  const ORANGE='#C8590A'; const GOLD='#E8A24A'; const BROWN='#8B3A06'; const CREAM='#FEF3E8';
+  const colors=['#C8590A','#E8A24A','#8B3A06','#6B2D04','#D4845A','#F0B87A','#A0522D','#CD853F'];
+
+  function barChart(containerId, data, colorArr){
+    const el=document.getElementById(containerId); if(!el) return;
+    const max=Math.max(...data.map(d=>d.v),1);
+    el.innerHTML=data.map((d,i)=>`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="font-size:12px;color:#374151;width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.k}">${d.k}</div>
+        <div style="flex:1;background:#f3f4f6;border-radius:4px;height:20px;overflow:hidden">
+          <div style="height:100%;background:${colorArr[i%colorArr.length]};width:${Math.round(d.v/max*100)}%;border-radius:4px;transition:width .4s;display:flex;align-items:center;justify-content:flex-end;padding-right:6px">
+            <span style="font-size:11px;font-weight:600;color:white">${d.v>0?d.v:''}</span>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#5C2A04;width:32px;text-align:right">${d.v}</div>
+      </div>`).join('');
+  }
+
+  // type chart
+  const byType={};monks.forEach(m=>{const k=m.type||'ไม่ระบุ';byType[k]=(byType[k]||0)+1;});
+  barChart('chart-type',Object.entries(byType).map(([k,v])=>({k,v})),[ORANGE,GOLD,BROWN]);
+
+  // nation chart
+  const byNation={};monks.forEach(m=>{const k=m.nation||'ไม่ระบุ';byNation[k]=(byNation[k]||0)+1;});
+  barChart('chart-nation',Object.entries(byNation).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>({k,v})),colors);
+
+  // status chart
+  const byStatus={};monks.forEach(m=>{const k=m.status||'ไม่ระบุ';byStatus[k]=(byStatus[k]||0)+1;});
+  barChart('chart-status',Object.entries(byStatus).map(([k,v])=>({k,v})),[ORANGE,GOLD,BROWN,'#999']);
+
+  // temple chart top10
+  const byTemple={};monks.forEach(m=>{if(m.temple){byTemple[m.temple]=(byTemple[m.temple]||0)+1;}});
+  const top10=Object.entries(byTemple).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,v])=>({k,v}));
+  barChart('chart-temple',top10,colors);
 }
 
 /* ===== RENDER LIST ===== */
@@ -1206,9 +1291,46 @@ function renderList(data){
 }
 
 function filterMonks(q){
-  filtered=monks.filter(m=>(m.name||'').includes(q)||(m.temple||'').includes(q)||(m.idcard||'').includes(q)||(m.chaya||'').includes(q));
-  if(document.getElementById('page-list').classList.contains('active')) renderList(filtered);
-  else nav('list',document.getElementById('nav-list'));
+  applyFilters(q);
+  if(!document.getElementById('page-list').classList.contains('active'))
+    nav('list',document.getElementById('nav-list'));
+}
+
+function applyFilters(searchQ){
+  const q = searchQ !== undefined ? searchQ : (document.querySelector('.search-box input')?document.querySelector('.search-box input').value:'');
+  const temple = (document.getElementById('filter-temple')||{}).value||'';
+  const type   = (document.getElementById('filter-type')||{}).value||'';
+  const status = (document.getElementById('filter-status')||{}).value||'';
+  const pansa  = (document.getElementById('filter-pansa')||{}).value||'';
+  filtered = monks.filter(m=>{
+    if(q && !((m.name||'').includes(q)||(m.temple||'').includes(q)||(m.idcard||'').includes(q)||(m.chaya||'').includes(q))) return false;
+    if(temple && m.temple !== temple) return false;
+    if(type && m.type !== type) return false;
+    if(status && m.status !== status) return false;
+    if(pansa){
+      const p = parseInt((m.pansa||'0'));
+      if(pansa==='0-4' && !(p>=0&&p<=4)) return false;
+      if(pansa==='5-9' && !(p>=5&&p<=9)) return false;
+      if(pansa==='10-19' && !(p>=10&&p<=19)) return false;
+      if(pansa==='20+' && p<20) return false;
+    }
+    return true;
+  });
+  renderList(filtered);
+}
+
+function clearFilters(){
+  ['filter-temple','filter-type','filter-status','filter-pansa'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const si=document.querySelector('.search-box input'); if(si) si.value='';
+  filtered=[...monks]; renderList(filtered);
+}
+
+function initFilterTemple(){
+  const el=document.getElementById('filter-temple'); if(!el) return;
+  const temples=[...new Set(monks.map(m=>m.temple).filter(Boolean))].sort();
+  el.innerHTML='<option value="">— สังกัดวัด (ทั้งหมด) —</option>'+temples.map(t=>`<option value="${t}">${t}</option>`).join('');
 }
 
 /* ===== DETAIL ===== */
@@ -1274,6 +1396,8 @@ function showDetail(id){
     ${m.note?`<div class="d-section"><div class="d-section-title">หมายเหตุ</div><div style="font-size:13px">${m.note}</div></div>`:''}`;
   }
   document.getElementById('detail-content').innerHTML=html;
+  const pb=document.getElementById('detail-print-btn');
+  if(pb&&!viewer) pb.innerHTML=`<button class="btn btn-sm" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="printMonkDetail(${id})">&#128438; พิมพ์ทะเบียนประวัติ</button>`;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-detail').classList.add('active');
@@ -1660,11 +1784,110 @@ function exportJSON(){
 }
 function printReport(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์',true);return;}
-  const rows=monks.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.type||'-'}</td><td>${m.idcard||'-'}</td><td>${m.temple||'-'}</td><td>${m.pansa||'-'}</td><td>${m.nation||'-'}</td><td>${m.status||'-'}</td></tr>`).join('');
+  printList(filtered);
+}
+
+function printList(data){
+  const rows=data.map((m,i)=>`<tr>
+    <td>${i+1}</td>
+    <td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td>
+    <td>${m.type||'-'}</td>
+    <td>${m.idcard||'-'}</td>
+    <td>${m.temple||'-'}</td>
+    <td>${m.pansa||'-'}</td>
+    <td>${m.nation||'-'}</td>
+    <td><span style="padding:2px 8px;border-radius:10px;font-size:11px;background:${m.status==='บวช'?'#FEF3E8':'#f3f4f6'};color:${m.status==='บวช'?'#8B3A06':'#374151'}">${m.status||'-'}</span></td>
+  </tr>`).join('');
   const w=window.open('');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>รายงาน</title><style>body{font-family:'Sarabun',sans-serif;padding:24px}h2{font-size:16px;margin-bottom:4px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #ccc;padding:8px;font-size:12px}th{background:#f5f5f4}</style></head><body><h2>ทะเบียนรายชื่อพระภิกษุ-สามเณร อนัมนิกาย</h2><p style="font-size:12px;color:#666">พิมพ์: ${new Date().toLocaleDateString('th-TH')} | โดย: ${currentUser?currentUser.display:'-'}</p><table><thead><tr><th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตร</th><th>วัด</th><th>พรรษา</th><th>สัญชาติ</th><th>สถานะ</th></tr></thead><tbody>${rows}</tbody></table></body></html
-`);
-  w.print();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ทะเบียนพระ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Sarabun',sans-serif;padding:28px 32px;color:#1a1a18;font-size:13px}
+    .header{text-align:center;border-bottom:3px double #8B3A06;padding-bottom:14px;margin-bottom:18px}
+    .header h1{font-size:17px;font-weight:700;color:#5C2A04;margin-bottom:4px}
+    .header h2{font-size:14px;font-weight:600;color:#8B3A06;margin-bottom:6px}
+    .meta{font-size:11px;color:#666;display:flex;justify-content:space-between;margin-top:8px}
+    table{width:100%;border-collapse:collapse;margin-top:4px}
+    th{background:#8B3A06;color:white;padding:8px 10px;text-align:left;font-size:12px;font-weight:600}
+    td{padding:7px 10px;border-bottom:1px solid #f0e0d0;font-size:12px;vertical-align:top}
+    tr:nth-child(even) td{background:#FEF9F4}
+    tr:hover td{background:#FEF3E8}
+    .footer{margin-top:20px;text-align:center;font-size:11px;color:#888;border-top:1px solid #ddd;padding-top:10px}
+    @media print{body{padding:16px 20px}.footer{position:fixed;bottom:10px;width:100%}}
+  </style>
+  </head><body>
+  <div class="header">
+    <div style="font-size:22px;margin-bottom:6px">&#9775;</div>
+    <h1>ทะเบียนรายชื่อพระภิกษุ-สามเณร</h1>
+    <h2>คณะสงฆ์อนัมนิกายแห่งประเทศไทย</h2>
+    <div class="meta">
+      <span>จำนวน: <strong>${data.length} รูป</strong></span>
+      <span>พิมพ์วันที่: ${new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'})}</span>
+      <span>โดย: ${currentUser?currentUser.display:'-'}</span>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th style="width:36px">#</th><th>ชื่อ / ฉายา</th><th>ประเภท</th><th>เลขบัตรประชาชน</th><th>วัดสังกัด</th><th>พรรษา</th><th>สัญชาติ</th><th>สถานะ</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div>
+  </body></html>`);
+  w.focus(); setTimeout(()=>w.print(),400);
+}
+
+function printMonkDetail(id){
+  const m=monks.find(x=>x.id===id); if(!m) return;
+  const row=(k,v)=>v?`<tr><td style="width:160px;color:#6b7280;padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6">${k}</td><td style="padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6;font-weight:500">${v}</td></tr>`:'';
+  const w=window.open('');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ทะเบียนประวัติ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
+    body{font-family:'Sarabun',sans-serif;padding:28px 36px;color:#1a1a18;font-size:13px}
+    .header{text-align:center;border-bottom:3px double #8B3A06;padding-bottom:14px;margin-bottom:20px}
+    .header h1{font-size:18px;font-weight:700;color:#5C2A04}
+    .header h2{font-size:22px;font-weight:700;color:#1a1a18;margin:8px 0 4px}
+    .section{margin-bottom:18px}
+    .section-title{background:#8B3A06;color:white;padding:6px 12px;font-size:12px;font-weight:700;border-radius:4px;margin-bottom:0}
+    table{width:100%;border-collapse:collapse;border:1px solid #f0e0d0}
+    .footer{margin-top:24px;display:flex;justify-content:space-around;font-size:12px;border-top:1px solid #ddd;padding-top:16px}
+    .sign-box{text-align:center;width:200px}
+    .sign-line{border-top:1px solid #333;margin:32px auto 6px;width:160px}
+    @media print{body{padding:16px 20px}}
+  </style>
+  </head><body>
+  <div class="header">
+    <div style="font-size:30px;margin-bottom:4px">&#9775;</div>
+    <h1>ทะเบียนประวัติ${m.type||'พระภิกษุ'}</h1>
+    <h2>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</h2>
+    <div style="font-size:12px;color:#8B3A06">วัด${m.temple||'-'} | พรรษา ${m.pansa||'-'} | สถานะ: ${m.status||'-'}</div>
+  </div>
+  <div class="section">
+    <div class="section-title">๑. ประวัติเดิม (ก่อนอุปสมบท)</div>
+    <table>${row('ชื่อจริง-นามสกุล',(m.firstname||'')+(m.lastname?' '+m.lastname:''))}${row('วันเกิด',m.bday)}${row('สัญชาติ',m.nation)}${row('เชื้อชาติ',m.race)}${row('เลขบัตรประชาชน',m.idcard)}${row('ที่อยู่เดิม',[m.addr_full,m.addr_sub,m.addr_dist,m.addr_prov].filter(Boolean).join(' '))}${row('บิดา',m.father_name)}${row('มารดา',m.mother_name)}</table>
+  </div>
+  <div class="section">
+    <div class="section-title">๒. การบรรพชาอุปสมบท</div>
+    <table>${row('วันที่อุปสมบท',m.ord_date)}${row('วัดที่อุปสมบท',m.ord_temple)}${row('ที่อยู่วัด',[m.ord_sub,m.ord_dist,m.ord_prov].filter(Boolean).join(' '))}${row('พระอุปัชฌาย์',m.upa)}${row('วัดสังกัดอุปัชฌาย์',m.upa_temple)}${row('พระกรรมวาจาจารย์',m.kam)}${row('พระอนุสาวนาจารย์',m.anu)}${row('ฉายา',m.chaya)}${row('หนังสือสุทธิเลขที่',m.book_no)}${row('พรรษา',m.pansa)}</table>
+  </div>
+  <div class="section">
+    <div class="section-title">๓. สถานภาพปัจจุบัน</div>
+    <table>${row('วัดสังกัด',m.temple)}${row('ที่อยู่วัด',[m.temple_addr,m.temple_sub,m.temple_dist,m.temple_prov,m.temple_zip].filter(Boolean).join(' '))}${row('ชื่อ (ฉายา) เจ้าอาวาส',m.abbot_chaya)}${row('ตำแหน่ง/สมณศักดิ์',m.rank)}${row('เบอร์มือถือ',m.mobile)}${row('สถานะปัจจุบัน',m.status)}</table>
+  </div>
+  <div class="section">
+    <div class="section-title">๔-๕. วิทยฐานะ</div>
+    <table>${row('วุฒิสูงสุด (สามัญ)',m.edu_rows&&m.edu_rows.length?m.edu_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')
+    }${row('ชั้นนักธรรม',m.dharma_rows&&m.dharma_rows.length?m.dharma_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')
+    }${row('ประโยคบาลี',m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')}</table>
+  </div>
+  ${m.note?`<div class="section"><div class="section-title">หมายเหตุ</div><table>${row('',m.note)}</table></div>`:''}
+  <div class="footer">
+    <div class="sign-box"><div class="sign-line"></div><div>ผู้บันทึกข้อมูล</div><div style="color:#666;margin-top:4px">(${currentUser?currentUser.display:'................'})</div></div>
+    <div class="sign-box"><div class="sign-line"></div><div>เจ้าอาวาส/ผู้รับรอง</div><div style="color:#666;margin-top:4px">(${m.abbot_chaya||'................'})</div></div>
+    <div style="text-align:right;font-size:11px;color:#888">พิมพ์: ${new Date().toLocaleDateString('th-TH')}<br>ระบบฐานข้อมูลพระ อนัมนิกาย</div>
+  </div>
+  </body></html>`);
+  w.focus(); setTimeout(()=>w.print(),400);
 }
 function showStats(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์',true);return;}
