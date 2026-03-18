@@ -1181,7 +1181,7 @@ function getFormData(){
     positions:[]
   };
 }
-function saveMonk(){
+async function saveMonk(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์บันทึกข้อมูล',true);return;}
   const name=gv('f-name'), temple=gv('f-temple');
   if(!name||!temple){toast('กรุณากรอกชื่อและวัดสังกัด',true);return;}
