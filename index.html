@@ -150,6 +150,13 @@ tr:hover td{background:#f9fafb}
 .pansa-box{background:#f0fdf4;border:1px solid #9FE1CB;border-radius:8px;padding:12px 16px;margin-bottom:14px}
 .pansa-label{font-size:12px;color:#0F6E56;font-weight:500;margin-bottom:4px}
 .pansa-val{font-size:20px;font-weight:600;color:#1D9E75}
+
+.tab-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e5e5e3;background:#fff;color:#374151;transition:all .15s;font-family:'Sarabun',sans-serif}
+.tab-btn.active{background:#1D9E75;color:white;border-color:#1D9E75}
+.tab-btn:hover:not(.active){background:#f0fdf4;border-color:#1D9E75;color:#0F6E56}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
 /* toast */
 .toast{position:fixed;bottom:24px;right:24px;background:#1a1a18;color:white;padding:11px 18px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:'Sarabun',sans-serif}
 .toast.show{opacity:1}
@@ -259,13 +266,30 @@ tr:hover td{background:#f9fafb}
 
 <!-- ADD / EDIT FORM -->
 <div class="page" id="page-add">
-  <input type="hidden" id="edit-id" value="">
+<input type="hidden" id="edit-id" value="">
 
-  <!-- ส่วนที่ 1: ประวัติเดิม (ก่อนอุปสมบท) -->
+<!-- Tab navigation -->
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e5e5e3">
+  <button class="tab-btn active" onclick="switchTab(0,this)">1. ประวัติเดิม</button>
+  <button class="tab-btn" onclick="switchTab(1,this)">2. บรรพชา/อุปสมบท</button>
+  <button class="tab-btn" onclick="switchTab(2,this)">3. สถานภาพ</button>
+  <button class="tab-btn" onclick="switchTab(3,this)">4. อุปัชฌาย์</button>
+  <button class="tab-btn" onclick="switchTab(4,this)">5. วิทยฐานะ</button>
+  <button class="tab-btn" onclick="switchTab(5,this)">6. สมณศักดิ์</button>
+  <button class="tab-btn" onclick="switchTab(6,this)">7-13. ตำแหน่ง/อื่นๆ</button>
+</div>
+
+<!-- TAB 0: ประวัติเดิม -->
+<div class="tab-panel active" id="tab-0">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">1</span> ประวัติเดิม (ก่อนอุปสมบท)</div>
     <div class="fg2">
-      <div class="field field-full"><label>ประเภท *</label><div class="radio-group"><label><input type="radio" name="f-type" value="พระภิกษุ" checked> พระภิกษุ</label><label><input type="radio" name="f-type" value="สามเณร"> สามเณร</label></div></div>
+      <div class="field field-full"><label>ประเภท *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="f-type" value="พระภิกษุ" checked> พระภิกษุ</label>
+          <label><input type="radio" name="f-type" value="สามเณร"> สามเณร</label>
+        </div>
+      </div>
       <div class="field"><label>ชื่อจริง *</label><input id="f-firstname" placeholder="ชื่อจริง"></div>
       <div class="field"><label>นามสกุล *</label><input id="f-lastname" placeholder="นามสกุล"></div>
       <div class="field"><label>ชื่อเล่น</label><input id="f-nickname" placeholder="ชื่อเล่น"></div>
@@ -280,72 +304,85 @@ tr:hover td{background:#f9fafb}
         <div class="field"><label>เขต/อำเภอ</label><input id="f-addr-dist" placeholder="เขต/อำเภอ"></div>
         <div class="field"><label>แขวง/ตำบล</label><input id="f-addr-sub" placeholder="แขวง/ตำบล"></div>
         <div class="field"><label>รหัสไปรษณีย์</label><input id="f-addr-zip" placeholder="รหัสไปรษณีย์"></div>
-        <div class="field field-full"><label>ที่อยู่เดิม (บ้านเลขที่ ถนน ซอย)</label><input id="f-addr-full" placeholder="บ้านเลขที่ ถนน ซอย หมู่บ้าน"></div>
+        <div class="field field-full"><label>ที่อยู่ (บ้านเลขที่ ถนน ซอย)</label><input id="f-addr-full" placeholder="บ้านเลขที่ ถนน ซอย"></div>
       </div>
     </div>
-    <div class="subsection"><div class="subsection-title">ข้อมูลบิดา-มารดา</div>
+    <div class="subsection"><div class="subsection-title">บิดา-มารดา</div>
       <div class="fg2">
         <div class="field"><label>ชื่อ-นามสกุล บิดา</label><input id="f-father" placeholder="ชื่อ-นามสกุลบิดา"></div>
         <div class="field"><label>ชื่อ-นามสกุล มารดา</label><input id="f-mother" placeholder="ชื่อ-นามสกุลมารดา"></div>
       </div>
     </div>
   </div>
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px">
+    <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 2: การบรรพชาอุปสมบท -->
+<!-- TAB 1: บรรพชา/อุปสมบท -->
+<div class="tab-panel" id="tab-1">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">2</span> การบรรพชาอุปสมบท</div>
     <div class="subsection"><div class="subsection-title">2.1 บรรพชาสามเณร</div>
       <div class="fg2">
-        <div class="field"><label>วัน/เดือน/ปี ที่บรรพชาสามเณร</label><input id="f-samanera-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-        <div class="field"><label>วัดที่บรรพชาสามเณร</label><select id="f-samanera-temple" onchange="onTempleSelect(this.value,'samanera')"><option value="">-- เลือกวัด --</option></select></div>
-        <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-samanera-addr" placeholder="ที่อยู่วัดที่บรรพชาสามเณร"></div>
+        <div class="field"><label>วัน/เดือน/ปี ที่บรรพชา</label><input id="f-samanera-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+        <div class="field"><label>วัดที่บรรพชา</label><select id="f-samanera-temple" onchange="onTempleSelect(this.value,'samanera')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field field-full"><label>ตำแหน่งที่ตั้งวัด</label><input id="f-samanera-addr" placeholder="ที่อยู่วัด (กรอกอัตโนมัติเมื่อเลือกวัด)"></div>
       </div>
     </div>
     <div class="subsection"><div class="subsection-title">2.2 อุปสมบท</div>
       <div class="fg2">
-        <div class="field"><label>วัน/เดือน/ปี ที่อุปสมบท *</label><input id="f-ord-date" placeholder="วัน/เดือน/ปี พ.ศ." oninput="calcPansaNew()"></div>
+        <div class="field"><label>วัน/เดือน/ปี ที่อุปสมบท *</label><input id="f-ord-date" placeholder="เช่น 14 เมษายน 2568" oninput="calcPansaNew()"></div>
         <div class="field"><label>วัดที่อุปสมบท</label><select id="f-ord-temple" onchange="onTempleSelect(this.value,'ord')"><option value="">-- เลือกวัด --</option></select></div>
-        <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-ord-addr" placeholder="ที่อยู่วัดที่อุปสมบท"></div>
+        <div class="field field-full"><label>ตำแหน่งที่ตั้งวัด</label><input id="f-ord-addr" placeholder="ที่อยู่วัด (กรอกอัตโนมัติ)"></div>
         <div class="field"><label>ฉายา</label><input id="f-chaya" placeholder="ฉายาภาษาบาลี"></div>
       </div>
-      <div class="pansa-box"><div class="pansa-label">พรรษา (คำนวณอัตโนมัติ)</div><div class="pansa-val" id="pansa-display">— กรอกวัน/เดือน/ปีที่อุปสมบท</div></div>
-      <div class="subsection-title" style="margin-top:10px">หนังสือสุทธิ</div>
+      <div class="pansa-box"><div class="pansa-label">พรรษา (คำนวณอัตโนมัติ)</div><div class="pansa-val" id="pansa-display">— กรอกวันอุปสมบทเพื่อคำนวณ</div></div>
+    </div>
+    <div class="subsection"><div class="subsection-title">หนังสือสุทธิ</div>
       <div class="fg3">
-        <div class="field"><label>วัน/เดือน/ปี ที่ออกหนังสือสุทธิ</label><input id="f-book-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-        <div class="field"><label>หนังสือสุทธิเล่มที่</label><input id="f-book-vol" placeholder="เล่มที่"></div>
-        <div class="field"><label>หนังสือสุทธิเลขที่</label><input id="f-book-no" placeholder="เลขที่"></div>
+        <div class="field"><label>วัน/เดือน/ปี ที่ออกสุทธิ</label><input id="f-book-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+        <div class="field"><label>สุทธิเล่มที่</label><input id="f-book-vol" placeholder="เล่มที่"></div>
+        <div class="field"><label>สุทธิเลขที่</label><input id="f-book-no" placeholder="เลขที่"></div>
       </div>
-      <div class="subsection-title" style="margin-top:10px">พระอุปัชฌาย์</div>
+    </div>
+    <div class="subsection"><div class="subsection-title">พระอุปัชฌาย์</div>
       <div class="fg2">
         <div class="field"><label>ชื่อพระอุปัชฌาย์</label><input id="f-upa" placeholder="ชื่อพระอุปัชฌาย์"></div>
-        <div class="field"><label>สังกัดวัดของพระอุปัชฌาย์</label><select id="f-upa-temple" onchange="onTempleSelect(this.value,'upa')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field"><label>สังกัดวัด</label><select id="f-upa-temple" onchange="onTempleSelect(this.value,'upa')"><option value="">-- เลือกวัด --</option></select></div>
       </div>
-      <div class="subsection-title" style="margin-top:10px">พระกรรมวาจาจารย์</div>
+    </div>
+    <div class="subsection"><div class="subsection-title">พระกรรมวาจาจารย์</div>
       <div class="fg2">
-        <div class="field"><label>ชื่อพระกรรมวาจาจารย์</label><input id="f-kam" placeholder="ชื่อพระกรรมวาจาจารย์"></div>
-        <div class="field"><label>วัดที่สังกัดของพระกรรมวาจาจารย์</label><select id="f-kam-temple" onchange="onTempleSelect(this.value,'kam')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field"><label>ชื่อพระกรรมวาจาจารย์</label><input id="f-kam" placeholder="ชื่อ"></div>
+        <div class="field"><label>สังกัดวัด</label><select id="f-kam-temple" onchange="onTempleSelect(this.value,'kam')"><option value="">-- เลือกวัด --</option></select></div>
       </div>
-      <div class="subsection-title" style="margin-top:10px">พระอนุสาวนาจารย์</div>
+    </div>
+    <div class="subsection"><div class="subsection-title">พระอนุสาวนาจารย์</div>
       <div class="fg2">
-        <div class="field"><label>ชื่อพระอนุสาวนาจารย์</label><input id="f-anu" placeholder="ชื่อพระอนุสาวนาจารย์"></div>
-        <div class="field"><label>วัดที่สังกัดของพระอนุสาวนาจารย์</label><select id="f-anu-temple" onchange="onTempleSelect(this.value,'anu')"><option value="">-- เลือกวัด --</option></select></div>
+        <div class="field"><label>ชื่อพระอนุสาวนาจารย์</label><input id="f-anu" placeholder="ชื่อ"></div>
+        <div class="field"><label>สังกัดวัด</label><select id="f-anu-temple" onchange="onTempleSelect(this.value,'anu')"><option value="">-- เลือกวัด --</option></select></div>
       </div>
     </div>
   </div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px">
+    <button class="btn" onclick="switchTab(0,document.querySelectorAll('.tab-btn')[0])">← ก่อนหน้า</button>
+    <button class="btn btn-primary" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 3: สถานภาพปัจจุบัน -->
+<!-- TAB 2: สถานภาพปัจจุบัน -->
+<div class="tab-panel" id="tab-2">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">3</span> สถานภาพปัจจุบัน</div>
     <div class="fg2">
-      <div class="field"><label>สังกัดวัด *</label><select id="f-temple" onchange="onTempleSelect(this.value,'main')"><option value="">-- เลือกวัดสังกัด --</option></select></div>
+      <div class="field"><label>วัดสังกัด *</label><select id="f-temple" onchange="onTempleSelect(this.value,'main')"><option value="">-- เลือกวัดสังกัด --</option></select></div>
       <div class="field"><label>สังกัดนิกาย</label><select id="f-sect"><option>อนัมนิกาย</option><option>จีนนิกาย</option></select></div>
-      <div class="field field-full"><label>ตำแหน่งที่ตั้งของวัด</label><input id="f-temple-addr" placeholder="ที่อยู่วัดสังกัด (กรอกอัตโนมัติเมื่อเลือกวัด)"></div>
+      <div class="field field-full"><label>ตำแหน่งที่ตั้งวัด</label><input id="f-temple-addr" placeholder="กรอกอัตโนมัติเมื่อเลือกวัด"></div>
       <div class="field"><label>เบอร์ติดต่อภายในวัด</label><input id="f-temple-tel" placeholder="เบอร์โทรวัด"></div>
       <div class="field"><label>เบอร์มือถือ</label><input id="f-mobile" placeholder="เบอร์มือถือ"></div>
       <div class="field"><label>ฉายาเจ้าอาวาส</label><input id="f-abbot-chaya" placeholder="ฉายาเจ้าอาวาส"></div>
       <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><input id="f-rank" placeholder="เช่น เจ้าอาวาส"></div>
-    </div>
-    <div class="fg2">
       <div class="field"><label>สถานะปัจจุบัน</label>
         <select id="f-status">
           <option value="บวช">พระภิกษุ (บวชอยู่)</option>
@@ -354,14 +391,20 @@ tr:hover td{background:#f9fafb}
           <option value="ลาสิกขา">ลาสิกขา</option>
         </select>
       </div>
-      <div class="field"><label>วันที่สังกัดวัด / วันที่ลาสิกขา / วันมรณภาพ</label><input id="f-status-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+      <div class="field"><label>วันที่สังกัดวัด / ลาสิกขา / มรณภาพ</label><input id="f-status-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
     </div>
   </div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px">
+    <button class="btn" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">← ก่อนหน้า</button>
+    <button class="btn btn-primary" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 4: ข้อมูลพระอุปัชฌาย์ (ถ้าเคยได้รับการแต่งตั้ง) -->
+<!-- TAB 3: ข้อมูลพระอุปัชฌาย์ -->
+<div class="tab-panel" id="tab-3">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">4</span> ข้อมูลพระอุปัชฌาย์ (ถ้าเคยได้รับการแต่งตั้ง)</div>
-    <div class="fg3">
+    <div class="fg2">
       <div class="field"><label>ปีที่ได้รับแต่งตั้ง พ.ศ.</label><input id="f-upajja-year" type="number" placeholder="พ.ศ."></div>
       <div class="field field-full"><label>ได้รับแต่งตั้งเป็น</label>
         <div class="checkbox-group">
@@ -372,8 +415,14 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px">
+    <button class="btn" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">← ก่อนหน้า</button>
+    <button class="btn btn-primary" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 5: วิทยฐานะ ธรรม/บาลี -->
+<!-- TAB 4: วิทยฐานะ -->
+<div class="tab-panel" id="tab-4">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">5</span> วิทยฐานะทางการศึกษา ธรรม/บาลี</div>
     <div class="subsection"><div class="subsection-title">แผนกธรรม (นักธรรม)</div>
@@ -384,7 +433,7 @@ tr:hover td{background:#f9fafb}
           <div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>
         </div>
       </div>
-      <button class="btn btn-add" onclick="addDharmaRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+      <button class="btn btn-add" onclick="addDharmaRow()">+ เพิ่มแถว</button>
     </div>
     <div class="subsection" style="margin-top:10px"><div class="subsection-title">แผนกบาลี (เปรียญธรรม)</div>
       <div id="pali-rows">
@@ -394,11 +443,9 @@ tr:hover td{background:#f9fafb}
           <div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>
         </div>
       </div>
-      <button class="btn btn-add" onclick="addPaliRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+      <button class="btn btn-add" onclick="addPaliRow()">+ เพิ่มแถว</button>
     </div>
   </div>
-
-  <!-- ส่วนที่ 6: วิทยฐานะ สามัญ -->
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">6</span> วิทยฐานะทางการศึกษาสามัญ</div>
     <div id="edu-rows">
@@ -406,272 +453,112 @@ tr:hover td{background:#f9fafb}
         <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div>
         <div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div>
         <div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div>
-        <div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div>
+        <div class="field"><label>สาขา</label><input class="e-major" placeholder="สาขา"></div>
       </div>
     </div>
-    <button class="btn btn-add" onclick="addEduRow()" style="margin-top:4px">+ เพิ่มแถว</button>
+    <button class="btn btn-add" onclick="addEduRow()">+ เพิ่มแถว</button>
   </div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px">
+    <button class="btn" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">← ก่อนหน้า</button>
+    <button class="btn btn-primary" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 7: สมณศักดิ์ -->
+<!-- TAB 5: สมณศักดิ์ -->
+<div class="tab-panel" id="tab-5">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">7</span> สมณศักดิ์ที่รับพระราชทาน</div>
     <div class="fg2">
-      <div class="field"><label>วัน/เดือน/ปี ที่ได้รับพระราชทาน</label><input id="f-honor-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
+      <div class="field"><label>วัน/เดือน/ปี ที่ได้รับ</label><input id="f-honor-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
       <div class="field"><label>ชั้นสมณศักดิ์</label><input id="f-honor-class" placeholder="ชั้นสมณศักดิ์"></div>
       <div class="field"><label>ราชทินนาม</label><input id="f-honor-name" placeholder="ราชทินนาม"></div>
       <div class="field"><label>ราชทินนาม (เต็ม)</label><input id="f-honor-fullname" placeholder="ราชทินนามเต็ม"></div>
       <div class="field"><label>ลำดับชั้น</label><input id="f-honor-rank" placeholder="ลำดับชั้น"></div>
       <div class="field"><label>พัดยศ</label><input id="f-honor-fan" placeholder="พัดยศ"></div>
-      <div class="field"><label>ฝ่าย</label><div class="radio-group"><label><input type="radio" name="f-honor-side" value="วิปัสสนาธุระ"> วิปัสสนาธุระ</label><label><input type="radio" name="f-honor-side" value="คันถธุระ"> คันถธุระ</label></div></div>
+      <div class="field"><label>ฝ่าย</label>
+        <div class="radio-group">
+          <label><input type="radio" name="f-honor-side" value="วิปัสสนาธุระ"> วิปัสสนาธุระ</label>
+          <label><input type="radio" name="f-honor-side" value="คันถธุระ"> คันถธุระ</label>
+        </div>
+      </div>
     </div>
     <div class="subsection"><div class="subsection-title">พระฐานานุกรม (ถ้ามี)</div>
       <div id="thananu-rows">
         <div class="fg3 thananu-row">
-          <div class="field"><label>รูปที่</label><input class="t-num" placeholder="รูปที่" readonly></div>
+          <div class="field"><label>รูปที่</label><input class="t-num" value="1" readonly></div>
           <div class="field"><label>ราชทินนาม</label><input class="t-name" placeholder="ราชทินนาม"></div>
           <div class="field"><label>ตำแหน่ง</label><input class="t-pos" placeholder="ตำแหน่ง"></div>
         </div>
       </div>
-      <button class="btn btn-add" onclick="addThananuRow()" style="margin-top:4px">+ เพิ่มพระฐานานุกรม</button>
+      <button class="btn btn-add" onclick="addThananuRow()">+ เพิ่มพระฐานานุกรม</button>
     </div>
   </div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px">
+    <button class="btn" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">← ก่อนหน้า</button>
+    <button class="btn btn-primary" onclick="switchTab(6,document.querySelectorAll('.tab-btn')[6])">ถัดไป →</button>
+  </div>
+</div>
 
-  <!-- ส่วนที่ 8: ประวัติฐานานุกรมที่ได้รับ -->
+<!-- TAB 6: ตำแหน่ง/อื่นๆ -->
+<div class="tab-panel" id="tab-6">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">8</span> ประวัติฐานานุกรมที่ได้รับ</div>
-    <div id="thananu-hist-rows">
-      <div class="thananu-hist-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
-        <div class="fg2">
-          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับ</label><input class="th-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field"><label>ตำแหน่งฐานานุกรม</label><input class="th-pos" placeholder="ตำแหน่ง"></div>
-          <div class="field"><label>ราชทินนาม</label><input class="th-name" placeholder="ราชทินนาม"></div>
-          <div class="field"><label>ชั้นฐานานุกรม</label><div class="radio-group"><label><input type="radio" name="th-class-1" value="พระราชาคณะ"> พระราชาคณะ</label><label><input type="radio" name="th-class-1" value="พระสังฆาธิการ"> พระสังฆาธิการ</label><label><input type="radio" name="th-class-1" value="ฐานานุกรมใน"> ฐานานุกรมใน</label></div></div>
-          <div class="field field-full"><label>ชื่อเจ้าของฐานานุกรม</label><input class="th-owner" placeholder="ชื่อเจ้าของฐานานุกรม"></div>
-        </div>
-      </div>
-    </div>
+    <div id="thananu-hist-rows"></div>
     <button class="btn btn-add" onclick="addThananuHistRow()">+ เพิ่มประวัติ</button>
   </div>
-
-  <!-- ส่วนที่ 9: ตำแหน่งการปกครองภายในวัด -->
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">9</span> ตำแหน่งการปกครองภายในวัด</div>
-    <div id="temple-pos-rows">
-      <div class="temple-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
-        <div class="fg2">
-          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="tp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field"><label>วัน/เดือน/ปี สิ้นสุดตำแหน่ง</label><input class="tp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field"><label>ตำแหน่งประจำวัด</label><input class="tp-pos" placeholder="ตำแหน่ง"></div>
-          <div class="field"><label>ลำดับชั้น</label><input class="tp-rank" placeholder="ลำดับชั้น"></div>
-          <div class="field"><label>วัดที่ดำรงตำแหน่ง</label><select class="tp-temple" onchange="onTemplePosSelect(this)"><option value="">-- เลือกวัด --</option></select></div>
-          <div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="tp-status-1" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="tp-status-1" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div>
-        </div>
-      </div>
-    </div>
+    <div id="temple-pos-rows"></div>
     <button class="btn btn-add" onclick="addTemplePosRow()">+ เพิ่มตำแหน่ง</button>
   </div>
-
-  <!-- ส่วนที่ 10: ตำแหน่งการปกครองคณะสงฆ์ -->
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">10</span> ตำแหน่งการปกครองคณะสงฆ์</div>
-    <div id="sangha-pos-rows">
-      <div class="sangha-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
-        <div class="fg2">
-          <div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="sp-start" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field"><label>วัน/เดือน/ปี ที่สิ้นสุดตำแหน่ง</label><input class="sp-end" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field field-full"><label>ตำแหน่งการปกครอง</label><input class="sp-pos" placeholder="ตำแหน่งการปกครอง"></div>
-          <div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="sp-status-1" value="ดำรงตำแหน่งอยู่"> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="sp-status-1" value="ยุติตำแหน่ง"> ยุติตำแหน่ง</label></div></div>
-          <div class="field"><label>หน</label><input class="sp-hon" placeholder="หน"></div>
-          <div class="field"><label>ภาค</label><input class="sp-phak" placeholder="ภาค"></div>
-          <div class="field"><label>จังหวัด</label><input class="sp-prov" placeholder="จังหวัด"></div>
-          <div class="field"><label>อำเภอ/เขต</label><input class="sp-dist" placeholder="อำเภอ/เขต"></div>
-          <div class="field"><label>แขวง/ตำบล</label><input class="sp-sub" placeholder="แขวง/ตำบล"></div>
-        </div>
-      </div>
-    </div>
+    <div id="sangha-pos-rows"></div>
     <button class="btn btn-add" onclick="addSanghaPosRow()">+ เพิ่มตำแหน่ง</button>
   </div>
-
-  <!-- ส่วนที่ 11: ตำแหน่งงานพิเศษ -->
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">11</span> ตำแหน่งงานพิเศษ</div>
-    <div id="special-pos-rows">
-      <div class="special-pos-row" style="background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px">
-        <div class="fg2">
-          <div class="field"><label>วัน/เดือน/ปี ที่มอบหมาย</label><input class="xp-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-          <div class="field"><label>ชื่องาน</label><input class="xp-name" placeholder="ชื่องาน"></div>
-          <div class="field field-full"><label>ตำแหน่งงานพิเศษ</label><input class="xp-pos" placeholder="ตำแหน่งงานพิเศษ"></div>
-          <div class="field field-full"><label>รายละเอียด</label><textarea class="xp-detail" placeholder="รายละเอียด" style="min-height:50px"></textarea></div>
-        </div>
-      </div>
-    </div>
+    <div id="special-pos-rows"></div>
     <button class="btn btn-add" onclick="addSpecialPosRow()">+ เพิ่มตำแหน่ง</button>
   </div>
-
-  <!-- ส่วนที่ 12: งานคณะสงฆ์ 6 ด้าน -->
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">12</span> งานคณะสงฆ์ 6 ด้าน</div>
     <div class="fg2">
       <div class="field"><label>วัน/เดือน/ปี ที่เข้าบริหาร</label><input id="f-sangha6-date" placeholder="วัน/เดือน/ปี พ.ศ."></div>
-      <div class="field"><label>ประเภทงานคณะสงฆ์ 6 ด้าน</label><select id="f-sangha6-type"><option value="">-- เลือก --</option><option>การปกครอง</option><option>การศึกษา</option><option>การเผยแผ่</option><option>การสาธารณูปการ</option><option>การสาธารณสงเคราะห์</option><option>การศึกษาสงเคราะห์</option></select></div>
-      <div class="field field-full"><label>รายละเอียดการบริหารคณะสงฆ์</label><textarea id="f-sangha6-detail" placeholder="รายละเอียด" style="min-height:60px"></textarea></div>
+      <div class="field"><label>ประเภทงาน</label>
+        <select id="f-sangha6-type">
+          <option value="">-- เลือก --</option>
+          <option>การปกครอง</option><option>การศึกษา</option><option>การเผยแผ่</option>
+          <option>การสาธารณูปการ</option><option>การสาธารณสงเคราะห์</option><option>การศึกษาสงเคราะห์</option>
+        </select>
+      </div>
+      <div class="field field-full"><label>รายละเอียด</label><textarea id="f-sangha6-detail" placeholder="รายละเอียด" style="min-height:60px"></textarea></div>
     </div>
   </div>
-
-  <!-- ส่วนที่ 13: ตำแหน่งงานเผยแผ่ -->
   <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">13</span> ตำแหน่งงานเผยแผ่</div>
-    <div class="field"><div class="checkbox-group">
-      <label><input type="checkbox" id="f-mission1"> พระจริยานิเทศ</label>
-      <label><input type="checkbox" id="f-mission2"> พระธรรมทูต</label>
-      <label><input type="checkbox" id="f-mission3"> สำนักปฏิบัติธรรม</label>
-      <label><input type="checkbox" id="f-mission4"> อาจารย์มหาวิทยาลัย</label>
-      <label><input type="checkbox" id="f-mission5"> ครูสอนพระปริยัติธรรม</label>
-    </div></div>
+    <div class="form-section-title"><span class="sec-num">13</span> ตำแหน่งงานเผยแผ่ / หมายเหตุ</div>
+    <div class="field"><label>ตำแหน่งงานเผยแผ่</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="f-mission1"> พระจริยานิเทศ</label>
+        <label><input type="checkbox" id="f-mission2"> พระธรรมทูต</label>
+        <label><input type="checkbox" id="f-mission3"> สำนักปฏิบัติธรรม</label>
+        <label><input type="checkbox" id="f-mission4"> อาจารย์มหาวิทยาลัย</label>
+        <label><input type="checkbox" id="f-mission5"> ครูสอนพระปริยัติธรรม</label>
+      </div>
+    </div>
     <div class="field" style="margin-top:8px"><label>หมายเหตุ</label><textarea id="f-note" placeholder="ข้อมูลเพิ่มเติม..." style="min-height:60px"></textarea></div>
   </div>
-
-  <div class="form-actions">
-    <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
-    <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
-  </div>
-</div>
-  <input type="hidden" id="edit-id" value="">
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">1</span> ข้อมูลพื้นฐาน</div>
-    <div class="fg2">
-      <div class="field field-full"><label>ประเภท *</label><div class="radio-group"><label><input type="radio" name="f-type" value="พระภิกษุ" checked> พระภิกษุ</label><label><input type="radio" name="f-type" value="สามเณร"> สามเณร</label></div></div>
-      <div class="field"><label>นาม/ราชทินนาม *</label><input id="f-name" placeholder="ชื่อ หรือ ราชทินนาม"></div>
-      <div class="field"><label>ฉายา</label><input id="f-chaya" placeholder="ฉายาภาษาบาลี"></div>
-      <div class="field"><label>อายุ (ปี)</label><input id="f-age" type="number" placeholder="อายุ" min="0"></div>
-      <div class="field"><label>เลขประจำตัวประชาชน</label><input id="f-idcard" placeholder="x-xxxx-xxxxx-xx-x" maxlength="17"></div>
+  <div style="display:flex;justify-content:space-between;margin-top:8px;margin-bottom:20px">
+    <button class="btn" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">← ก่อนหน้า</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
+      <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
     </div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">2</span> ข้อมูลส่วนตัว</div>
-    <div class="fg2">
-      <div class="field"><label>ชื่อเดิม</label><input id="f-firstname" placeholder="ชื่อก่อนบวช"></div>
-      <div class="field"><label>นามสกุล</label><input id="f-lastname" placeholder="นามสกุล"></div>
-      <div class="field"><label>วันเกิด (วัน)</label><input id="f-bday" type="number" placeholder="วัน" min="1" max="31"></div>
-      <div class="field"><label>เดือนเกิด</label><select id="f-bmonth"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-      <div class="field"><label>ปีเกิด (พ.ศ.)</label><input id="f-byear" type="number" placeholder="พ.ศ."></div>
-      <div class="field"><label>เชื้อชาติ</label><input id="f-race" placeholder="เชื้อชาติ"></div>
-      <div class="field"><label>สัญชาติ</label><select id="f-nation"><option>ไทย</option><option>เวียดนาม</option><option>จีน</option><option>อื่นๆ</option></select></div>
-      <div class="field"><label>อาชีพเดิม</label><select id="f-career"><option value="">-- เลือก --</option><option>พนักงาน/ลูกจ้าง</option><option>เกษตรกรรม/ประมง</option><option>เจ้าของธุรกิจ</option><option>พนักงานรัฐวิสาหกิจ</option><option>รับราชการ</option><option>อื่นๆ</option></select></div>
-      <div class="field"><label>ความสามารถพิเศษ</label><input id="f-skill" placeholder="ระบุความสามารถพิเศษ"></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">ที่อยู่เดิม</div>
-      <div class="fg4">
-        <div class="field"><label>เลขที่</label><input id="f-addr-no" placeholder="เลขที่"></div>
-        <div class="field"><label>หมู่ที่</label><input id="f-addr-moo" placeholder="หมู่ที่"></div>
-        <div class="field"><label>ตรอก</label><input id="f-addr-trok" placeholder="ตรอก"></div>
-        <div class="field"><label>ซอย</label><input id="f-addr-soi" placeholder="ซอย"></div>
-        <div class="field"><label>ถนน</label><input id="f-addr-road" placeholder="ถนน"></div>
-      </div>
-      <div id="addr-home-widget"></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">ข้อมูลบิดา-มารดา</div>
-      <div class="fg4">
-        <div class="field"><label>ชื่อบิดา</label><input id="f-father-name" placeholder="ชื่อบิดา"></div>
-        <div class="field"><label>นามสกุลบิดา</label><input id="f-father-last" placeholder="นามสกุล"></div>
-        <div class="field"><label>เชื้อชาติบิดา</label><input id="f-father-race" placeholder="เชื้อชาติ"></div>
-        <div class="field"><label>สัญชาติบิดา</label><input id="f-father-nation" placeholder="สัญชาติ"></div>
-        <div class="field"><label>ชื่อมารดา</label><input id="f-mother-name" placeholder="ชื่อมารดา"></div>
-        <div class="field"><label>นามสกุลมารดา</label><input id="f-mother-last" placeholder="นามสกุล"></div>
-        <div class="field"><label>เชื้อชาติมารดา</label><input id="f-mother-race" placeholder="เชื้อชาติ"></div>
-        <div class="field"><label>สัญชาติมารดา</label><input id="f-mother-nation" placeholder="สัญชาติ"></div>
-      </div>
-    </div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">3</span> บรรพชา / อุปสมบท</div>
-    <div class="fg3">
-      <div class="field"><label>วันที่บวช (วัน)</label><input id="f-ord-day" type="number" placeholder="วัน" min="1" max="31" oninput="calcPansa()"></div>
-      <div class="field"><label>เดือนที่บวช</label><select id="f-ord-month" onchange="calcPansa()"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-      <div class="field"><label>ปีที่บวช (พ.ศ.)</label><input id="f-ord-year" type="number" placeholder="พ.ศ." oninput="calcPansa()"></div>
-    </div>
-    <div class="pansa-box"><div class="pansa-label">พรรษา (คำนวณอัตโนมัติ)</div><div class="pansa-val" id="pansa-display">— กรอกวันบวชเพื่อคำนวณ</div></div>
-    <div class="fg3">
-      <div class="field"><label>หนังสือสุทธิเลขที่</label><input id="f-book-no" placeholder="เลขที่หนังสือสุทธิ"></div>
-      <div class="field"><label>ออกให้วันที่</label><input id="f-book-day" type="number" placeholder="วัน"></div>
-      <div class="field"><label>เดือน</label><select id="f-book-month"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-      <div class="field"><label>พ.ศ.</label><input id="f-book-year" type="number" placeholder="พ.ศ."></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">วัดที่บรรพชา/อุปสมบท</div>
-      <div class="fg2"><div class="field"><label>ชื่อวัด</label><input id="f-ord-temple" placeholder="ชื่อวัด"></div></div>
-      <div id="addr-ord-widget"></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">พระอุปัชฌาย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-upa" placeholder="ชื่อพระอุปัชฌาย์"></div><div class="field"><label>สังกัดวัด</label><input id="f-upa-temple" placeholder="วัด"></div></div>
-      <div id="addr-upa-widget"></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">พระกรรมวาจาจารย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-kam" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><input id="f-kam-temple" placeholder="วัด"></div></div>
-      <div id="addr-kam-widget"></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">พระอนุสาวนาจารย์</div>
-      <div class="fg3"><div class="field"><label>ชื่อ</label><input id="f-anu" placeholder="ชื่อ"></div><div class="field"><label>สังกัดวัด</label><input id="f-anu-temple" placeholder="วัด"></div></div>
-      <div id="addr-anu-widget"></div>
-    </div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">4</span> สังกัดวัด (ปัจจุบัน)</div>
-    <div class="fg3">
-      <div class="field"><label>สังกัดวัดนี้เมื่อวัน</label><input id="f-cur-day" type="number" placeholder="วัน"></div>
-      <div class="field"><label>เดือน</label><select id="f-cur-month"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-      <div class="field"><label>พ.ศ.</label><input id="f-cur-year" type="number" placeholder="พ.ศ."></div>
-      <div class="field"><label>ชื่อวัดสังกัด *</label><input id="f-temple" placeholder="ชื่อวัดสังกัดปัจจุบัน"></div>
-      <div class="field"><label>ฉายาเจ้าอาวาส</label><input id="f-abbot-chaya" placeholder="ฉายาเจ้าอาวาส"></div>
-      <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><input id="f-rank" placeholder="เช่น เจ้าอาวาส"></div>
-      <div class="field"><label>สถานะ</label><select id="f-status"><option value="บวช">กำลังบวช</option><option value="พ้นสังกัด">พ้นสังกัด</option></select></div>
-    </div>
-    <div id="addr-temple-widget"></div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">5</span> วุฒิการศึกษา / วิทยฐานะ</div>
-    <div class="fg3">
-      <div class="field"><label>วุฒิสูงสุด (สามัญ)</label><select id="f-edu"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div>
-      <div class="field"><label>สถานศึกษา</label><input id="f-edu-place" placeholder="ชื่อสถานศึกษา"></div>
-      <div class="field"><label>จบปี พ.ศ.</label><input id="f-edu-year" type="number" placeholder="พ.ศ."></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">นักธรรม</div>
-      <div class="fg4"><div class="field"><label>ชั้น</label><select id="f-dharma"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน/วัด</label><input id="f-dharma-place" placeholder="สำนักเรียน"></div><div class="field"><label>จังหวัด</label><input id="f-dharma-prov" placeholder="จังหวัด"></div><div class="field"><label>พ.ศ.</label><input id="f-dharma-year" type="number" placeholder="พ.ศ."></div></div>
-    </div>
-    <div class="subsection"><div class="subsection-title">บาลี</div>
-      <div class="fg4"><div class="field"><label>ประโยค</label><select id="f-pali"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน/วัด</label><input id="f-pali-place" placeholder="สำนักเรียน"></div><div class="field"><label>จังหวัด</label><input id="f-pali-prov" placeholder="จังหวัด"></div><div class="field"><label>พ.ศ.</label><input id="f-pali-year" type="number" placeholder="พ.ศ."></div></div>
-    </div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">6</span> การเผยแผ่พระพุทธศาสนา</div>
-    <div class="fg2">
-      <div class="field"><label>พระธรรมทูต</label><div class="radio-group"><label><input type="radio" name="f-missiontype" value=""> ไม่ได้เป็น</label><label><input type="radio" name="f-missiontype" value="ในประเทศ"> ในประเทศ</label><label><input type="radio" name="f-missiontype" value="ต่างประเทศ"> ต่างประเทศ</label><label><input type="radio" name="f-missiontype" value="ฝ่ายบริหาร"> ฝ่ายบริหาร</label><label><input type="radio" name="f-missiontype" value="ฝ่ายปฏิบัติ"> ฝ่ายปฏิบัติ</label></div></div>
-    </div>
-    <div class="field"><label>บุคลากรทางการศึกษาสงฆ์</label><div class="checkbox-group"><label><input type="checkbox" id="f-edu-monk1"> พระปริยัตินิเทศ</label><label><input type="checkbox" id="f-edu-monk2"> ครูสอนแผนกสามัญ</label><label><input type="checkbox" id="f-edu-monk3"> ครูสอนแผนกธรรม</label><label><input type="checkbox" id="f-edu-monk4"> ครูสอนแผนกบาลี</label><label><input type="checkbox" id="f-edu-monk5"> ครูพระสอนศีลธรรม</label><label><input type="checkbox" id="f-edu-monk6"> อาจารย์มหาวิทยาลัย</label></div></div>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">7</span> ตำแหน่งหน้าที่ทางคณะสงฆ์</div>
-    <div id="pos-list"></div>
-    <button class="btn btn-add" onclick="addPosRow()">+ เพิ่มตำแหน่ง</button>
-  </div>
-  <div class="form-section">
-    <div class="form-section-title"><span class="sec-num">8</span> การพ้นสังกัด</div>
-    <div class="fg3">
-      <div class="field"><label>พ้นสังกัดวันที่</label><input id="f-leave-day" type="number" placeholder="วัน"></div>
-      <div class="field"><label>เดือน</label><select id="f-leave-month"><option value="">-- เลือก --</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-      <div class="field"><label>พ.ศ.</label><input id="f-leave-year" type="number" placeholder="พ.ศ."></div>
-      <div class="field field-full"><label>สาเหตุ</label><div class="radio-group"><label><input type="radio" name="f-leavereason" value="ย้ายวัด"> ย้ายวัด</label><label><input type="radio" name="f-leavereason" value="ลาสิกขาปกติ"> ลาสิกขาปกติ</label><label><input type="radio" name="f-leavereason" value="ให้ลาสิกขา"> ให้ลาสิกขา</label><label><input type="radio" name="f-leavereason" value="ปาราชิก"> ปาราชิก</label><label><input type="radio" name="f-leavereason" value="มรณภาพ"> มรณภาพ</label><label><input type="radio" name="f-leavereason" value="ศึกษาต่อ"> ศึกษาต่อ</label><label><input type="radio" name="f-leavereason" value="อื่นๆ"> อื่นๆ</label></div></div>
-      <div class="field"><label>วัดที่ย้ายไป</label><input id="f-leave-newtemple" placeholder="ชื่อวัดใหม่"></div>
-    </div>
-    <div id="addr-leave-widget"></div>
-    <div class="field" style="margin-top:8px"><label>หมายเหตุ</label><textarea id="f-note" placeholder="ข้อมูลเพิ่มเติม..."></textarea></div>
-  </div>
-  <div class="form-actions">
-    <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
-    <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
   </div>
 </div>
 
-<!-- EXPORT -->
+</div>
+
 <div class="page" id="page-export">
   <div style="margin-bottom:16px;font-size:14px;color:#6b7280">เลือกรูปแบบการ Export</div>
   <div class="export-grid">
@@ -1065,6 +952,16 @@ function calcPansa(){
   y=Math.max(0,y);
   const days=Math.floor((now-ordDate)/86400000);
   disp.textContent=y+' พรรษา ('+days+' วัน)';
+}
+
+
+function switchTab(n, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const panel = document.getElementById('tab-'+n);
+  if(panel) panel.classList.add('active');
+  if(btn) btn.classList.add('active');
+  window.scrollTo(0,0);
 }
 
 /* ===== DYNAMIC ROW HELPERS ===== */
