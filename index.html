@@ -1691,39 +1691,138 @@ async function saveMonk(){
 function fillForm(m){
   const sv=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
   const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||'')+'"]'); if(r) r.checked=true; };
+
+  /* Tab 1 - ประวัติเดิม */
   sr('f-type', m.type||'พระภิกษุ');
-  sv('f-name',m.name); sv('f-chaya',m.chaya); sv('f-age',m.age); sv('f-idcard',m.idcard);
-  sv('f-firstname',m.firstname); sv('f-lastname',m.lastname);
-  sv('f-bday',m.bday); sv('f-bmonth',m.bmonth); sv('f-byear',m.byear);
-  sv('f-race',m.race); sv('f-nation',m.nation||'ไทย'); sv('f-career',m.career||''); sv('f-skill',m.skill);
-  sv('f-addr-no',m.addr_no); sv('f-addr-moo',m.addr_moo); sv('f-addr-soi',m.addr_soi); sv('f-addr-road',m.addr_road);
-  sv('home-sub',m.home_sub); sv('home-dist',m.home_dist); sv('home-prov',m.home_prov); sv('home-zip',m.home_zip);
-  sv('f-father-name',m.father_name); sv('f-father-last',m.father_last);
-  sv('f-mother-name',m.mother_name); sv('f-mother-last',m.mother_last);
-  sv('f-ord-day',m.ord_day); sv('f-ord-month',m.ord_month); sv('f-ord-year',m.ord_year);
-  sv('f-book-no',m.book_no); sv('f-book-day',m.book_day); sv('f-book-month',m.book_month); sv('f-book-year',m.book_year);
-  sv('f-ord-temple',m.ord_temple); sv('ord-sub',m.ord_sub); sv('ord-dist',m.ord_dist); sv('ord-prov',m.ord_prov);
-  sv('f-upa',m.upa); sv('f-upa-temple',m.upa_temple); sv('upa-sub',m.upa_sub); sv('upa-dist',m.upa_dist); sv('upa-prov',m.upa_prov);
-  sv('f-kam',m.kam); sv('f-kam-temple',m.kam_temple);
-  sv('f-anu',m.anu); sv('f-anu-temple',m.anu_temple);
-  sv('f-cur-day',m.cur_day); sv('f-cur-month',m.cur_month); sv('f-cur-year',m.cur_year);
-  sv('f-temple',m.temple); sv('f-abbot-chaya',m.abbot_chaya);
-  sv('temple-sub',m.temple_sub); sv('temple-dist',m.temple_dist); sv('temple-prov',m.temple_prov); sv('temple-zip',m.temple_zip);
-  sv('f-rank',m.rank); sv('f-status',m.status||'บวช');
-  sv('f-edu',m.edu||''); sv('f-edu-place',m.edu_place); sv('f-edu-year',m.edu_year);
-  sv('f-dharma',m.dharma||''); sv('f-dharma-place',m.dharma_place); sv('f-dharma-prov',m.dharma_prov);
-  sv('f-pali',m.pali||''); sv('f-pali-place',m.pali_place); sv('f-pali-prov',m.pali_prov);
-  sv('f-leave-day',m.leave_day); sv('f-leave-month',m.leave_month); sv('f-leave-year',m.leave_year);
-  sv('f-leave-newtemple',m.leave_new_temple); sv('f-note',m.note);
-  if(m.ord_day&&m.ord_month&&m.ord_year) calcPansa();
-  document.getElementById('pos-list').innerHTML=''; posCount=0;
-  (m.positions||[{name:'',year:''}]).forEach(p=>{
-    posCount++;
-    const row=document.createElement('div'); row.className='pos-row'; row.id='pos-row-'+posCount;
-    row.innerHTML=`<div class="field" style="margin:0"><label>ตำแหน่งที่ ${posCount}</label><input id="pos-name-${posCount}" placeholder="ชื่อตำแหน่ง" value="${p.name||''}"></div><div class="field" style="margin:0"><label>ได้รับแต่งตั้ง พ.ศ.</label><input id="pos-year-${posCount}" type="number" placeholder="พ.ศ." value="${p.year||''}"></div><button class="btn-del" onclick="delPosRow(${posCount})">&#215;</button>`;
-    document.getElementById('pos-list').appendChild(row);
-  });
+  sv('f-firstname', m.firstname||m.name);
+  sv('f-lastname', m.lastname);
+  sv('f-nickname', m.nickname);
+  sv('f-idcard', m.idcard);
+  sv('f-nation', m.nation||'ไทย');
+  sv('f-race', m.race);
+  /* วันเกิด */
+  const bdayParts = (m.bday_text||m.bday||'').split(' ');
+  if(bdayParts.length>=3){ sv('f-b-day',bdayParts[0]); sv('f-b-month',bdayParts[1]); sv('f-b-year',bdayParts[2]); }
+  else if(bdayParts.length===1 && bdayParts[0]) sv('f-b-day',bdayParts[0]);
+  /* ที่อยู่เดิม */
+  sv('f-addr-prov', m.addr_prov);
+  sv('f-addr-dist', m.addr_dist);
+  sv('f-addr-sub', m.addr_sub);
+  sv('f-addr-zip', m.addr_zip);
+  sv('f-addr-full', m.addr_full);
+  sv('f-father', m.father_name);
+  sv('f-mother', m.mother_name);
+
+  /* Tab 2 - บรรพชา/อุปสมบท */
+  const samParts = (m.samanera_date||'').split(' ');
+  if(samParts.length>=3){ sv('f-sam-day',samParts[0]); sv('f-sam-month',samParts[1]); sv('f-sam-year',samParts[2]); }
+  sv('f-samanera-temple', m.samanera_temple);
+  sv('f-samanera-addr', m.samanera_addr);
+  sv('f-samanera-sub', m.samanera_sub);
+  sv('f-samanera-dist', m.samanera_dist);
+  sv('f-samanera-prov', m.samanera_prov);
+  const ordParts = (m.ord_date||'').split(' ');
+  if(ordParts.length>=3){ sv('f-ord-day',ordParts[0]); sv('f-ord-month',ordParts[1]); sv('f-ord-year',ordParts[2]); }
+  sv('f-ord-temple', m.ord_temple);
+  sv('f-ord-addr', m.ord_addr);
+  sv('f-ord-sub', m.ord_sub);
+  sv('f-ord-dist', m.ord_dist);
+  sv('f-ord-prov', m.ord_prov);
+  sv('f-chaya', m.chaya);
+  const bookParts = (m.book_date||'').split(' ');
+  if(bookParts.length>=3){ sv('f-book-day',bookParts[0]); sv('f-book-month',bookParts[1]); sv('f-book-year',bookParts[2]); }
+  sv('f-book-no', m.book_no);
+  sv('f-upa', m.upa);
+  sv('f-upa-temple', m.upa_temple);
+  sv('f-upa-addr', m.upa_addr);
+  sv('f-upa-sub', m.upa_sub);
+  sv('f-upa-dist', m.upa_dist);
+  sv('f-upa-prov', m.upa_prov);
+  sv('f-kam', m.kam);
+  sv('f-kam-temple', m.kam_temple);
+  sv('f-kam-addr', m.kam_addr);
+  sv('f-kam-sub', m.kam_sub);
+  sv('f-anu', m.anu);
+  sv('f-anu-temple', m.anu_temple);
+  sv('f-anu-addr', m.anu_addr);
+  sv('f-anu-sub', m.anu_sub);
+
+  /* Tab 3 - สถานภาพ */
+  sv('f-temple', m.temple);
+  sv('f-temple-addr', m.temple_addr);
+  sv('f-temple-sub', m.temple_sub);
+  sv('f-temple-dist', m.temple_dist);
+  sv('f-temple-prov', m.temple_prov);
+  sv('f-temple-zip', m.temple_zip);
+  sv('f-temple-tel', m.temple_tel);
+  sv('f-mobile', m.mobile);
+  sv('f-abbot-chaya', m.abbot_chaya);
+  sv('f-rank', m.rank);
+  sv('f-status', m.status||'บวช');
+  const sdParts = (m.status_date||'').split(' ');
+  if(sdParts.length>=3){ sv('f-sd-day',sdParts[0]); sv('f-sd-month',sdParts[1]); sv('f-sd-year',sdParts[2]); }
+
+  /* Tab 4 - อุปัชฌาย์ */
+  sv('f-upajja-year', m.upajja_year);
+  if(m.upajja_roles){
+    document.getElementById('f-upajja1')&&(document.getElementById('f-upajja1').checked=m.upajja_roles.includes('พระอุปัชฌาย์'));
+    document.getElementById('f-upajja2')&&(document.getElementById('f-upajja2').checked=m.upajja_roles.includes('พระกรรมวาจาจารย์'));
+    document.getElementById('f-upajja3')&&(document.getElementById('f-upajja3').checked=m.upajja_roles.includes('พระอนุสาวนาจารย์'));
+  }
+
+  /* Tab 5 - วิทยฐานะ */
+  const fillRows=(containerId, rows, addFn, fields)=>{
+    const cont=document.getElementById(containerId); if(!cont||!rows||!rows.length) return;
+    cont.innerHTML='';
+    rows.forEach((r,i)=>{ addFn(); const newRow=cont.lastElementChild; if(!newRow) return;
+      fields.forEach(f=>{ const el=newRow.querySelector(f.cls); if(el) el.value=r[f.key]||''; });
+    });
+  };
+  if(m.dharma_rows&&m.dharma_rows.length){ document.getElementById('dharma-rows').innerHTML='';
+    m.dharma_rows.forEach(r=>{ addDharmaRow(); const row=document.getElementById('dharma-rows').lastElementChild;
+      if(row){ const y=row.querySelector('.d-year');const l=row.querySelector('.d-level');const s=row.querySelector('.d-school');
+        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||''; }});
+  }
+  if(m.pali_rows&&m.pali_rows.length){ document.getElementById('pali-rows').innerHTML='';
+    m.pali_rows.forEach(r=>{ addPaliRow(); const row=document.getElementById('pali-rows').lastElementChild;
+      if(row){ const y=row.querySelector('.p-year');const l=row.querySelector('.p-level');const s=row.querySelector('.p-school');
+        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||''; }});
+  }
+  if(m.edu_rows&&m.edu_rows.length){ document.getElementById('edu-rows').innerHTML='';
+    m.edu_rows.forEach(r=>{ addEduRow(); const row=document.getElementById('edu-rows').lastElementChild;
+      if(row){ const y=row.querySelector('.e-year');const l=row.querySelector('.e-level');const s=row.querySelector('.e-school');const mj=row.querySelector('.e-major');
+        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||'';if(mj)mj.value=r.major||''; }});
+  }
+
+  /* Tab 6 - สมณศักดิ์ */
+  sv('f-honor-date', m.honor_date);
+  sv('f-honor-class', m.honor_class);
+  sv('f-honor-name', m.honor_name);
+  sv('f-honor-fullname', m.honor_fullname);
+  sv('f-honor-rank', m.honor_rank);
+  sv('f-honor-fan', m.honor_fan);
+  if(m.honor_side){ const r=document.querySelector('input[name="f-honor-side"][value="'+m.honor_side+'"]'); if(r) r.checked=true; }
+  if(m.thananu_rows&&m.thananu_rows.length){ document.getElementById('thananu-rows').innerHTML=''; thananuCount=0;
+    m.thananu_rows.forEach(r=>{ addThananuRow(); const row=document.getElementById('thananu-rows').lastElementChild;
+      if(row){ const n=row.querySelector('.t-name');const p=row.querySelector('.t-pos');
+        if(n)n.value=r.name||'';if(p)p.value=r.pos||''; }});
+  }
+
+  /* Tab 7 - ตำแหน่ง */
+  sv('f-sangha6-date', m.sangha6_date);
+  sv('f-sangha6-type', m.sangha6_type);
+  sv('f-sangha6-detail', m.sangha6_detail);
+  sv('f-note', m.note);
+  if(m.missions){
+    ['พระจริยานิเทศ','พระธรรมทูต','สำนักปฏิบัติธรรม','อาจารย์มหาวิทยาลัย','ครูสอนพระปริยัติธรรม'].forEach((v,i)=>{
+      const el=document.getElementById('f-mission'+(i+1)); if(el) el.checked=m.missions.includes(v);
+    });
+  }
+
+  /* pansa calc */
+  if(m.ord_date||m.ord_year) calcPansaNew();
 }
+
 
 function editMonk(id){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์แก้ไข',true);return;}
