@@ -1531,13 +1531,23 @@ function calcPansa(){
 
 
 function switchTab(n, btn){
+  // Save ALL select values before switching
+  var saved={};
+  document.querySelectorAll('#page-add select').forEach(function(el){
+    if(el.id) saved[el.id]=el.value;
+  });
+
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   const panel = document.getElementById('tab-'+n);
   if(panel) panel.classList.add('active');
   if(btn) btn.classList.add('active');
   window.scrollTo(0,0);
-  initTempleSelects();
+
+  // Restore ALL select values after switching
+  document.querySelectorAll('#page-add select').forEach(function(el){
+    if(el.id && saved[el.id]!==undefined) el.value=saved[el.id];
+  });
 }
 
 /* ===== DYNAMIC ROW HELPERS ===== */
@@ -1742,8 +1752,8 @@ function clearForm(){
   document.querySelectorAll('#page-add textarea').forEach(el=>el.value='');
   document.querySelectorAll('#page-add input[type=checkbox]').forEach(el=>el.checked=false);
   const ft=document.querySelector('input[name="f-type"]'); if(ft) ft.checked=true;
-  initTempleSelects();
-  document.querySelectorAll('.tp-temple').forEach(el=>{ el.innerHTML=getTempleOptions(); });
+  // temple selects already hardcoded in HTML
+  document.querySelectorAll('.tp-temple').forEach(function(el){ if(el.options.length<=1) el.innerHTML=getTempleOptions(); });
 }
 
 async function deleteMonk(id){
