@@ -509,8 +509,12 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px">
-    <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+    <div></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -746,7 +750,10 @@ tr:hover td{background:#f9fafb}
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:8px">
     <button class="btn" onclick="switchTab(0,document.querySelectorAll('.tab-btn')[0])">← ก่อนหน้า</button>
-    <button class="btn btn-primary" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">ถัดไป →</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -810,7 +817,10 @@ tr:hover td{background:#f9fafb}
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:8px">
     <button class="btn" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">← ก่อนหน้า</button>
-    <button class="btn btn-primary" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">ถัดไป →</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -831,7 +841,10 @@ tr:hover td{background:#f9fafb}
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:8px">
     <button class="btn" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">← ก่อนหน้า</button>
-    <button class="btn btn-primary" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">ถัดไป →</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -874,7 +887,10 @@ tr:hover td{background:#f9fafb}
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:8px">
     <button class="btn" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">← ก่อนหน้า</button>
-    <button class="btn btn-primary" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">ถัดไป →</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -909,7 +925,10 @@ tr:hover td{background:#f9fafb}
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:8px">
     <button class="btn" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">← ก่อนหน้า</button>
-    <button class="btn btn-primary" onclick="switchTab(6,document.querySelectorAll('.tab-btn')[6])">ถัดไป →</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
+      <button class="btn btn-primary" onclick="switchTab(6,document.querySelectorAll('.tab-btn')[6])">ถัดไป →</button>
+    </div>
   </div>
 </div>
 
@@ -1061,7 +1080,7 @@ function initTempleSelects(){
   var opts=getTempleOptions();
   ['f-temple','f-ord-temple','f-samanera-temple','f-upa-temple','f-kam-temple','f-anu-temple'].forEach(function(id){
     var el=document.getElementById(id);
-    if(el&&el.tagName==='SELECT') el.innerHTML=opts;
+    if(el&&el.tagName==='SELECT'&&el.options.length<=1) el.innerHTML=opts;
   });
 }
 
@@ -1602,7 +1621,7 @@ function getFormData(){
   const upajja=['f-upajja1','f-upajja2','f-upajja3'].map((id,i)=>{const el=document.getElementById(id);const labels=['พระอุปัชฌาย์','พระกรรมวาจาจารย์','พระอนุสาวนาจารย์'];return el&&el.checked?labels[i]:'';}).filter(Boolean).join(', ');
   const pansaText=document.getElementById('pansa-display').textContent;
   return {
-    type:gr('f-type'), name:gv('f-firstname'), chaya:gv('f-chaya'),
+    type:gr('f-type'), name:gv('f-firstname')||gv('f-name'), chaya:gv('f-chaya'),
     firstname:gv('f-firstname'), lastname:gv('f-lastname'), nickname:gv('f-nickname'),
     bday:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
     addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
@@ -1634,8 +1653,8 @@ function getFormData(){
 }
 async function saveMonk(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์บันทึกข้อมูล',true);return;}
-  const name=gv('f-name'), temple=gv('f-temple');
-  if(!name||!temple){toast('กรุณากรอกชื่อและวัดสังกัด',true);return;}
+  const name=gv('f-firstname')||gv('f-name');
+  if(!name){toast('กรุณากรอกชื่อจริง (Tab 1) ก่อนบันทึก',true);return;}
   const btn=document.getElementById('save-btn');
   btn.disabled=true; btn.textContent='กำลังบันทึก...';
   showLoading('กำลังบันทึกข้อมูล...');
