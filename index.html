@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ระบบฐานข้อมูลพระ — อนัมนิกาย</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -22,7 +22,7 @@ body{font-family:'Sarabun',sans-serif;background:#FDF5EC;color:#1a1a18}
 .login-btn:disabled{background:#9ca3af;cursor:not-allowed}
 .login-error{color:#dc2626;font-size:13px;text-align:center;margin-top:10px;min-height:20px}
 .main-app{display:none}
-.app{display:flex;height:100vh;background:#fff}
+.app{display:flex;height:100vh;background:#fff;overflow:hidden}
 .sidebar{width:220px;border-right:none;background:linear-gradient(180deg,#2C1204 0%,#5C2A04 100%);padding:16px 0;flex-shrink:0;display:flex;flex-direction:column}
 .sidebar-logo{padding:0 16px 16px;border-bottom:1px solid rgba(255,213,128,0.2);margin-bottom:8px}
 .sidebar-logo-title{font-size:15px;font-weight:700;color:#FFD580;letter-spacing:0.02em}
@@ -169,6 +169,47 @@ tr:hover td{background:#f9fafb}
 .export-title{font-size:14px;font-weight:600;margin-bottom:4px}
 .export-desc{font-size:12px;color:#6b7280}
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600&display=swap');
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width:768px){
+  .app{flex-direction:column;height:auto;min-height:100vh}
+  .sidebar{width:100%;flex-direction:row;flex-wrap:wrap;padding:8px;gap:4px;border-right:none;border-bottom:2px solid rgba(255,213,128,0.2);height:auto}
+  .sidebar-logo{display:none}
+  .nav-item{padding:6px 10px;font-size:12px;border-left:none;border-bottom:2px solid transparent;border-radius:6px}
+  .nav-item.active{border-left:none;border-bottom:2px solid #FFD580}
+  .sidebar-bottom{width:100%;padding:6px 10px;border-top:none;border-left:1px solid rgba(255,213,128,0.2)}
+  .main{overflow:auto}
+  .topbar{padding:10px 14px;flex-wrap:wrap;gap:8px}
+  .search-box{max-width:100%;width:100%;order:3;flex-basis:100%}
+  .content{padding:12px}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .fg2,.fg3,.fg4{grid-template-columns:1fr}
+  .field-full{grid-column:1}
+  .tab-panel .fg2,.tab-panel .fg3,.tab-panel .fg4{grid-template-columns:1fr}
+  .tab-panel .field-full{grid-column:1}
+  div[style*="grid-template-columns:1fr 1fr 1fr"]{display:block!important}
+  div[style*="grid-template-columns:1fr 1fr"]{display:block!important}
+  .d-grid{grid-template-columns:1fr}
+  .export-grid{grid-template-columns:1fr}
+  .login-card{width:92%!important;min-width:unset!important;padding:28px 22px!important}
+  .tab-btn{font-size:11px;padding:5px 10px}
+  table{font-size:12px}
+  th,td{padding:7px 8px}
+  .action-btns{flex-direction:column;gap:4px}
+  .action-btns .btn{font-size:11px;padding:4px 8px}
+  .modal{width:94%!important;margin:0 10px;padding:20px}
+  .stats-grid .stat-card{padding:12px 14px}
+  .stat-value{font-size:22px}
+  #chart-type,#chart-nation,#chart-status{margin-bottom:16px}
+}
+@media (max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .topbar-title{font-size:14px}
+  .sidebar{padding:6px 8px}
+  .nav-item{font-size:11px;padding:5px 8px}
+  .form-section{padding:14px 14px}
+  .login-card{padding:24px 18px!important}
+}
 </style>
 </head>
 <body>
@@ -288,8 +329,8 @@ tr:hover td{background:#f9fafb}
   <div class="login-card">
     <div style="text-align:center;letter-spacing:10px;color:#C8590A;font-size:12px;margin-bottom:8px;opacity:0.8">✦ ✦ ✦</div>
     <div class="login-logo-icon">&#9775;</div>
-    <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:4px">ยินดีต้อนรับ เข้าสู่</div><div class="login-title" style="font-size:20px;line-height:1.4">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
-    <div style="text-align:center;font-size:13px;color:#C8590A;font-weight:700;letter-spacing:3px;margin-bottom:8px">By Anuphon Chanh Tam</div>
+    <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:2px">ยินดีต้อนรับ</div><div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:6px">เข้าสู่ระบบ</div><div class="login-title" style="font-size:20px;line-height:1.5">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
+    
     <div style="display:flex;align-items:center;gap:8px;margin:0 16px 20px"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,89,10,0.3))"></div><span style="color:#C8590A;font-size:12px">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,89,10,0.3))"></div></div>
     <div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div>
     <div class="lf"><label>ชื่อผู้ใช้งาน (ID)</label><input type="text" id="login-id" placeholder="กรอก ID" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"></div>
