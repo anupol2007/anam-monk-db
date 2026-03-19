@@ -1329,7 +1329,7 @@ function renderList(data){
   if(viewer){
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>นามสกุลเดิม</th><th>สังกัดวัด</th><th>เจ้าอาวาส</th><th>อายุ</th><th>พรรษา</th><th>เลขสุทธิ</th><th>วันเกิด</th><th>สถานะ</th>';
     document.getElementById('list-table').innerHTML=data.length
-      ?data.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
+      ?data.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
       :'<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
   } else {
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตรประชาชน</th><th>วัดสังกัด</th><th>พรรษา</th><th>สถานะ</th><th>จัดการ</th>';
@@ -1409,7 +1409,7 @@ function showDetail(id){
     </div>
     <div class="d-section"><div class="d-section-title">ข้อมูลที่แสดงได้</div><div class="d-grid">
       ${dr('ชื่อ/ราชทินนาม',m.name)}${dr('นามสกุลเดิม',m.lastname)}
-      ${dr('ฉายา',m.chaya)}${dr('วันเกิด',[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' '))}
+      ${dr('ฉายา',m.chaya)}${dr('วันเกิด',[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' '))}
       ${dr('สังกัดวัด',m.temple)}${dr('ฉายาเจ้าอาวาส',m.abbot_chaya)}
       ${dr('อายุ',m.age?m.age+' ปี':'')}${dr('พรรษา',m.pansa)}
       ${dr('เลขที่หนังสือสุทธิ',m.book_no)}${dr('สถานะปัจจุบัน',m.status)}
@@ -1430,7 +1430,7 @@ function showDetail(id){
     </div></div>
     <div class="d-section"><div class="d-section-title">ข้อมูลส่วนตัว</div><div class="d-grid">
       ${dr('ชื่อเดิม-นามสกุล',(m.firstname||'')+(m.lastname?' '+m.lastname:''))}
-      ${dr('วันเกิด',[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' '))}
+      ${dr('วันเกิด',[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' '))}
       ${dr('เชื้อชาติ',m.race)}${dr('สัญชาติ',m.nation)}${dr('อาชีพเดิม',m.career)}
       ${dr('ที่อยู่เดิม',[m.addr_no,m.addr_soi,m.addr_road,m.home_sub,m.home_dist,m.home_prov,m.home_zip].filter(Boolean).join(' '))}
     </div></div>
@@ -1633,7 +1633,7 @@ function getFormData(){
   return {
     type:gr('f-type'), name:gv('f-firstname')||gv('f-name'), chaya:gv('f-chaya'),
     firstname:gv('f-firstname'), lastname:gv('f-lastname'), nickname:gv('f-nickname'),
-    bday:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
+    bday_text:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
     addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
     addr_zip:gv('f-addr-zip'), addr_full:gv('f-addr-full'),
     father_name:gv('f-father'), mother_name:gv('f-mother'),
