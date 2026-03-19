@@ -1721,6 +1721,7 @@ function fillForm(m){
   sv('f-samanera-sub', m.samanera_sub);
   sv('f-samanera-dist', m.samanera_dist);
   sv('f-samanera-prov', m.samanera_prov);
+  sv('f-samanera-zip', m.samanera_zip);
   const ordParts = (m.ord_date||'').split(' ');
   if(ordParts.length>=3){ sv('f-ord-day',ordParts[0]); sv('f-ord-month',ordParts[1]); sv('f-ord-year',ordParts[2]); }
   sv('f-ord-temple', m.ord_temple);
@@ -1728,6 +1729,7 @@ function fillForm(m){
   sv('f-ord-sub', m.ord_sub);
   sv('f-ord-dist', m.ord_dist);
   sv('f-ord-prov', m.ord_prov);
+  sv('f-ord-zip', m.ord_zip);
   sv('f-chaya', m.chaya);
   const bookParts = (m.book_date||'').split(' ');
   if(bookParts.length>=3){ sv('f-book-day',bookParts[0]); sv('f-book-month',bookParts[1]); sv('f-book-year',bookParts[2]); }
@@ -1738,14 +1740,21 @@ function fillForm(m){
   sv('f-upa-sub', m.upa_sub);
   sv('f-upa-dist', m.upa_dist);
   sv('f-upa-prov', m.upa_prov);
+  sv('f-upa-zip', m.upa_zip);
   sv('f-kam', m.kam);
   sv('f-kam-temple', m.kam_temple);
   sv('f-kam-addr', m.kam_addr);
   sv('f-kam-sub', m.kam_sub);
+  sv('f-kam-dist', m.kam_dist);
+  sv('f-kam-prov', m.kam_prov);
+  sv('f-kam-zip', m.kam_zip);
   sv('f-anu', m.anu);
   sv('f-anu-temple', m.anu_temple);
   sv('f-anu-addr', m.anu_addr);
   sv('f-anu-sub', m.anu_sub);
+  sv('f-anu-dist', m.anu_dist);
+  sv('f-anu-prov', m.anu_prov);
+  sv('f-anu-zip', m.anu_zip);
 
   /* Tab 3 - สถานภาพ */
   sv('f-temple', m.temple);
