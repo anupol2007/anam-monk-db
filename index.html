@@ -1844,6 +1844,9 @@ function fillForm(m){
     sc('f-mission5', m.missions.includes('ครูสอนพระปริยัติธรรม'));
   }
   sv('f-note', m.note||'');
+  sv('f-sangha6-date', m.sangha6_date||'');
+  sv('f-sangha6-type', m.sangha6_type||'');
+  sv('f-sangha6-detail', m.sangha6_detail||'');
 
   // Restore dharma rows
   const dharmaContainer=document.getElementById('dharma-rows');
@@ -1876,6 +1879,51 @@ function fillForm(m){
       const levels=['ประถมฯ','ม.3','ม.6','ปวช.','ปวส.','ปริญญาตรี','ปริญญาโท','ปริญญาเอก'];
       div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ." value="${r.year||''}"></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option>${levels.map(l=>`<option${r.level===l?' selected':''}>${l}</option>`).join('')}</select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา" value="${r.school||''}"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา" value="${r.major||''}"></div>`;
       eduContainer.appendChild(div);
+    });
+  }
+
+  // Restore thananu_hist_rows (ข้อ 8)
+  const thContainer=document.getElementById('thananu-hist-rows');
+  if(thContainer&&m.thananu_hist_rows&&m.thananu_hist_rows.length){
+    thContainer.innerHTML='';
+    m.thananu_hist_rows.forEach((r,i)=>{
+      const n=i+1; const div=document.createElement('div'); div.className='thananu-hist-row'; div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+      div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับ</label><input class="th-date" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.date||''}"></div><div class="field"><label>ตำแหน่งฐานานุกรม</label><input class="th-pos" placeholder="ตำแหน่ง" value="${r.pos||''}"></div><div class="field"><label>ราชทินนาม</label><input class="th-name" placeholder="ราชทินนาม" value="${r.name||''}"></div><div class="field"><label>ชั้นฐานานุกรม</label><div class="radio-group"><label><input type="radio" name="th-class-${n}" value="พระราชาคณะ"${r.cls==='พระราชาคณะ'?' checked':''}> พระราชาคณะ</label><label><input type="radio" name="th-class-${n}" value="พระสังฆาธิการ"${r.cls==='พระสังฆาธิการ'?' checked':''}> พระสังฆาธิการ</label><label><input type="radio" name="th-class-${n}" value="ฐานานุกรมใน"${r.cls==='ฐานานุกรมใน'?' checked':''}> ฐานานุกรมใน</label></div></div><div class="field field-full"><label>ชื่อเจ้าของฐานานุกรม</label><input class="th-owner" placeholder="ชื่อเจ้าของฐานานุกรม" value="${r.owner||''}"></div></div>`;
+      thContainer.appendChild(div);
+    });
+  }
+
+  // Restore temple_pos_rows (ข้อ 9)
+  const tpContainer=document.getElementById('temple-pos-rows');
+  if(tpContainer&&m.temple_pos_rows&&m.temple_pos_rows.length){
+    tpContainer.innerHTML='';
+    m.temple_pos_rows.forEach((r,i)=>{
+      const n=i+1; const div=document.createElement('div'); div.className='temple-pos-row'; div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+      div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="tp-start" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.start||''}"></div><div class="field"><label>วัน/เดือน/ปี สิ้นสุดตำแหน่ง</label><input class="tp-end" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.end||''}"></div><div class="field"><label>ตำแหน่งประจำวัด</label><input class="tp-pos" placeholder="ตำแหน่ง" value="${r.pos||''}"></div><div class="field"><label>ลำดับชั้น</label><input class="tp-rank" placeholder="ลำดับชั้น" value="${r.rank||''}"></div><div class="field"><label>วัดที่ดำรงตำแหน่ง</label><select class="tp-temple" onchange="onTemplePosSelect(this)">${getTempleOptions()}</select></div><div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="tp-status-${n}" value="ดำรงตำแหน่งอยู่"${r.status==='ดำรงตำแหน่งอยู่'?' checked':''}> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="tp-status-${n}" value="ยุติตำแหน่ง"${r.status==='ยุติตำแหน่ง'?' checked':''}> ยุติตำแหน่ง</label></div></div></div>`;
+      tpContainer.appendChild(div);
+      const sel=div.querySelector('.tp-temple'); if(sel&&r.temple) sel.value=r.temple;
+    });
+  }
+
+  // Restore sangha_pos_rows (ข้อ 10)
+  const spContainer=document.getElementById('sangha-pos-rows');
+  if(spContainer&&m.sangha_pos_rows&&m.sangha_pos_rows.length){
+    spContainer.innerHTML='';
+    m.sangha_pos_rows.forEach((r,i)=>{
+      const n=i+1; const div=document.createElement('div'); div.className='sangha-pos-row'; div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+      div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่ได้รับตำแหน่ง</label><input class="sp-start" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.start||''}"></div><div class="field"><label>วัน/เดือน/ปี ที่สิ้นสุดตำแหน่ง</label><input class="sp-end" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.end||''}"></div><div class="field field-full"><label>ตำแหน่งการปกครอง</label><input class="sp-pos" placeholder="ตำแหน่ง" value="${r.pos||''}"></div><div class="field"><label>สถานะตำแหน่ง</label><div class="radio-group"><label><input type="radio" name="sp-status-${n}" value="ดำรงตำแหน่งอยู่"${r.status==='ดำรงตำแหน่งอยู่'?' checked':''}> ดำรงตำแหน่งอยู่</label><label><input type="radio" name="sp-status-${n}" value="ยุติตำแหน่ง"${r.status==='ยุติตำแหน่ง'?' checked':''}> ยุติตำแหน่ง</label></div></div><div class="field"><label>หน</label><input class="sp-hon" value="${r.hon||''}"></div><div class="field"><label>ภาค</label><input class="sp-phak" value="${r.phak||''}"></div><div class="field"><label>จังหวัด</label><input class="sp-prov" value="${r.prov||''}"></div><div class="field"><label>อำเภอ/เขต</label><input class="sp-dist" value="${r.dist||''}"></div><div class="field"><label>แขวง/ตำบล</label><input class="sp-sub" value="${r.sub||''}"></div></div>`;
+      spContainer.appendChild(div);
+    });
+  }
+
+  // Restore special_pos_rows (ข้อ 11)
+  const xpContainer=document.getElementById('special-pos-rows');
+  if(xpContainer&&m.special_pos_rows&&m.special_pos_rows.length){
+    xpContainer.innerHTML='';
+    m.special_pos_rows.forEach(r=>{
+      const div=document.createElement('div'); div.className='special-pos-row'; div.style.cssText='background:var(--color-background-secondary);border-radius:8px;padding:12px;margin-bottom:10px';
+      div.innerHTML=`<div class="fg2"><div class="field"><label>วัน/เดือน/ปี ที่มอบหมาย</label><input class="xp-date" placeholder="วัน/เดือน/ปี พ.ศ." value="${r.date||''}"></div><div class="field"><label>ชื่องาน</label><input class="xp-name" placeholder="ชื่องาน" value="${r.name||''}"></div><div class="field field-full"><label>ตำแหน่งงานพิเศษ</label><input class="xp-pos" placeholder="ตำแหน่ง" value="${r.pos||''}"></div><div class="field field-full"><label>รายละเอียด</label><textarea class="xp-detail" placeholder="รายละเอียด" style="min-height:50px">${r.detail||''}</textarea></div></div>`;
+      xpContainer.appendChild(div);
     });
   }
 
