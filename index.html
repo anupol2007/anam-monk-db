@@ -1684,12 +1684,12 @@ function fillForm(m){
   sv('f-leave-day',m.leave_day); sv('f-leave-month',m.leave_month); sv('f-leave-year',m.leave_year);
   sv('f-leave-newtemple',m.leave_new_temple); sv('f-note',m.note);
   if(m.ord_day&&m.ord_month&&m.ord_year) calcPansa();
-  document.getElementById('pos-list').innerHTML=''; posCount=0;
+  const posList=document.getElementById('pos-list'); if(posList){posList.innerHTML=''; posCount=0;}
   (m.positions||[{name:'',year:''}]).forEach(p=>{
     posCount++;
     const row=document.createElement('div'); row.className='pos-row'; row.id='pos-row-'+posCount;
     row.innerHTML=`<div class="field" style="margin:0"><label>ตำแหน่งที่ ${posCount}</label><input id="pos-name-${posCount}" placeholder="ชื่อตำแหน่ง" value="${p.name||''}"></div><div class="field" style="margin:0"><label>ได้รับแต่งตั้ง พ.ศ.</label><input id="pos-year-${posCount}" type="number" placeholder="พ.ศ." value="${p.year||''}"></div><button class="btn-del" onclick="delPosRow(${posCount})">&#215;</button>`;
-    document.getElementById('pos-list').appendChild(row);
+    if(document.getElementById('pos-list')) document.getElementById('pos-list').appendChild(row);
   });
 }
 
@@ -1741,12 +1741,15 @@ function clearForm(){
 
 async function deleteMonk(id){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์ลบ',true);return;}
-  const m=monks.find(x=>x.id===id);
+  const m=monks.find(x=>String(x._docId||x.id)===String(id))||window._currentMonk;
+  if(!m){toast('ไม่พบข้อมูล',true);return;}
   if(!confirm('ยืนยันการลบข้อมูล "'+m.name+'"?'))return;
   showLoading('กำลังลบข้อมูล...');
   try {
-    // already handled above
-    monks=monks.filter(m=>m.id!==id); filtered=[...monks];
+    const docId=m._docId||m.id;
+    await fbDelete('monks', String(docId));
+    monks=monks.filter(x=>String(x._docId||x.id)!==String(docId));
+    filtered=[...monks]; saveLocal();
     renderList(filtered); renderDash();
     toast('ลบข้อมูลเรียบร้อยแล้ว');
   } catch(e){ toast('ลบไม่สำเร็จ: '+e.message, true); }
