@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ระบบฐานข้อมูลพระ — อนัมนิกาย</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -22,7 +22,7 @@ body{font-family:'Sarabun',sans-serif;background:#FDF5EC;color:#1a1a18}
 .login-btn:disabled{background:#9ca3af;cursor:not-allowed}
 .login-error{color:#dc2626;font-size:13px;text-align:center;margin-top:10px;min-height:20px}
 .main-app{display:none}
-.app{display:flex;height:100vh;background:#fff;overflow:hidden}
+.app{display:flex;height:100vh;background:#fff}
 .sidebar{width:220px;border-right:none;background:linear-gradient(180deg,#2C1204 0%,#5C2A04 100%);padding:16px 0;flex-shrink:0;display:flex;flex-direction:column}
 .sidebar-logo{padding:0 16px 16px;border-bottom:1px solid rgba(255,213,128,0.2);margin-bottom:8px}
 .sidebar-logo-title{font-size:15px;font-weight:700;color:#FFD580;letter-spacing:0.02em}
@@ -154,7 +154,7 @@ tr:hover td{background:#f9fafb}
 .tab-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e5e5e3;background:#fff;color:#374151;transition:all .15s;font-family:'Sarabun',sans-serif}
 .tab-btn.active{background:#C8590A;color:white;border-color:#C8590A}
 .tab-btn:hover:not(.active){background:#FDF0DC;border-color:#C8590A;color:#8B3A06}
-.tab-panel{display:none}
+.tab-panel{display:block}
 .tab-panel.active{display:block}
 
 /* toast */
@@ -169,48 +169,8 @@ tr:hover td{background:#f9fafb}
 .export-title{font-size:14px;font-weight:600;margin-bottom:4px}
 .export-desc{font-size:12px;color:#6b7280}
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600&display=swap');
-
-/* ===== MOBILE RESPONSIVE ===== */
-@media (max-width:768px){
-  .app{flex-direction:column;height:auto;min-height:100vh}
-  .sidebar{width:100%;flex-direction:row;flex-wrap:wrap;padding:8px;gap:4px;border-right:none;border-bottom:2px solid rgba(255,213,128,0.2);height:auto}
-  .sidebar-logo{display:none}
-  .nav-item{padding:6px 10px;font-size:12px;border-left:none;border-bottom:2px solid transparent;border-radius:6px}
-  .nav-item.active{border-left:none;border-bottom:2px solid #FFD580}
-  .sidebar-bottom{width:100%;padding:6px 10px;border-top:none;border-left:1px solid rgba(255,213,128,0.2)}
-  .main{overflow:auto}
-  .topbar{padding:10px 14px;flex-wrap:wrap;gap:8px}
-  .search-box{max-width:100%;width:100%;order:3;flex-basis:100%}
-  .content{padding:12px}
-  .stats-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .fg2,.fg3,.fg4{grid-template-columns:1fr}
-  .field-full{grid-column:1}
-  .tab-panel .fg2,.tab-panel .fg3,.tab-panel .fg4{grid-template-columns:1fr}
-  .tab-panel .field-full{grid-column:1}
-  div[style*="grid-template-columns:1fr 1fr 1fr"]{display:block!important}
-  div[style*="grid-template-columns:1fr 1fr"]{display:block!important}
-  .d-grid{grid-template-columns:1fr}
-  .export-grid{grid-template-columns:1fr}
-  .login-card{width:92%!important;min-width:unset!important;padding:28px 22px!important}
-  .tab-btn{font-size:11px;padding:5px 10px}
-  table{font-size:12px}
-  th,td{padding:7px 8px}
-  .action-btns{flex-direction:column;gap:4px}
-  .action-btns .btn{font-size:11px;padding:4px 8px}
-  .modal{width:94%!important;margin:0 10px;padding:20px}
-  .stats-grid .stat-card{padding:12px 14px}
-  .stat-value{font-size:22px}
-  #chart-type,#chart-nation,#chart-status{margin-bottom:16px}
-}
-@media (max-width:480px){
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .topbar-title{font-size:14px}
-  .sidebar{padding:6px 8px}
-  .nav-item{font-size:11px;padding:5px 8px}
-  .form-section{padding:14px 14px}
-  .login-card{padding:24px 18px!important}
-}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="app-wrap">
@@ -329,10 +289,10 @@ tr:hover td{background:#f9fafb}
   <div class="login-card">
     <div style="text-align:center;letter-spacing:10px;color:#C8590A;font-size:12px;margin-bottom:8px;opacity:0.8">✦ ✦ ✦</div>
     <div class="login-logo-icon">&#9775;</div>
-    <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:2px">ยินดีต้อนรับ</div><div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:6px">เข้าสู่ระบบ</div><div class="login-title" style="font-size:20px;line-height:1.5">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
-    
+    <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:4px">ยินดีต้อนรับ เข้าสู่</div><div class="login-title" style="font-size:20px;line-height:1.4">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
+    <div style="text-align:center;font-size:13px;color:#C8590A;font-weight:700;letter-spacing:3px;margin-bottom:8px">By Anuphon Chanh Tam</div>
     <div style="display:flex;align-items:center;gap:8px;margin:0 16px 20px"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,89,10,0.3))"></div><span style="color:#C8590A;font-size:12px">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,89,10,0.3))"></div></div>
-    <div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div>
+    <div class="login-sub" style="margin-bottom:4px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div><div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">โดย องปลัดธรรมปัญญาธิวัตร ธีระยุทธ (ทิดเถี่ยนคาย)</div>
     <div class="lf"><label>ชื่อผู้ใช้งาน (ID)</label><input type="text" id="login-id" placeholder="กรอก ID" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="lf"><label>รหัสผ่าน</label><input type="password" id="login-pw" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
@@ -387,8 +347,8 @@ tr:hover td{background:#f9fafb}
 <div class="page active" id="page-dashboard">
   <div class="stats-grid">
     <div class="stat-card"><div class="stat-label">พระ/สามเณรทั้งหมด</div><div class="stat-value sv-green" id="stat-total">—</div></div>
-    <div class="stat-card"><div class="stat-label">กำลังบวช</div><div class="stat-value sv-green" id="stat-active">—</div></div>
-    <div class="stat-card"><div class="stat-label">พ้นสังกัดแล้ว</div><div class="stat-value sv-amber" id="stat-leave">—</div></div>
+    <div class="stat-card"><div class="stat-label">พระภิกษุ</div><div class="stat-value sv-green" id="stat-monk">—</div></div>
+    <div class="stat-card"><div class="stat-label">สามเณร</div><div class="stat-value sv-amber" id="stat-novice">—</div></div>
     <div class="stat-card"><div class="stat-label">วัดในระบบ</div><div class="stat-value sv-blue" id="stat-temple">—</div></div>
   </div>
   <!-- Charts row -->
@@ -461,15 +421,9 @@ tr:hover td{background:#f9fafb}
 <div class="page" id="page-add">
 <input type="hidden" id="edit-id" value="">
 
-<!-- Tab navigation -->
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e5e5e3">
-  <button class="tab-btn active" onclick="switchTab(0,this)">1. ประวัติเดิม</button>
-  <button class="tab-btn" onclick="switchTab(1,this)">2. บรรพชา/อุปสมบท</button>
-  <button class="tab-btn" onclick="switchTab(2,this)">3. สถานภาพ</button>
-  <button class="tab-btn" onclick="switchTab(3,this)">4. อุปัชฌาย์</button>
-  <button class="tab-btn" onclick="switchTab(4,this)">5. วิทยฐานะ</button>
-  <button class="tab-btn" onclick="switchTab(5,this)">6. สมณศักดิ์</button>
-  <button class="tab-btn" onclick="switchTab(6,this)">7-13. ตำแหน่ง/อื่นๆ</button>
+<!-- All sections in one scrollable page -->
+<div style="margin-bottom:16px;padding:10px 14px;background:#FEF3E8;border:1px solid #F5C47A;border-radius:8px;font-size:13px;color:#8B3A06">
+  📋 กรุณากรอกข้อมูลให้ครบถ้วน เลื่อนลงเพื่อดูข้อมูลส่วนต่างๆ (ข้อ 1-13)
 </div>
 
 <!-- TAB 0: ประวัติเดิม -->
@@ -509,17 +463,13 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-    <div></div>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
-    </div>
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px">
+    <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
   </div>
 </div>
 
 <!-- TAB 1: บรรพชา/อุปสมบท -->
-<div class="tab-panel" id="tab-1">
+<div class="tab-panel active" id="tab-1">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">2</span> การบรรพชาอุปสมบท</div>
     <div class="subsection"><div class="subsection-title">2.1 บรรพชาสามเณร</div>
@@ -615,6 +565,7 @@ tr:hover td{background:#f9fafb}
         <div class="field"><label>สุทธิ (วัน)</label><select id="f-book-day" style="width:100%"><option value="">วัน</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select></div>
         <div class="field"><label>สุทธิ (เดือน)</label><select id="f-book-month" style="width:100%"><option value="">เดือน</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
         <div class="field"><label>สุทธิ (ปี พ.ศ.)</label><select id="f-book-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+        <div class="field"><label>สุทธิเล่มที่</label><input id="f-book-vol" placeholder="เล่มที่"></div>
         <div class="field"><label>สุทธิเลขที่</label><input id="f-book-no" placeholder="เลขที่"></div>
       </div>
     </div>
@@ -748,17 +699,11 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px">
-    <button class="btn" onclick="switchTab(0,document.querySelectorAll('.tab-btn')[0])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">ถัดไป →</button>
-    </div>
-  </div>
+
 </div>
 
 <!-- TAB 2: สถานภาพปัจจุบัน -->
-<div class="tab-panel" id="tab-2">
+<div class="tab-panel active" id="tab-2">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">3</span> สถานภาพปัจจุบัน</div>
     <div class="fg2">
@@ -801,7 +746,7 @@ tr:hover td{background:#f9fafb}
       <div class="field"><label>เบอร์ติดต่อภายในวัด</label><input id="f-temple-tel" placeholder="เบอร์โทรวัด"></div>
       <div class="field"><label>เบอร์มือถือ</label><input id="f-mobile" placeholder="เบอร์มือถือ"></div>
       <div class="field"><label>ชื่อ (ฉายา) ของเจ้าอาวาส</label><input id="f-abbot-chaya" placeholder="เช่น พระครูธรรมนาม (ฉายา)"></div>
-      <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><select id="f-rank"><option value="">-- เลือกตำแหน่ง --</option><option>เจ้าอาวาส</option><option>ผู้รักษาการแทนเจ้าอาวาส</option><option>รองเจ้าอาวาส</option><option>ผู้ช่วยเจ้าอาวาส</option></select></div>
+      <div class="field"><label>ตำแหน่ง / สมณศักดิ์</label><input id="f-rank" placeholder="เช่น เจ้าอาวาส"></div>
       <div class="field"><label>สถานะปัจจุบัน</label>
         <select id="f-status">
           <option value="บวช">พระภิกษุ (บวชอยู่)</option>
@@ -815,17 +760,11 @@ tr:hover td{background:#f9fafb}
         <div class="field"><label>วันที่ (ปี พ.ศ.)</label><select id="f-sd-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px">
-    <button class="btn" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">ถัดไป →</button>
-    </div>
-  </div>
+
 </div>
 
 <!-- TAB 3: ข้อมูลพระอุปัชฌาย์ -->
-<div class="tab-panel" id="tab-3">
+<div class="tab-panel active" id="tab-3">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">4</span> ข้อมูลพระอุปัชฌาย์ (ถ้าเคยได้รับการแต่งตั้ง)</div>
     <div class="fg2">
@@ -839,23 +778,17 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px">
-    <button class="btn" onclick="switchTab(2,document.querySelectorAll('.tab-btn')[2])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">ถัดไป →</button>
-    </div>
-  </div>
+
 </div>
 
 <!-- TAB 4: วิทยฐานะ -->
-<div class="tab-panel" id="tab-4">
+<div class="tab-panel active" id="tab-4">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">5</span> วิทยฐานะทางการศึกษา ธรรม/บาลี</div>
     <div class="subsection"><div class="subsection-title">แผนกธรรม (นักธรรม)</div>
       <div id="dharma-rows">
         <div class="fg3 dharma-row">
-          <div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="d-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+          <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ."></div>
           <div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div>
           <div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>
         </div>
@@ -865,7 +798,7 @@ tr:hover td{background:#f9fafb}
     <div class="subsection" style="margin-top:10px"><div class="subsection-title">แผนกบาลี (เปรียญธรรม)</div>
       <div id="pali-rows">
         <div class="fg3 pali-row">
-          <div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="p-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+          <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ."></div>
           <div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div>
           <div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>
         </div>
@@ -877,7 +810,7 @@ tr:hover td{background:#f9fafb}
     <div class="form-section-title"><span class="sec-num">6</span> วิทยฐานะทางการศึกษาสามัญ</div>
     <div id="edu-rows">
       <div class="fg4 edu-row">
-        <div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="e-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+        <div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div>
         <div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div>
         <div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div>
         <div class="field"><label>สาขา</label><input class="e-major" placeholder="สาขา"></div>
@@ -885,17 +818,11 @@ tr:hover td{background:#f9fafb}
     </div>
     <button class="btn btn-add" onclick="addEduRow()">+ เพิ่มแถว</button>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px">
-    <button class="btn" onclick="switchTab(3,document.querySelectorAll('.tab-btn')[3])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">ถัดไป →</button>
-    </div>
-  </div>
+
 </div>
 
 <!-- TAB 5: สมณศักดิ์ -->
-<div class="tab-panel" id="tab-5">
+<div class="tab-panel active" id="tab-5">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">7</span> สมณศักดิ์ที่รับพระราชทาน</div>
     <div class="fg2">
@@ -923,17 +850,11 @@ tr:hover td{background:#f9fafb}
       <button class="btn btn-add" onclick="addThananuRow()">+ เพิ่มพระฐานานุกรม</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px">
-    <button class="btn" onclick="switchTab(4,document.querySelectorAll('.tab-btn')[4])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" style="background:#FEF3E8;color:#8B3A06;border-color:#F5C47A" onclick="saveMonk()">&#128190; บันทึก</button>
-      <button class="btn btn-primary" onclick="switchTab(6,document.querySelectorAll('.tab-btn')[6])">ถัดไป →</button>
-    </div>
-  </div>
+
 </div>
 
 <!-- TAB 6: ตำแหน่ง/อื่นๆ -->
-<div class="tab-panel" id="tab-6">
+<div class="tab-panel active" id="tab-6">
   <div class="form-section">
     <div class="form-section-title"><span class="sec-num">8</span> ประวัติฐานานุกรมที่ได้รับ</div>
     <div id="thananu-hist-rows"></div>
@@ -995,7 +916,7 @@ tr:hover td{background:#f9fafb}
 <div class="page" id="page-export">
   <div style="margin-bottom:16px;font-size:14px;color:#6b7280">เลือกรูปแบบการ Export</div>
   <div class="export-grid">
-    <div class="export-card" onclick="exportCSV()"><div class="export-icon">&#128196;</div><div class="export-title">CSV (Excel)</div><div class="export-desc">เปิดด้วย Excel / Google Sheets ส่งส่วนราชการ</div></div>
+    <div class="export-card" onclick="exportXLSX()"><div class="export-icon">&#128196;</div><div class="export-title">Excel (.xlsx)</div><div class="export-desc">ส่งออกข้อมูลทุกชุด ทุกคอลัมน์ เป็นไฟล์ Excel</div></div>
     <div class="export-card" onclick="exportJSON()"><div class="export-icon">&#128190;</div><div class="export-title">JSON</div><div class="export-desc">สำหรับนักพัฒนาหรือระบบ API</div></div>
     <div class="export-card" onclick="printReport()"><div class="export-icon">&#128438;</div><div class="export-title">พิมพ์รายงาน</div><div class="export-desc">รายชื่อสำหรับเอกสารราชการ</div></div>
     <div class="export-card" onclick="showStats()"><div class="export-icon">&#128202;</div><div class="export-title">สรุปสถิติ</div><div class="export-desc">จำแนกตามวัด สัญชาติ และสถานะ</div></div>
@@ -1080,7 +1001,7 @@ function initTempleSelects(){
   var opts=getTempleOptions();
   ['f-temple','f-ord-temple','f-samanera-temple','f-upa-temple','f-kam-temple','f-anu-temple'].forEach(function(id){
     var el=document.getElementById(id);
-    if(el&&el.tagName==='SELECT'&&el.options.length<=1) el.innerHTML=opts;
+    if(el&&el.tagName==='SELECT') el.innerHTML=opts;
   });
 }
 
@@ -1099,6 +1020,95 @@ function onTempleSelect(val,prefix){
   s(ids[0],t.addr); s(ids[1],t.sub); s(ids[2],t.dist); s(ids[3],t.prov); s(ids[4],t.zip);
 }
 
+
+/* ===== SAMPLE DATA (3 persons for testing) ===== */
+const SAMPLE_MONKS = [
+  {
+    id:9001, type:'พระภิกษุ', name:'พระมหาสมชาย', firstname:'สมชาย', lastname:'วงศ์ทอง', chaya:'ธมฺมปญฺโญ',
+    nickname:'ชาย', bday:'15', bmonth:'มีนาคม', byear:'2510',
+    nation:'ไทย', race:'ไทย', idcard:'1-1001-12345-67-8',
+    addr_prov:'กรุงเทพมหานคร', addr_dist:'สัมพันธวงศ์', addr_sub:'สัมพันธวงศ์', addr_zip:'10100', addr_full:'123 ถนนเยาวราช',
+    father_name:'นายสมพงษ์ วงศ์ทอง', mother_name:'นางสมศรี วงศ์ทอง',
+    samanera_date:'10 เมษายน 2530', samanera_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
+    samanera_addr:'97 ถนนราชวงศ์', samanera_sub:'สัมพันธวงศ์', samanera_dist:'สัมพันธวงศ์', samanera_prov:'กรุงเทพมหานคร',
+    ord_date:'15 กรกฎาคม 2531', ord_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
+    ord_addr:'97 ถนนราชวงศ์', ord_sub:'สัมพันธวงศ์', ord_dist:'สัมพันธวงศ์', ord_prov:'กรุงเทพมหานคร',
+    pansa:'36 พรรษา',
+    book_date:'15 กรกฎาคม 2531', book_vol:'1', book_no:'0012',
+    upa:'พระครูธรรมปัญญาธิวัตร', upa_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
+    kam:'พระอาจารย์สุชาติ', kam_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
+    anu:'พระอาจารย์วิชาญ', anu_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
+    temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)', sect:'อนัมนิกาย',
+    temple_addr:'97 ถนนราชวงศ์', temple_sub:'สัมพันธวงศ์', temple_dist:'สัมพันธวงศ์', temple_prov:'กรุงเทพมหานคร', temple_zip:'10100',
+    temple_tel:'02-221-5678', mobile:'081-234-5678',
+    abbot_chaya:'พระครูธรรมปัญญาธิวัตร (ทิดเถี่ยนคาย)', rank:'พระมหา (ป.ธ.4)',
+    status:'บวช', status_date:'15 กรกฎาคม 2531',
+    upajja_year:'', upajja_roles:'',
+    dharma_rows:[{year:'2533',level:'น.ธ.ตรี',school:'วัดกุศลสมาคร'},{year:'2534',level:'น.ธ.โท',school:'วัดกุศลสมาคร'},{year:'2535',level:'น.ธ.เอก',school:'วัดกุศลสมาคร'}],
+    pali_rows:[{year:'2536',level:'ป.ธ.1-2',school:'วัดกุศลสมาคร'},{year:'2537',level:'ป.ธ.3',school:'วัดกุศลสมาคร'},{year:'2538',level:'ป.ธ.4',school:'วัดกุศลสมาคร'}],
+    edu_rows:[{year:'2528',level:'ม.6',school:'โรงเรียนสวนกุหลาบ',major:'วิทย์-คณิต'}],
+    honor_date:'5 ธันวาคม 2560', honor_class:'พระครูสัญญาบัตร', honor_name:'ธมฺมปญฺโญ', honor_fullname:'พระครูปลัดธมฺมปญฺโญ', honor_rank:'ชั้นโท', honor_fan:'พัดงา', honor_side:'คันถธุระ',
+    sangha6_date:'1 มกราคม 2560', sangha6_type:'การเผยแผ่', sangha6_detail:'งานเผยแผ่พระพุทธศาสนาอนัมนิกาย',
+    missions:'พระธรรมทูต', note:'พระเถระอาวุโส ผู้ทรงคุณวุฒิด้านภาษาเวียดนาม-ไทย',
+    added_by:'Theerayut', added_by_id:'theerayut'
+  },
+  {
+    id:9002, type:'พระภิกษุ', name:'พระอาจารย์เหงียน', firstname:'เหงียน', lastname:'หวาน ถั่นห์', chaya:'ขนฺติธมฺโม',
+    nickname:'เหงียน', bday:'8', bmonth:'สิงหาคม', byear:'2495',
+    nation:'เวียดนาม', race:'เวียดนาม', idcard:'3-1001-98765-43-2',
+    addr_prov:'กรุงเทพมหานคร', addr_dist:'สัมพันธวงศ์', addr_sub:'ตลาดน้อย', addr_zip:'10100', addr_full:'864 ถนนเจริญกรุง',
+    father_name:'นายเหงียน วัน อัน', mother_name:'นางเฝิน ถิ ห่า',
+    samanera_date:'10 มกราคม 2510', samanera_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
+    samanera_addr:'864 ถนนเจริญกรุง', samanera_sub:'ตลาดน้อย', samanera_dist:'สัมพันธวงศ์', samanera_prov:'กรุงเทพมหานคร',
+    ord_date:'20 กรกฎาคม 2516', ord_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
+    ord_addr:'864 ถนนเจริญกรุง', ord_sub:'ตลาดน้อย', ord_dist:'สัมพันธวงศ์', ord_prov:'กรุงเทพมหานคร',
+    pansa:'52 พรรษา',
+    book_date:'20 กรกฎาคม 2516', book_vol:'2', book_no:'0034',
+    upa:'พระครูสมณานัมกิจ', upa_temple:'วัดสมณานัมบริหาร (กั๋นเพื๊อกตื่อ)',
+    kam:'พระอาจารย์โง กวาง ลิง', kam_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
+    anu:'พระอาจารย์เจิน ดิงห์ ฟอง', anu_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
+    temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)', sect:'อนัมนิกาย',
+    temple_addr:'864 ถนนเจริญกรุง', temple_sub:'ตลาดน้อย', temple_dist:'สัมพันธวงศ์', temple_prov:'กรุงเทพมหานคร', temple_zip:'10100',
+    temple_tel:'02-226-7890', mobile:'089-876-5432',
+    abbot_chaya:'พระครูสังฆาธิการอนัม (เหงียน)', rank:'พระครูสัญญาบัตรชั้นโท',
+    status:'บวช', status_date:'20 กรกฎาคม 2516',
+    upajja_year:'2550', upajja_roles:'พระอุปัชฌาย์',
+    dharma_rows:[{year:'2517',level:'น.ธ.ตรี',school:'วัดอุภัยราชบำรุง'},{year:'2518',level:'น.ธ.โท',school:'วัดอุภัยราชบำรุง'},{year:'2520',level:'น.ธ.เอก',school:'วัดอุภัยราชบำรุง'}],
+    pali_rows:[{year:'2521',level:'ป.ธ.1-2',school:'วัดสมณานัมบริหาร'},{year:'2522',level:'ป.ธ.3',school:'วัดสมณานัมบริหาร'}],
+    edu_rows:[{year:'2513',level:'ม.3',school:'โรงเรียนยานนาวา',major:'-'}],
+    honor_date:'5 ธันวาคม 2545', honor_class:'พระราชาคณะ', honor_name:'ขนฺติธมฺโม', honor_fullname:'พระครูขนฺติธมฺโม', honor_rank:'ชั้นเอก', honor_fan:'พัดแฉกทรงพุ่มข้าวบิณฑ์', honor_side:'คันถธุระ',
+    temple_pos_rows:[{start:'1 มกราคม 2550',end:'',pos:'รองเจ้าอาวาส',rank:'ชั้น 1',temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',status:'ดำรงตำแหน่งอยู่'}],
+    sangha6_date:'1 มกราคม 2550', sangha6_type:'การปกครอง', sangha6_detail:'รองเจ้าคณะใหญ่อนัมนิกาย ฝ่ายการปกครอง',
+    missions:'พระจริยานิเทศ, พระธรรมทูต', note:'พระเถระอาวุโส เชี่ยวชาญภาษาเวียดนาม จีน ไทย',
+    added_by:'Anuphon', added_by_id:'anuphon'
+  },
+  {
+    id:9003, type:'สามเณร', name:'สามเณรธีรพงษ์', firstname:'ธีรพงษ์', lastname:'ศรีสวัสดิ์', chaya:'',
+    nickname:'เติ้ล', bday:'22', bmonth:'พฤศจิกายน', byear:'2549',
+    nation:'ไทย', race:'ไทย', idcard:'1-1002-34567-89-0',
+    addr_prov:'นครปฐม', addr_dist:'สามพราน', addr_sub:'บางช้าง', addr_zip:'73110', addr_full:'15 หมู่ 3 บางช้าง',
+    father_name:'นายวิชัย ศรีสวัสดิ์', mother_name:'นางนภา ศรีสวัสดิ์',
+    samanera_date:'15 มิถุนายน 2566', samanera_temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)',
+    samanera_addr:'108/8 หมู่ 8', samanera_sub:'บางช้าง', samanera_dist:'สามพราน', samanera_prov:'นครปฐม',
+    ord_date:'', ord_temple:'', ord_addr:'', ord_sub:'', ord_dist:'', ord_prov:'',
+    pansa:'1 พรรษา (นับแต่บรรพชา)',
+    book_date:'15 มิถุนายน 2566', book_vol:'5', book_no:'0089',
+    upa:'พระครูธรรมปัญญา', upa_temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)',
+    kam:'', kam_temple:'', anu:'', anu_temple:'',
+    temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)', sect:'อนัมนิกาย',
+    temple_addr:'108/8 หมู่ 8', temple_sub:'บางช้าง', temple_dist:'สามพราน', temple_prov:'นครปฐม', temple_zip:'73110',
+    temple_tel:'034-222-333', mobile:'',
+    abbot_chaya:'พระครูธรรมปัญญา', rank:'สามเณร',
+    status:'บวช', status_date:'15 มิถุนายน 2566',
+    upajja_year:'', upajja_roles:'',
+    dharma_rows:[], pali_rows:[],
+    edu_rows:[{year:'2565',level:'ม.3',school:'โรงเรียนสามพราน',major:'-'}],
+    sangha6_date:'', sangha6_type:'', sangha6_detail:'',
+    missions:'', note:'สามเณรในโครงการบรรพชาสามเณรภาคฤดูร้อน วัดธรรมปัญญาราม',
+    added_by:'Admin', added_by_id:'admin'
+  }
+];
+
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL = 'https://zyrdihxkpmkbasuiajsd.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_aDbfNHb_77C2xAlhwxTcig_DgJLJK7e';
@@ -1112,7 +1122,37 @@ const HEADERS = {
 const LOCAL_USERS = {
   'anuphon':   {password:'133620',  display:'Anuphon',   role:'editor'},
   'theerayut': {password:'thee2516',display:'Theerayut', role:'editor'},
-  'admin':     {password:'0000',    display:'Admin',     role:'editor'}
+  'admin':     {password:'0000',    display:'Admin',     role:'editor'},
+  '0001': {password:'2824', display:'User 0001', role:'editor'},
+  '0002': {password:'1409', display:'User 0002', role:'editor'},
+  '0003': {password:'5506', display:'User 0003', role:'editor'},
+  '0004': {password:'5012', display:'User 0004', role:'editor'},
+  '0005': {password:'4657', display:'User 0005', role:'editor'},
+  '0006': {password:'3286', display:'User 0006', role:'editor'},
+  '0007': {password:'2679', display:'User 0007', role:'editor'},
+  '0008': {password:'9935', display:'User 0008', role:'editor'},
+  '0009': {password:'2424', display:'User 0009', role:'editor'},
+  '0010': {password:'7912', display:'User 0010', role:'editor'},
+  '0011': {password:'1520', display:'User 0011', role:'editor'},
+  '0012': {password:'1488', display:'User 0012', role:'editor'},
+  '0013': {password:'2535', display:'User 0013', role:'editor'},
+  '0014': {password:'4582', display:'User 0014', role:'editor'},
+  '0015': {password:'4811', display:'User 0015', role:'editor'},
+  '0016': {password:'9279', display:'User 0016', role:'editor'},
+  '0017': {password:'1434', display:'User 0017', role:'editor'},
+  '0018': {password:'4257', display:'User 0018', role:'editor'},
+  '0019': {password:'9928', display:'User 0019', role:'editor'},
+  '0020': {password:'7873', display:'User 0020', role:'editor'},
+  '0021': {password:'4611', display:'User 0021', role:'editor'},
+  '0022': {password:'8359', display:'User 0022', role:'editor'},
+  '0023': {password:'5557', display:'User 0023', role:'editor'},
+  '0024': {password:'1106', display:'User 0024', role:'editor'},
+  '0025': {password:'3615', display:'User 0025', role:'editor'},
+  '0026': {password:'7924', display:'User 0026', role:'editor'},
+  '0027': {password:'6574', display:'User 0027', role:'editor'},
+  '0028': {password:'5552', display:'User 0028', role:'editor'},
+  '0029': {password:'3547', display:'User 0029', role:'editor'},
+  '0030': {password:'4527', display:'User 0030', role:'editor'}
 };
 
 
@@ -1242,12 +1282,20 @@ function updateUIForRole(){
 /* ===== LOAD DATA ===== */
 async function loadMonks(){
   showLoading('กำลังโหลดข้อมูลพระ...');
+  // Always start with sample monks
+  monks = [...SAMPLE_MONKS];
   try {
-    monks = await sbGet('monks','select=*&order=id.asc');
-    filtered = [...monks];
-    renderDash();
-  } catch(e){ toast('โหลดข้อมูลไม่สำเร็จ: '+e.message, true); }
-  finally { hideLoading(); }
+    const dbMonks = await sbGet('monks','select=*&order=id.asc');
+    // Add DB monks that are not already in sample list
+    dbMonks.forEach(dm=>{
+      if(!monks.find(m=>String(m.id)===String(dm.id))) monks.push(dm);
+    });
+  } catch(e){ 
+    // Supabase unreachable — sample data already loaded above
+  }
+  filtered = [...monks];
+  renderDash();
+  hideLoading();
 }
 
 /* ===== NAV ===== */
@@ -1273,8 +1321,8 @@ function nav(page, el){
 /* ===== RENDER DASHBOARD ===== */
 function renderDash(){
   document.getElementById('stat-total').textContent=monks.length;
-  document.getElementById('stat-active').textContent=monks.filter(m=>m.status==='บวช').length;
-  document.getElementById('stat-leave').textContent=monks.filter(m=>m.status!=='บวช').length;
+  document.getElementById('stat-monk').textContent=monks.filter(m=>m.type==='พระภิกษุ'||!m.type).length;
+  document.getElementById('stat-novice').textContent=monks.filter(m=>m.type==='สามเณร').length;
   document.getElementById('stat-temple').textContent=[...new Set(monks.map(m=>m.temple).filter(Boolean))].length;
   const recent=monks.slice(-5).reverse();
   document.getElementById('dash-table').innerHTML=recent.length
@@ -1329,7 +1377,7 @@ function renderList(data){
   if(viewer){
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>นามสกุลเดิม</th><th>สังกัดวัด</th><th>เจ้าอาวาส</th><th>อายุ</th><th>พรรษา</th><th>เลขสุทธิ</th><th>วันเกิด</th><th>สถานะ</th>';
     document.getElementById('list-table').innerHTML=data.length
-      ?data.map((m,i)=>`<tr><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
+      ?data.map((m,i)=>`<tr onclick="showDetail(${m.id})" style="cursor:pointer"><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
       :'<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
   } else {
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตรประชาชน</th><th>วัดสังกัด</th><th>พรรษา</th><th>สถานะ</th><th>จัดการ</th>';
@@ -1409,10 +1457,13 @@ function showDetail(id){
     </div>
     <div class="d-section"><div class="d-section-title">ข้อมูลที่แสดงได้</div><div class="d-grid">
       ${dr('ชื่อ/ราชทินนาม',m.name)}${dr('นามสกุลเดิม',m.lastname)}
-      ${dr('ฉายา',m.chaya)}${dr('วันเกิด',[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' '))}
+      ${dr('ฉายา',m.chaya)}${dr('วันเกิด',[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' '))}
       ${dr('สังกัดวัด',m.temple)}${dr('ฉายาเจ้าอาวาส',m.abbot_chaya)}
       ${dr('อายุ',m.age?m.age+' ปี':'')}${dr('พรรษา',m.pansa)}
       ${dr('เลขที่หนังสือสุทธิ',m.book_no)}${dr('สถานะปัจจุบัน',m.status)}
+    </div></div>
+    <div class="d-section"><div class="d-section-title">ข้อมูลการบันทึก</div><div class="d-grid">
+      <div class="d-row"><div class="d-key">ผู้เพิ่มข้อมูล</div><div class="d-val">${m.added_by||m.added_by_id||'ไม่ระบุ'}</div></div>
     </div></div>`;
   } else {
     const pos=(m.positions||[]).map((p,i)=>dr('ตำแหน่งที่'+(i+1),p.name+(p.year?' (พ.ศ.'+p.year+')':''))).join('');
@@ -1430,7 +1481,7 @@ function showDetail(id){
     </div></div>
     <div class="d-section"><div class="d-section-title">ข้อมูลส่วนตัว</div><div class="d-grid">
       ${dr('ชื่อเดิม-นามสกุล',(m.firstname||'')+(m.lastname?' '+m.lastname:''))}
-      ${dr('วันเกิด',[m.bday_text||[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')].filter(Boolean).join(' '))}
+      ${dr('วันเกิด',[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' '))}
       ${dr('เชื้อชาติ',m.race)}${dr('สัญชาติ',m.nation)}${dr('อาชีพเดิม',m.career)}
       ${dr('ที่อยู่เดิม',[m.addr_no,m.addr_soi,m.addr_road,m.home_sub,m.home_dist,m.home_prov,m.home_zip].filter(Boolean).join(' '))}
     </div></div>
@@ -1452,7 +1503,11 @@ function showDetail(id){
       ${dr('วันที่พ้น',[m.leave_day,m.leave_month,m.leave_year?'พ.ศ.'+m.leave_year:''].filter(Boolean).join(' '))}
       ${dr('สาเหตุ',m.leave_reason)}${dr('วัดที่ย้ายไป',m.leave_new_temple)}
     </div></div>`:''}
-    ${m.note?`<div class="d-section"><div class="d-section-title">หมายเหตุ</div><div style="font-size:13px">${m.note}</div></div>`:''}`;
+    ${m.note?`<div class="d-section"><div class="d-section-title">หมายเหตุ</div><div style="font-size:13px">${m.note}</div></div>`:''}
+    <div class="d-section"><div class="d-section-title">ข้อมูลการบันทึก</div><div class="d-grid">
+      <div class="d-row"><div class="d-key">ผู้เพิ่มข้อมูล (User)</div><div class="d-val" style="color:#8B3A06;font-weight:600">${m.added_by||m.added_by_id||'ไม่ระบุ'}</div></div>
+      <div class="d-row"><div class="d-key">รหัส User</div><div class="d-val">${m.added_by_id||'-'}</div></div>
+    </div></div>`;
   }
   document.getElementById('detail-content').innerHTML=html;
   const pb=document.getElementById('detail-print-btn');
@@ -1531,40 +1586,27 @@ function calcPansa(){
 
 
 function switchTab(n, btn){
-  // Save ALL select values before switching
-  var saved={};
-  document.querySelectorAll('#page-add select').forEach(function(el){
-    if(el.id) saved[el.id]=el.value;
-  });
-
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  // All tabs visible, just scroll to section
   const panel = document.getElementById('tab-'+n);
-  if(panel) panel.classList.add('active');
-  if(btn) btn.classList.add('active');
-  window.scrollTo(0,0);
-
-  // Restore ALL select values after switching
-  document.querySelectorAll('#page-add select').forEach(function(el){
-    if(el.id && saved[el.id]!==undefined) el.value=saved[el.id];
-  });
+  if(panel) panel.scrollIntoView({behavior:'smooth', block:'start'});
+  initTempleSelects();
 }
 
 /* ===== DYNAMIC ROW HELPERS ===== */
 let thananuCount = 1;
 function addDharmaRow(){
   const div=document.createElement('div');div.className='fg3 dharma-row';
-  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="d-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div><div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>`;
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option>น.ธ.ตรี</option><option>น.ธ.โท</option><option>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด"></div>`;
   document.getElementById('dharma-rows').appendChild(div);
 }
 function addPaliRow(){
   const div=document.createElement('div');div.className='fg3 pali-row';
-  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="p-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div><div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>`;
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option>ป.ธ.1-2</option><option>ป.ธ.3</option><option>ป.ธ.4</option><option>ป.ธ.5</option><option>ป.ธ.6</option><option>ป.ธ.7</option><option>ป.ธ.8</option><option>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด"></div>`;
   document.getElementById('pali-rows').appendChild(div);
 }
 function addEduRow(){
   const div=document.createElement('div');div.className='fg4 edu-row';
-  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><select class="e-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div>`;
+  div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ."></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option><option>ประถมฯ</option><option>ม.3</option><option>ม.6</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>ปริญญาโท</option><option>ปริญญาเอก</option></select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา"></div>`;
   document.getElementById('edu-rows').appendChild(div);
 }
 function addThananuRow(){
@@ -1631,22 +1673,19 @@ function getFormData(){
   const upajja=['f-upajja1','f-upajja2','f-upajja3'].map((id,i)=>{const el=document.getElementById(id);const labels=['พระอุปัชฌาย์','พระกรรมวาจาจารย์','พระอนุสาวนาจารย์'];return el&&el.checked?labels[i]:'';}).filter(Boolean).join(', ');
   const pansaText=document.getElementById('pansa-display').textContent;
   return {
-    type:gr('f-type'), name:gv('f-firstname')||gv('f-name'), chaya:gv('f-chaya'),
+    type:gr('f-type'), name:gv('f-firstname'), chaya:gv('f-chaya'),
     firstname:gv('f-firstname'), lastname:gv('f-lastname'), nickname:gv('f-nickname'),
-    bday_text:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
+    bday:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
     addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
     addr_zip:gv('f-addr-zip'), addr_full:gv('f-addr-full'),
     father_name:gv('f-father'), mother_name:gv('f-mother'),
-    samanera_date:[document.getElementById('f-sam-day')&&document.getElementById('f-sam-day').value,document.getElementById('f-sam-month')&&document.getElementById('f-sam-month').value,document.getElementById('f-sam-year')&&document.getElementById('f-sam-year').value].filter(Boolean).join(' '), samanera_temple:gv('f-samanera-temple'), samanera_addr:gv('f-samanera-addr'),samanera_sub:gv('f-samanera-sub'),samanera_dist:gv('f-samanera-dist'),samanera_prov:gv('f-samanera-prov'),samanera_zip:gv('f-samanera-zip'),
-    ord_date:[document.getElementById('f-ord-day')&&document.getElementById('f-ord-day').value,document.getElementById('f-ord-month')&&document.getElementById('f-ord-month').value,document.getElementById('f-ord-year')&&document.getElementById('f-ord-year').value].filter(Boolean).join(' '), ord_temple:gv('f-ord-temple'), ord_addr:gv('f-ord-addr'),ord_sub:gv('f-ord-sub'),ord_dist:gv('f-ord-dist'),ord_prov:gv('f-ord-prov'),ord_zip:gv('f-ord-zip'),
+    samanera_date:[document.getElementById('f-sam-day')&&document.getElementById('f-sam-day').value,document.getElementById('f-sam-month')&&document.getElementById('f-sam-month').value,document.getElementById('f-sam-year')&&document.getElementById('f-sam-year').value].filter(Boolean).join(' '), samanera_temple:gv('f-samanera-temple'), samanera_addr:gv('f-samanera-addr'),samanera_sub:gv('f-samanera-sub'),samanera_dist:gv('f-samanera-dist'),samanera_prov:gv('f-samanera-prov'),
+    ord_date:[document.getElementById('f-ord-day')&&document.getElementById('f-ord-day').value,document.getElementById('f-ord-month')&&document.getElementById('f-ord-month').value,document.getElementById('f-ord-year')&&document.getElementById('f-ord-year').value].filter(Boolean).join(' '), ord_temple:gv('f-ord-temple'), ord_addr:gv('f-ord-addr'),ord_sub:gv('f-ord-sub'),ord_dist:gv('f-ord-dist'),ord_prov:gv('f-ord-prov'),
     pansa:pansaText.startsWith('—')?'':pansaText,
-    book_date:[document.getElementById('f-book-day')&&document.getElementById('f-book-day').value,document.getElementById('f-book-month')&&document.getElementById('f-book-month').value,document.getElementById('f-book-year')&&document.getElementById('f-book-year').value].filter(Boolean).join(' '), book_no:gv('f-book-no'),
+    book_date:[document.getElementById('f-book-day')&&document.getElementById('f-book-day').value,document.getElementById('f-book-month')&&document.getElementById('f-book-month').value,document.getElementById('f-book-year')&&document.getElementById('f-book-year').value].filter(Boolean).join(' '), book_vol:gv('f-book-vol'), book_no:gv('f-book-no'),
     upa:gv('f-upa'), upa_temple:gv('f-upa-temple'),
-    upa_addr:gv('f-upa-addr'), upa_sub:gv('f-upa-sub'), upa_dist:gv('f-upa-dist'), upa_prov:gv('f-upa-prov'), upa_zip:gv('f-upa-zip'),
     kam:gv('f-kam'), kam_temple:gv('f-kam-temple'),
-    kam_addr:gv('f-kam-addr'), kam_sub:gv('f-kam-sub'), kam_dist:gv('f-kam-dist'), kam_prov:gv('f-kam-prov'), kam_zip:gv('f-kam-zip'),
     anu:gv('f-anu'), anu_temple:gv('f-anu-temple'),
-    anu_addr:gv('f-anu-addr'), anu_sub:gv('f-anu-sub'), anu_dist:gv('f-anu-dist'), anu_prov:gv('f-anu-prov'), anu_zip:gv('f-anu-zip'),
     temple:gv('f-temple'), sect:gv('f-sect'), temple_addr:gv('f-temple-addr'),temple_sub:gv('f-temple-sub'),temple_dist:gv('f-temple-dist'),temple_prov:gv('f-temple-prov'),temple_zip:gv('f-temple-zip'),
     temple_tel:gv('f-temple-tel'), mobile:gv('f-mobile'),
     abbot_chaya:gv('f-abbot-chaya'), rank:gv('f-rank'),
@@ -1661,13 +1700,15 @@ function getFormData(){
     special_pos_rows:specialPosRows,
     sangha6_date:gv('f-sangha6-date'), sangha6_type:gv('f-sangha6-type'), sangha6_detail:gv('f-sangha6-detail'),
     missions:missions, note:gv('f-note'),
+    added_by:currentUser?currentUser.display:'',
+    added_by_id:currentUser?currentUser.id:'',
     positions:[]
   };
 }
 async function saveMonk(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์บันทึกข้อมูล',true);return;}
-  const name=gv('f-firstname')||gv('f-name');
-  if(!name){toast('กรุณากรอกชื่อจริง (Tab 1) ก่อนบันทึก',true);return;}
+  const name=gv('f-firstname'), temple=gv('f-temple');
+  if(!name||!temple){toast('กรุณากรอกชื่อและวัดสังกัด',true);return;}
   const btn=document.getElementById('save-btn');
   btn.disabled=true; btn.textContent='กำลังบันทึก...';
   showLoading('กำลังบันทึกข้อมูล...');
@@ -1694,147 +1735,39 @@ async function saveMonk(){
 function fillForm(m){
   const sv=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
   const sr=(name,v)=>{ const r=document.querySelector('input[name="'+name+'"][value="'+(v||'')+'"]'); if(r) r.checked=true; };
-
-  /* Tab 1 - ประวัติเดิม */
   sr('f-type', m.type||'พระภิกษุ');
-  sv('f-firstname', m.firstname||m.name);
-  sv('f-lastname', m.lastname);
-  sv('f-nickname', m.nickname);
-  sv('f-idcard', m.idcard);
-  sv('f-nation', m.nation||'ไทย');
-  sv('f-race', m.race);
-  /* วันเกิด */
-  const bdayParts = (m.bday_text||m.bday||'').split(' ');
-  if(bdayParts.length>=3){ sv('f-b-day',bdayParts[0]); sv('f-b-month',bdayParts[1]); sv('f-b-year',bdayParts[2]); }
-  else if(bdayParts.length===1 && bdayParts[0]) sv('f-b-day',bdayParts[0]);
-  /* ที่อยู่เดิม */
-  sv('f-addr-prov', m.addr_prov);
-  sv('f-addr-dist', m.addr_dist);
-  sv('f-addr-sub', m.addr_sub);
-  sv('f-addr-zip', m.addr_zip);
-  sv('f-addr-full', m.addr_full);
-  sv('f-father', m.father_name);
-  sv('f-mother', m.mother_name);
-
-  /* Tab 2 - บรรพชา/อุปสมบท */
-  const samParts = (m.samanera_date||'').split(' ');
-  if(samParts.length>=3){ sv('f-sam-day',samParts[0]); sv('f-sam-month',samParts[1]); sv('f-sam-year',samParts[2]); }
-  sv('f-samanera-temple', m.samanera_temple);
-  sv('f-samanera-addr', m.samanera_addr);
-  sv('f-samanera-sub', m.samanera_sub);
-  sv('f-samanera-dist', m.samanera_dist);
-  sv('f-samanera-prov', m.samanera_prov);
-  sv('f-samanera-zip', m.samanera_zip);
-  const ordParts = (m.ord_date||'').split(' ');
-  if(ordParts.length>=3){ sv('f-ord-day',ordParts[0]); sv('f-ord-month',ordParts[1]); sv('f-ord-year',ordParts[2]); }
-  sv('f-ord-temple', m.ord_temple);
-  sv('f-ord-addr', m.ord_addr);
-  sv('f-ord-sub', m.ord_sub);
-  sv('f-ord-dist', m.ord_dist);
-  sv('f-ord-prov', m.ord_prov);
-  sv('f-ord-zip', m.ord_zip);
-  sv('f-chaya', m.chaya);
-  const bookParts = (m.book_date||'').split(' ');
-  if(bookParts.length>=3){ sv('f-book-day',bookParts[0]); sv('f-book-month',bookParts[1]); sv('f-book-year',bookParts[2]); }
-  sv('f-book-no', m.book_no);
-  sv('f-upa', m.upa);
-  sv('f-upa-temple', m.upa_temple);
-  sv('f-upa-addr', m.upa_addr);
-  sv('f-upa-sub', m.upa_sub);
-  sv('f-upa-dist', m.upa_dist);
-  sv('f-upa-prov', m.upa_prov);
-  sv('f-upa-zip', m.upa_zip);
-  sv('f-kam', m.kam);
-  sv('f-kam-temple', m.kam_temple);
-  sv('f-kam-addr', m.kam_addr);
-  sv('f-kam-sub', m.kam_sub);
-  sv('f-kam-dist', m.kam_dist);
-  sv('f-kam-prov', m.kam_prov);
-  sv('f-kam-zip', m.kam_zip);
-  sv('f-anu', m.anu);
-  sv('f-anu-temple', m.anu_temple);
-  sv('f-anu-addr', m.anu_addr);
-  sv('f-anu-sub', m.anu_sub);
-  sv('f-anu-dist', m.anu_dist);
-  sv('f-anu-prov', m.anu_prov);
-  sv('f-anu-zip', m.anu_zip);
-
-  /* Tab 3 - สถานภาพ */
-  sv('f-temple', m.temple);
-  sv('f-temple-addr', m.temple_addr);
-  sv('f-temple-sub', m.temple_sub);
-  sv('f-temple-dist', m.temple_dist);
-  sv('f-temple-prov', m.temple_prov);
-  sv('f-temple-zip', m.temple_zip);
-  sv('f-temple-tel', m.temple_tel);
-  sv('f-mobile', m.mobile);
-  sv('f-abbot-chaya', m.abbot_chaya);
-  sv('f-rank', m.rank);
-  sv('f-status', m.status||'บวช');
-  const sdParts = (m.status_date||'').split(' ');
-  if(sdParts.length>=3){ sv('f-sd-day',sdParts[0]); sv('f-sd-month',sdParts[1]); sv('f-sd-year',sdParts[2]); }
-
-  /* Tab 4 - อุปัชฌาย์ */
-  sv('f-upajja-year', m.upajja_year);
-  if(m.upajja_roles){
-    document.getElementById('f-upajja1')&&(document.getElementById('f-upajja1').checked=m.upajja_roles.includes('พระอุปัชฌาย์'));
-    document.getElementById('f-upajja2')&&(document.getElementById('f-upajja2').checked=m.upajja_roles.includes('พระกรรมวาจาจารย์'));
-    document.getElementById('f-upajja3')&&(document.getElementById('f-upajja3').checked=m.upajja_roles.includes('พระอนุสาวนาจารย์'));
-  }
-
-  /* Tab 5 - วิทยฐานะ */
-  const fillRows=(containerId, rows, addFn, fields)=>{
-    const cont=document.getElementById(containerId); if(!cont||!rows||!rows.length) return;
-    cont.innerHTML='';
-    rows.forEach((r,i)=>{ addFn(); const newRow=cont.lastElementChild; if(!newRow) return;
-      fields.forEach(f=>{ const el=newRow.querySelector(f.cls); if(el) el.value=r[f.key]||''; });
-    });
-  };
-  if(m.dharma_rows&&m.dharma_rows.length){ document.getElementById('dharma-rows').innerHTML='';
-    m.dharma_rows.forEach(r=>{ addDharmaRow(); const row=document.getElementById('dharma-rows').lastElementChild;
-      if(row){ const y=row.querySelector('.d-year');const l=row.querySelector('.d-level');const s=row.querySelector('.d-school');
-        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||''; }});
-  }
-  if(m.pali_rows&&m.pali_rows.length){ document.getElementById('pali-rows').innerHTML='';
-    m.pali_rows.forEach(r=>{ addPaliRow(); const row=document.getElementById('pali-rows').lastElementChild;
-      if(row){ const y=row.querySelector('.p-year');const l=row.querySelector('.p-level');const s=row.querySelector('.p-school');
-        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||''; }});
-  }
-  if(m.edu_rows&&m.edu_rows.length){ document.getElementById('edu-rows').innerHTML='';
-    m.edu_rows.forEach(r=>{ addEduRow(); const row=document.getElementById('edu-rows').lastElementChild;
-      if(row){ const y=row.querySelector('.e-year');const l=row.querySelector('.e-level');const s=row.querySelector('.e-school');const mj=row.querySelector('.e-major');
-        if(y)y.value=r.year||'';if(l)l.value=r.level||'';if(s)s.value=r.school||'';if(mj)mj.value=r.major||''; }});
-  }
-
-  /* Tab 6 - สมณศักดิ์ */
-  sv('f-honor-date', m.honor_date);
-  sv('f-honor-class', m.honor_class);
-  sv('f-honor-name', m.honor_name);
-  sv('f-honor-fullname', m.honor_fullname);
-  sv('f-honor-rank', m.honor_rank);
-  sv('f-honor-fan', m.honor_fan);
-  if(m.honor_side){ const r=document.querySelector('input[name="f-honor-side"][value="'+m.honor_side+'"]'); if(r) r.checked=true; }
-  if(m.thananu_rows&&m.thananu_rows.length){ document.getElementById('thananu-rows').innerHTML=''; thananuCount=0;
-    m.thananu_rows.forEach(r=>{ addThananuRow(); const row=document.getElementById('thananu-rows').lastElementChild;
-      if(row){ const n=row.querySelector('.t-name');const p=row.querySelector('.t-pos');
-        if(n)n.value=r.name||'';if(p)p.value=r.pos||''; }});
-  }
-
-  /* Tab 7 - ตำแหน่ง */
-  sv('f-sangha6-date', m.sangha6_date);
-  sv('f-sangha6-type', m.sangha6_type);
-  sv('f-sangha6-detail', m.sangha6_detail);
-  sv('f-note', m.note);
-  if(m.missions){
-    ['พระจริยานิเทศ','พระธรรมทูต','สำนักปฏิบัติธรรม','อาจารย์มหาวิทยาลัย','ครูสอนพระปริยัติธรรม'].forEach((v,i)=>{
-      const el=document.getElementById('f-mission'+(i+1)); if(el) el.checked=m.missions.includes(v);
-    });
-  }
-
-  /* pansa calc */
-  if(m.ord_date||m.ord_year) calcPansaNew();
+  sv('f-name',m.name); sv('f-chaya',m.chaya); sv('f-age',m.age); sv('f-idcard',m.idcard);
+  sv('f-firstname',m.firstname); sv('f-lastname',m.lastname);
+  sv('f-bday',m.bday); sv('f-bmonth',m.bmonth); sv('f-byear',m.byear);
+  sv('f-race',m.race); sv('f-nation',m.nation||'ไทย'); sv('f-career',m.career||''); sv('f-skill',m.skill);
+  sv('f-addr-no',m.addr_no); sv('f-addr-moo',m.addr_moo); sv('f-addr-soi',m.addr_soi); sv('f-addr-road',m.addr_road);
+  sv('home-sub',m.home_sub); sv('home-dist',m.home_dist); sv('home-prov',m.home_prov); sv('home-zip',m.home_zip);
+  sv('f-father-name',m.father_name); sv('f-father-last',m.father_last);
+  sv('f-mother-name',m.mother_name); sv('f-mother-last',m.mother_last);
+  sv('f-ord-day',m.ord_day); sv('f-ord-month',m.ord_month); sv('f-ord-year',m.ord_year);
+  sv('f-book-no',m.book_no); sv('f-book-day',m.book_day); sv('f-book-month',m.book_month); sv('f-book-year',m.book_year);
+  sv('f-ord-temple',m.ord_temple); sv('ord-sub',m.ord_sub); sv('ord-dist',m.ord_dist); sv('ord-prov',m.ord_prov);
+  sv('f-upa',m.upa); sv('f-upa-temple',m.upa_temple); sv('upa-sub',m.upa_sub); sv('upa-dist',m.upa_dist); sv('upa-prov',m.upa_prov);
+  sv('f-kam',m.kam); sv('f-kam-temple',m.kam_temple);
+  sv('f-anu',m.anu); sv('f-anu-temple',m.anu_temple);
+  sv('f-cur-day',m.cur_day); sv('f-cur-month',m.cur_month); sv('f-cur-year',m.cur_year);
+  sv('f-temple',m.temple); sv('f-abbot-chaya',m.abbot_chaya);
+  sv('temple-sub',m.temple_sub); sv('temple-dist',m.temple_dist); sv('temple-prov',m.temple_prov); sv('temple-zip',m.temple_zip);
+  sv('f-rank',m.rank); sv('f-status',m.status||'บวช');
+  sv('f-edu',m.edu||''); sv('f-edu-place',m.edu_place); sv('f-edu-year',m.edu_year);
+  sv('f-dharma',m.dharma||''); sv('f-dharma-place',m.dharma_place); sv('f-dharma-prov',m.dharma_prov);
+  sv('f-pali',m.pali||''); sv('f-pali-place',m.pali_place); sv('f-pali-prov',m.pali_prov);
+  sv('f-leave-day',m.leave_day); sv('f-leave-month',m.leave_month); sv('f-leave-year',m.leave_year);
+  sv('f-leave-newtemple',m.leave_new_temple); sv('f-note',m.note);
+  if(m.ord_day&&m.ord_month&&m.ord_year) calcPansa();
+  document.getElementById('pos-list').innerHTML=''; posCount=0;
+  (m.positions||[{name:'',year:''}]).forEach(p=>{
+    posCount++;
+    const row=document.createElement('div'); row.className='pos-row'; row.id='pos-row-'+posCount;
+    row.innerHTML=`<div class="field" style="margin:0"><label>ตำแหน่งที่ ${posCount}</label><input id="pos-name-${posCount}" placeholder="ชื่อตำแหน่ง" value="${p.name||''}"></div><div class="field" style="margin:0"><label>ได้รับแต่งตั้ง พ.ศ.</label><input id="pos-year-${posCount}" type="number" placeholder="พ.ศ." value="${p.year||''}"></div><button class="btn-del" onclick="delPosRow(${posCount})">&#215;</button>`;
+    document.getElementById('pos-list').appendChild(row);
+  });
 }
-
 
 function editMonk(id){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์แก้ไข',true);return;}
@@ -1863,8 +1796,8 @@ function clearForm(){
   document.querySelectorAll('#page-add textarea').forEach(el=>el.value='');
   document.querySelectorAll('#page-add input[type=checkbox]').forEach(el=>el.checked=false);
   const ft=document.querySelector('input[name="f-type"]'); if(ft) ft.checked=true;
-  // temple selects already hardcoded in HTML
-  document.querySelectorAll('.tp-temple').forEach(function(el){ if(el.options.length<=1) el.innerHTML=getTempleOptions(); });
+  initTempleSelects();
+  document.querySelectorAll('.tp-temple').forEach(el=>{ el.innerHTML=getTempleOptions(); });
 }
 
 async function deleteMonk(id){
@@ -1947,55 +1880,64 @@ async function deleteUser(id){
 }
 
 /* ===== EXPORT ===== */
-function exportCSV(){
+function exportXLSX(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์ Export',true);return;}
-  const esc=v=>`"${(v||'').toString().replace(/"/g,'""')}"`;
-  const jf=v=>{ if(!v) return ''; try{ const a=Array.isArray(v)?v:JSON.parse(v); return a.map(r=>Object.values(r).join('|')).join(' / '); }catch(e){return v||'';} };
-  const h=[
-    '#','ประเภท','ชื่อจริง','นามสกุล','ฉายา','ชื่อเล่น','เลขบัตร/Passport',
-    'วันเกิด','สัญชาติ','เชื้อชาติ',
-    'ที่อยู่เดิม','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'บิดา','มารดา',
-    'วันที่บรรพชาสามเณร','วัดที่บรรพชา','ที่อยู่วัดบรรพชา','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'วันที่อุปสมบท','วัดที่อุปสมบท','ที่อยู่วัดอุปสมบท','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'พรรษา','หนังสือสุทธิเลขที่','วันที่ออกสุทธิ',
-    'พระอุปัชฌาย์','วัดอุปัชฌาย์','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'พระกรรมวาจาจารย์','วัดกรรมวาจาจารย์','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'พระอนุสาวนาจารย์','วัดอนุสาวนาจารย์','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'วัดสังกัด','ที่อยู่วัดสังกัด','ตำบล','อำเภอ','จังหวัด','รหัสไปรษณีย์',
-    'เบอร์โทรวัด','เบอร์มือถือ','ชื่อ(ฉายา)เจ้าอาวาส','ตำแหน่ง/สมณศักดิ์',
-    'สถานะ','วันที่สังกัด/ลาสิกขา',
-    'ปีที่ได้รับแต่งตั้งพระอุปัชฌาย์','บทบาท',
-    'นักธรรม (ปีการศึกษา|ชั้น|สำนักเรียน)','บาลี (ปีการศึกษา|ชั้น|สำนักเรียน)','สามัญ (ปีการศึกษา|ระดับ|สถานศึกษา|สาขา)',
-    'วันที่ได้รับสมณศักดิ์','ชั้นสมณศักดิ์','ราชทินนาม','ราชทินนาม(เต็ม)','ลำดับชั้น','พัดยศ','ฝ่าย',
-    'งานคณะสงฆ์ 6 ด้าน วันที่','ประเภทงาน','รายละเอียด',
-    'ตำแหน่งงานเผยแผ่','หมายเหตุ'
+  if(!monks.length){toast('ไม่มีข้อมูล',true);return;}
+  const headers=[
+    '#','ประเภท','ชื่อจริง','นามสกุล','ฉายา','เลขบัตรประชาชน','อายุ','วันเกิด (วัน)','วันเกิด (เดือน)','วันเกิด (ปี พ.ศ.)','สัญชาติ','เชื้อชาติ','ชื่อเล่น',
+    'ที่อยู่เดิม (จังหวัด)','ที่อยู่เดิม (อำเภอ/เขต)','ที่อยู่เดิม (ตำบล/แขวง)','ที่อยู่เดิม (รหัสไปรษณีย์)','ที่อยู่เดิม (รายละเอียด)',
+    'ชื่อ-นามสกุลบิดา','ชื่อ-นามสกุลมารดา',
+    'วันบรรพชาสามเณร','วัดที่บรรพชา','ที่อยู่วัดบรรพชา','ตำบล/แขวง(บรรพชา)','อำเภอ/เขต(บรรพชา)','จังหวัด(บรรพชา)',
+    'วันอุปสมบท','วัดที่อุปสมบท','ที่อยู่วัดอุปสมบท','ตำบล/แขวง(อุปสมบท)','อำเภอ/เขต(อุปสมบท)','จังหวัด(อุปสมบท)','ฉายา(อุปสมบท)',
+    'พรรษา',
+    'วันสุทธิ','เล่มที่','เลขที่',
+    'พระอุปัชฌาย์','วัดสังกัดอุปัชฌาย์','พระกรรมวาจาจารย์','วัดสังกัดกรรมวาจา','พระอนุสาวนาจารย์','วัดสังกัดอนุสาวนาจารย์',
+    'วัดสังกัดปัจจุบัน','ที่อยู่วัดปัจจุบัน','ตำบล/แขวง(วัดปัจจุบัน)','อำเภอ/เขต(วัดปัจจุบัน)','จังหวัด(วัดปัจจุบัน)','รหัสไปรษณีย์(วัด)',
+    'เบอร์โทรวัด','เบอร์มือถือ','ชื่อเจ้าอาวาส','ตำแหน่ง/สมณศักดิ์','สถานะปัจจุบัน','วันที่เปลี่ยนสถานะ',
+    'ปีได้รับแต่งตั้งอุปัชฌาย์','บทบาทอุปัชฌาย์',
+    'นักธรรม (รายละเอียด)','บาลี (รายละเอียด)','วุฒิสามัญ (รายละเอียด)',
+    'วัน/เดือน/ปี รับสมณศักดิ์','ชั้นสมณศักดิ์','ราชทินนาม','ราชทินนามเต็ม','ลำดับชั้น','พัดยศ','ฝ่าย',
+    'ประวัติฐานานุกรม','ตำแหน่งภายในวัด','ตำแหน่งการปกครองสงฆ์','ตำแหน่งงานพิเศษ',
+    'วันเข้าบริหารงานสงฆ์ 6 ด้าน','ประเภทงานสงฆ์ 6 ด้าน','รายละเอียดงานสงฆ์ 6 ด้าน',
+    'ตำแหน่งงานเผยแผ่','หมายเหตุ','ผู้เพิ่มข้อมูล (User)'
   ];
-  const rows=monks.map((m,i)=>[
-    i+1, m.type, m.firstname||m.name, m.lastname, m.chaya, m.nickname, m.idcard,
-    m.bday_text||m.bday, m.nation, m.race,
-    m.addr_full, m.addr_sub, m.addr_dist, m.addr_prov, m.addr_zip,
-    m.father_name, m.mother_name,
-    m.samanera_date, m.samanera_temple, m.samanera_addr, m.samanera_sub, m.samanera_dist, m.samanera_prov, m.samanera_zip,
-    m.ord_date, m.ord_temple, m.ord_addr, m.ord_sub, m.ord_dist, m.ord_prov, m.ord_zip,
-    m.pansa, m.book_no, m.book_date,
-    m.upa, m.upa_temple, m.upa_sub, m.upa_dist, m.upa_prov, m.upa_zip,
-    m.kam, m.kam_temple, m.kam_sub, m.kam_dist, m.kam_prov, m.kam_zip,
-    m.anu, m.anu_temple, m.anu_sub, m.anu_dist, m.anu_prov, m.anu_zip,
-    m.temple, m.temple_addr, m.temple_sub, m.temple_dist, m.temple_prov, m.temple_zip,
-    m.temple_tel, m.mobile, m.abbot_chaya, m.rank,
-    m.status, m.status_date,
-    m.upajja_year, m.upajja_roles,
-    jf(m.dharma_rows), jf(m.pali_rows), jf(m.edu_rows),
-    m.honor_date, m.honor_class, m.honor_name, m.honor_fullname, m.honor_rank, m.honor_fan, m.honor_side,
-    m.sangha6_date, m.sangha6_type, m.sangha6_detail,
-    m.missions, m.note
-  ].map(esc).join(','));
-  const csv='\uFEFF'+[h.map(esc).join(','),...rows].join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='anam_monks_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-  toast('Export CSV ครบ '+monks.length+' รูป เรียบร้อย');
+  const rows=monks.map((m,i)=>{
+    const dh=m.dharma_rows?m.dharma_rows.map(r=>`${r.level||''} พ.ศ.${r.year||''} (${r.school||''})`).join('; '):(m.dharma||'');
+    const pl=m.pali_rows?m.pali_rows.map(r=>`${r.level||''} พ.ศ.${r.year||''} (${r.school||''})`).join('; '):(m.pali||'');
+    const ed=m.edu_rows?m.edu_rows.map(r=>`${r.level||''} พ.ศ.${r.year||''} ${r.school||''} ${r.major||''}`).join('; '):(m.edu||'');
+    const thr=m.thananu_hist_rows?m.thananu_hist_rows.map(r=>`${r.date||''} ${r.pos||''} ${r.name||''}`).join('; '):'';
+    const tpr=m.temple_pos_rows?m.temple_pos_rows.map(r=>`${r.start||''} ${r.pos||''} ${r.temple||''}`).join('; '):'';
+    const spr=m.sangha_pos_rows?m.sangha_pos_rows.map(r=>`${r.start||''} ${r.pos||''}`).join('; '):'';
+    const xpr=m.special_pos_rows?m.special_pos_rows.map(r=>`${r.date||''} ${r.name||''} ${r.pos||''}`).join('; '):'';
+    return [
+      i+1, m.type||'', m.firstname||m.name||'', m.lastname||'', m.chaya||'',
+      m.idcard||'', m.age||'', m.bday||'', m.bmonth||'', m.byear||'',
+      m.nation||'', m.race||'', m.nickname||'',
+      m.addr_prov||'', m.addr_dist||'', m.addr_sub||'', m.addr_zip||'', m.addr_full||'',
+      m.father_name||'', m.mother_name||'',
+      m.samanera_date||'', m.samanera_temple||'', m.samanera_addr||'', m.samanera_sub||'', m.samanera_dist||'', m.samanera_prov||'',
+      m.ord_date||'', m.ord_temple||'', m.ord_addr||'', m.ord_sub||'', m.ord_dist||'', m.ord_prov||'', m.chaya||'',
+      m.pansa||'',
+      m.book_date||'', m.book_vol||'', m.book_no||'',
+      m.upa||'', m.upa_temple||'', m.kam||'', m.kam_temple||'', m.anu||'', m.anu_temple||'',
+      m.temple||'', m.temple_addr||'', m.temple_sub||'', m.temple_dist||'', m.temple_prov||'', m.temple_zip||'',
+      m.temple_tel||'', m.mobile||'', m.abbot_chaya||'', m.rank||'', m.status||'', m.status_date||'',
+      m.upajja_year||'', m.upajja_roles||'',
+      dh, pl, ed,
+      m.honor_date||'', m.honor_class||'', m.honor_name||'', m.honor_fullname||'', m.honor_rank||'', m.honor_fan||'', m.honor_side||'',
+      thr, tpr, spr, xpr,
+      m.sangha6_date||'', m.sangha6_type||'', m.sangha6_detail||'',
+      m.missions||'', m.note||'', m.added_by||m.added_by_id||''
+    ];
+  });
+  const wsData=[headers,...rows];
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet(wsData);
+  // Set column widths
+  ws['!cols']=headers.map((_,i)=>({wch:i===0?5:20}));
+  XLSX.utils.book_append_sheet(wb,ws,'ทะเบียนพระ-สามเณร');
+  XLSX.writeFile(wb,'anam_monks_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  toast('Export Excel เรียบร้อย');
 }
 function exportJSON(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์',true);return;}
@@ -2102,6 +2044,7 @@ function printMonkDetail(id){
     }${row('ประโยคบาลี',m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')}</table>
   </div>
   ${m.note?`<div class="section"><div class="section-title">หมายเหตุ</div><table>${row('',m.note)}</table></div>`:''}
+  <div class="section"><div class="section-title">ข้อมูลการบันทึก</div><table>${row('ผู้เพิ่มข้อมูล (User)',m.added_by||(m.added_by_id?m.added_by_id:'-'))}${row('รหัสผู้เพิ่ม',m.added_by_id||'-')}</table></div>
   <div class="footer">
     <div class="sign-box"><div class="sign-line"></div><div>ผู้บันทึกข้อมูล</div><div style="color:#666;margin-top:4px">(${currentUser?currentUser.display:'................'})</div></div>
     <div class="sign-box"><div class="sign-line"></div><div>เจ้าอาวาส/ผู้รับรอง</div><div style="color:#666;margin-top:4px">(${m.abbot_chaya||'................'})</div></div>
