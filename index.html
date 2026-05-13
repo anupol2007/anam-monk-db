@@ -439,9 +439,10 @@ tr:hover td{background:#f9fafb}
       <div class="field"><label>ชื่อจริง *</label><input id="f-firstname" placeholder="ชื่อจริง"></div>
       <div class="field"><label>นามสกุล *</label><input id="f-lastname" placeholder="นามสกุล"></div>
       <div class="field"><label>ชื่อเล่น</label><input id="f-nickname" placeholder="ชื่อเล่น"></div>
-      <div class="field"><label>วันเกิด (วัน)</label><select id="f-b-day" style="width:100%"><option value="">วัน</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select></div>
-        <div class="field"><label>วันเกิด (เดือน)</label><select id="f-b-month" style="width:100%"><option value="">เดือน</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
-        <div class="field"><label>วันเกิด (ปี พ.ศ.)</label><select id="f-b-year" style="width:100%"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+      <div class="field"><label>วันเกิด (วัน)</label><select id="f-b-day" style="width:100%" onchange="calcAge()"><option value="">วัน</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select></div>
+        <div class="field"><label>วันเกิด (เดือน)</label><select id="f-b-month" style="width:100%" onchange="calcAge()"><option value="">เดือน</option><option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option><option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option><option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option><option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option></select></div>
+        <div class="field"><label>วันเกิด (ปี พ.ศ.)</label><select id="f-b-year" style="width:100%" onchange="calcAge()"><option value="">ปี พ.ศ.</option><option>2580</option><option>2579</option><option>2578</option><option>2577</option><option>2576</option><option>2575</option><option>2574</option><option>2573</option><option>2572</option><option>2571</option><option>2570</option><option>2569</option><option>2568</option><option>2567</option><option>2566</option><option>2565</option><option>2564</option><option>2563</option><option>2562</option><option>2561</option><option>2560</option><option>2559</option><option>2558</option><option>2557</option><option>2556</option><option>2555</option><option>2554</option><option>2553</option><option>2552</option><option>2551</option><option>2550</option><option>2549</option><option>2548</option><option>2547</option><option>2546</option><option>2545</option><option>2544</option><option>2543</option><option>2542</option><option>2541</option><option>2540</option><option>2539</option><option>2538</option><option>2537</option><option>2536</option><option>2535</option><option>2534</option><option>2533</option><option>2532</option><option>2531</option><option>2530</option><option>2529</option><option>2528</option><option>2527</option><option>2526</option><option>2525</option><option>2524</option><option>2523</option><option>2522</option><option>2521</option><option>2520</option><option>2519</option><option>2518</option><option>2517</option><option>2516</option><option>2515</option><option>2514</option><option>2513</option><option>2512</option><option>2511</option><option>2510</option><option>2509</option><option>2508</option><option>2507</option><option>2506</option><option>2505</option><option>2504</option><option>2503</option><option>2502</option><option>2501</option><option>2500</option><option>2499</option><option>2498</option><option>2497</option><option>2496</option><option>2495</option><option>2494</option><option>2493</option><option>2492</option><option>2491</option><option>2490</option><option>2489</option><option>2488</option><option>2487</option><option>2486</option><option>2485</option><option>2484</option><option>2483</option><option>2482</option><option>2481</option><option>2480</option><option>2479</option><option>2478</option><option>2477</option><option>2476</option><option>2475</option><option>2474</option><option>2473</option><option>2472</option><option>2471</option><option>2470</option><option>2469</option><option>2468</option><option>2467</option><option>2466</option><option>2465</option><option>2464</option><option>2463</option><option>2462</option><option>2461</option><option>2460</option><option>2459</option><option>2458</option><option>2457</option><option>2456</option><option>2455</option><option>2454</option><option>2453</option><option>2452</option><option>2451</option><option>2450</option><option>2449</option><option>2448</option><option>2447</option><option>2446</option><option>2445</option><option>2444</option><option>2443</option><option>2442</option><option>2441</option><option>2440</option></select></div>
+      <div class="pansa-box" style="margin-bottom:12px"><div class="pansa-label">อายุ (คำนวณอัตโนมัติ)</div><div class="pansa-val" id="age-display">— กรอกวันเกิดเพื่อคำนวณ</div></div>
       <div class="field"><label>สัญชาติ</label><select id="f-nation"><option>ไทย</option><option>เวียดนาม</option><option>จีน</option><option>อื่นๆ</option></select></div>
       <div class="field"><label>เชื้อชาติ</label><input id="f-race" placeholder="เชื้อชาติ"></div>
       <div class="field"><label>เลขประจำตัวประชาชน / Passport</label><input id="f-idcard" placeholder="x-xxxx-xxxxx-xx-x" maxlength="17"></div>
@@ -1357,6 +1358,18 @@ function initFilterTemple(){
 
 /* ===== DETAIL ===== */
 function dr(k,v){ return v?`<div class="d-row"><div class="d-key">${k}</div><div class="d-val">${v}</div></div>`:''; }
+function calcAgeFromBday(bday){
+  if(!bday) return '';
+  const MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  const parts=bday.split(' '); if(parts.length<3) return '';
+  const day=parseInt(parts[0]),monthTh=parts[1],yearBE=parseInt(parts[2]);
+  const mIdx=MONTHS.indexOf(monthTh); if(mIdx<0||!yearBE) return '';
+  const bd=new Date(yearBE-543,mIdx,day); const now=new Date();
+  let a=now.getFullYear()-bd.getFullYear();
+  const mo=now.getMonth()-bd.getMonth();
+  if(mo<0||(mo===0&&now.getDate()<bd.getDate())) a--;
+  return Math.max(0,a)+' ปี';
+}
 
 function showDetail(idx){
   const m=filtered[idx]||monks[idx]; if(!m) return;
@@ -1395,7 +1408,7 @@ function showDetail(idx){
     <div class="d-section"><div class="d-section-title">1. ประวัติเดิม (ก่อนอุปสมบท)</div><div class="d-grid">
       ${dr('ประเภท',m.type)}
       ${dr('ชื่อจริง',m.firstname||m.name)}${dr('นามสกุล',m.lastname)}${dr('ชื่อเล่น',m.nickname)}
-      ${dr('วันเกิด',m.bday)}${dr('สัญชาติ',m.nation)}${dr('เชื้อชาติ',m.race)}
+      ${dr('วันเกิด',m.bday)}${dr('อายุ',m.age||calcAgeFromBday(m.bday))}${dr('สัญชาติ',m.nation)}${dr('เชื้อชาติ',m.race)}
       ${dr('เลขบัตรประชาชน/Passport',m.idcard)}
       ${dr('ที่อยู่เดิม (จังหวัด)',m.addr_prov)}${dr('ที่อยู่เดิม (อำเภอ/เขต)',m.addr_dist)}
       ${dr('ที่อยู่เดิม (ตำบล/แขวง)',m.addr_sub)}${dr('รหัสไปรษณีย์',m.addr_zip)}
@@ -1600,6 +1613,22 @@ function addSpecialPosRow(){
 }
 
 /* Pansa from free text date e.g. "14 เมษายน 2568" */
+function calcAge(){
+  const day=parseInt(document.getElementById('f-b-day')?.value)||0;
+  const monthTh=document.getElementById('f-b-month')?.value||'';
+  const yearBE=parseInt(document.getElementById('f-b-year')?.value)||0;
+  const disp=document.getElementById('age-display');
+  if(!disp) return;
+  if(!day||!monthTh||!yearBE){disp.textContent='—';return;}
+  const MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  const mIdx=MONTHS.indexOf(monthTh); if(mIdx<0) return;
+  const bd=new Date(yearBE-543,mIdx,day); const now=new Date();
+  let a=now.getFullYear()-bd.getFullYear();
+  const mo=now.getMonth()-bd.getMonth();
+  if(mo<0||(mo===0&&now.getDate()<bd.getDate())) a--;
+  disp.textContent=Math.max(0,a)+' ปี';
+}
+
 function calcPansaNew(){
   const disp=document.getElementById('pansa-display');
   const yEl=document.getElementById('f-ord-year');
@@ -1628,7 +1657,9 @@ function getFormData(){
   return {
     type:gr('f-type'), name:gv('f-firstname'), chaya:gv('f-chaya'),
     firstname:gv('f-firstname'), lastname:gv('f-lastname'), nickname:gv('f-nickname'),
-    bday:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '), nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
+    bday:[document.getElementById('f-b-day')&&document.getElementById('f-b-day').value,document.getElementById('f-b-month')&&document.getElementById('f-b-month').value,document.getElementById('f-b-year')&&document.getElementById('f-b-year').value].filter(Boolean).join(' '),
+    age:(()=>{const d=document.getElementById('age-display');const t=d?d.textContent:''; return t.includes('ปี')?t:''})(),
+    nation:gv('f-nation'), race:gv('f-race'), idcard:gv('f-idcard'),
     addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
     addr_zip:gv('f-addr-zip'), addr_full:gv('f-addr-full'),
     father_name:gv('f-father'), mother_name:gv('f-mother'),
@@ -1709,6 +1740,7 @@ function fillForm(m){
     ss('f-b-day', parts[0]||'');
     ss('f-b-month', parts[1]||'');
     ss('f-b-year', parts[2]||'');
+    setTimeout(calcAge, 100);
   }
   sv('f-nation', m.nation||'ไทย');
   sv('f-race', m.race||'');
@@ -1995,7 +2027,7 @@ function exportXLSX(){
     const bdayParts=(m.bday||'').split(' ');
     return [
       i+1, m.type||'', m.firstname||m.name||'', m.lastname||'', m.chaya||'',
-      m.idcard||'', m.age||'', bdayParts[0]||m.bday||'', bdayParts[1]||'', bdayParts[2]||m.byear||'',
+      m.idcard||'', m.age||calcAgeFromBday(m.bday)||'', bdayParts[0]||m.bday||'', bdayParts[1]||'', bdayParts[2]||m.byear||'',
       m.nation||'', m.race||'', m.nickname||'',
       m.addr_prov||'', m.addr_dist||'', m.addr_sub||'', m.addr_zip||'', m.addr_full||'',
       m.father_name||'', m.mother_name||'',
