@@ -1845,6 +1845,40 @@ function fillForm(m){
   }
   sv('f-note', m.note||'');
 
+  // Restore dharma rows
+  const dharmaContainer=document.getElementById('dharma-rows');
+  if(dharmaContainer&&m.dharma_rows&&m.dharma_rows.length){
+    dharmaContainer.innerHTML='';
+    m.dharma_rows.forEach(r=>{
+      const div=document.createElement('div'); div.className='fg3 dharma-row';
+      div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="d-year" type="number" placeholder="พ.ศ." value="${r.year||''}"></div><div class="field"><label>ชั้นนักธรรม</label><select class="d-level"><option value="">-- เลือก --</option><option${r.level==='น.ธ.ตรี'?' selected':''}>น.ธ.ตรี</option><option${r.level==='น.ธ.โท'?' selected':''}>น.ธ.โท</option><option${r.level==='น.ธ.เอก'?' selected':''}>น.ธ.เอก</option></select></div><div class="field"><label>สำนักเรียน</label><input class="d-school" placeholder="สำนักเรียน/วัด" value="${r.school||''}"></div>`;
+      dharmaContainer.appendChild(div);
+    });
+  }
+
+  // Restore pali rows
+  const paliContainer=document.getElementById('pali-rows');
+  if(paliContainer&&m.pali_rows&&m.pali_rows.length){
+    paliContainer.innerHTML='';
+    m.pali_rows.forEach(r=>{
+      const div=document.createElement('div'); div.className='fg3 pali-row';
+      div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="p-year" type="number" placeholder="พ.ศ." value="${r.year||''}"></div><div class="field"><label>ประโยค</label><select class="p-level"><option value="">-- เลือก --</option><option${r.level==='ป.ธ.1-2'?' selected':''}>ป.ธ.1-2</option><option${r.level==='ป.ธ.3'?' selected':''}>ป.ธ.3</option><option${r.level==='ป.ธ.4'?' selected':''}>ป.ธ.4</option><option${r.level==='ป.ธ.5'?' selected':''}>ป.ธ.5</option><option${r.level==='ป.ธ.6'?' selected':''}>ป.ธ.6</option><option${r.level==='ป.ธ.7'?' selected':''}>ป.ธ.7</option><option${r.level==='ป.ธ.8'?' selected':''}>ป.ธ.8</option><option${r.level==='ป.ธ.9'?' selected':''}>ป.ธ.9</option></select></div><div class="field"><label>สำนักเรียน</label><input class="p-school" placeholder="สำนักเรียน/วัด" value="${r.school||''}"></div>`;
+      paliContainer.appendChild(div);
+    });
+  }
+
+  // Restore edu rows
+  const eduContainer=document.getElementById('edu-rows');
+  if(eduContainer&&m.edu_rows&&m.edu_rows.length){
+    eduContainer.innerHTML='';
+    m.edu_rows.forEach(r=>{
+      const div=document.createElement('div'); div.className='fg4 edu-row';
+      const levels=['ประถมฯ','ม.3','ม.6','ปวช.','ปวส.','ปริญญาตรี','ปริญญาโท','ปริญญาเอก'];
+      div.innerHTML=`<div class="field"><label>ปีการศึกษา พ.ศ.</label><input class="e-year" type="number" placeholder="พ.ศ." value="${r.year||''}"></div><div class="field"><label>ระดับชั้น</label><select class="e-level"><option value="">-- เลือก --</option>${levels.map(l=>`<option${r.level===l?' selected':''}>${l}</option>`).join('')}</select></div><div class="field"><label>ชื่อสถานศึกษา</label><input class="e-school" placeholder="ชื่อสถานศึกษา" value="${r.school||''}"></div><div class="field"><label>สาขาที่เรียน</label><input class="e-major" placeholder="สาขา" value="${r.major||''}"></div>`;
+      eduContainer.appendChild(div);
+    });
+  }
+
   // select dropdowns for temples
   // Step 1: set temple selects (triggers onTempleSelect which fills addr)
   setTimeout(()=>{
