@@ -1103,71 +1103,55 @@ const SAMPLE_MONKS = [
   }
 ];
 
-/* ===== SUPABASE CONFIG ===== */
-const SUPABASE_URL = 'https://zyrdihxkpmkbasuiajsd.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5cmRpaHhrcG1rYmFzdWlhanNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzQzODMsImV4cCI6MjA4OTE1MDM4M30.Qwt4qf37SspUqGnnqhKJdCNWc6FqK7ZmHEESbYlGr9s';
-const API = SUPABASE_URL + '/rest/v1';
-const HEADERS = {
-  'Content-Type': 'application/json',
-  'apikey': SUPABASE_KEY,
-  'Authorization': 'Bearer ' + SUPABASE_KEY
-};
-/* ===== LOCAL USERS (always works) ===== */
-const LOCAL_USERS = {
-  'anuphon':   {password:'133620',  display:'Anuphon',   role:'editor'},
-  'theerayut': {password:'thee2516',display:'Theerayut', role:'editor'},
-  'admin':     {password:'0000',    display:'Admin',     role:'editor'},
-  '0001': {password:'2824', display:'User 0001', role:'editor'},
-  '0002': {password:'1409', display:'User 0002', role:'editor'},
-  '0003': {password:'5506', display:'User 0003', role:'editor'},
-  '0004': {password:'5012', display:'User 0004', role:'editor'},
-  '0005': {password:'4657', display:'User 0005', role:'editor'},
-  '0006': {password:'3286', display:'User 0006', role:'editor'},
-  '0007': {password:'2679', display:'User 0007', role:'editor'},
-  '0008': {password:'9935', display:'User 0008', role:'editor'},
-  '0009': {password:'2424', display:'User 0009', role:'editor'},
-  '0010': {password:'7912', display:'User 0010', role:'editor'},
-  '0011': {password:'1520', display:'User 0011', role:'editor'},
-  '0012': {password:'1488', display:'User 0012', role:'editor'},
-  '0013': {password:'2535', display:'User 0013', role:'editor'},
-  '0014': {password:'4582', display:'User 0014', role:'editor'},
-  '0015': {password:'4811', display:'User 0015', role:'editor'},
-  '0016': {password:'9279', display:'User 0016', role:'editor'},
-  '0017': {password:'1434', display:'User 0017', role:'editor'},
-  '0018': {password:'4257', display:'User 0018', role:'editor'},
-  '0019': {password:'9928', display:'User 0019', role:'editor'},
-  '0020': {password:'7873', display:'User 0020', role:'editor'},
-  '0021': {password:'4611', display:'User 0021', role:'editor'},
-  '0022': {password:'8359', display:'User 0022', role:'editor'},
-  '0023': {password:'5557', display:'User 0023', role:'editor'},
-  '0024': {password:'1106', display:'User 0024', role:'editor'},
-  '0025': {password:'3615', display:'User 0025', role:'editor'},
-  '0026': {password:'7924', display:'User 0026', role:'editor'},
-  '0027': {password:'6574', display:'User 0027', role:'editor'},
-  '0028': {password:'5552', display:'User 0028', role:'editor'},
-  '0029': {password:'3547', display:'User 0029', role:'editor'},
-  '0030': {password:'4527', display:'User 0030', role:'editor'}
+/* ===== FIREBASE CONFIG ===== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCsbTXZrmpXyirpfFWTxBewPg5HbQ3BdBI",
+  authDomain: "anam-monk-db.firebaseapp.com",
+  projectId: "anam-monk-db",
+  storageBucket: "anam-monk-db.firebasestorage.app",
+  messagingSenderId: "626264646287",
+  appId: "1:626264646287:web:611c34e411f8e2b52e46fa"
 };
 
+// Firebase SDK (loaded via CDN)
+let db = null;
+async function initFirebase(){
+  if(db) return db;
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+  const { getFirestore, collection, getDocs, addDoc, setDoc, updateDoc, deleteDoc, doc, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+  const app = initializeApp(FIREBASE_CONFIG);
+  db = getFirestore(app);
+  window._fb = { collection, getDocs, addDoc, setDoc, updateDoc, deleteDoc, doc, query, orderBy };
+  return db;
+}
 
-async function sbGet(table, params=''){
-  const r = await fetch(API+'/'+table+'?'+params, {headers:{...HEADERS,'Prefer':'return=representation'}});
-  if(!r.ok) throw new Error(await r.text());
-  return r.json();
+async function fbGet(col){
+  const db = await initFirebase();
+  const { collection, getDocs, query, orderBy } = window._fb;
+  const snap = await getDocs(query(collection(db, col), orderBy('_ts','asc').catch?orderBy('_ts','asc'):orderBy('_ts','asc')));
+  return snap.docs.map(d=>({...d.data(), _docId:d.id}));
 }
-async function sbPost(table, body){
-  const r = await fetch(API+'/'+table, {method:'POST', headers:{...HEADERS,'Prefer':'return=representation'}, body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(await r.text());
-  return r.json();
+async function fbGetAll(col){
+  const db = await initFirebase();
+  const { collection, getDocs } = window._fb;
+  const snap = await getDocs(collection(db, col));
+  return snap.docs.map(d=>({...d.data(), _docId:d.id}));
 }
-async function sbPatch(table, id, body){
-  const r = await fetch(API+'/'+table+'?id=eq.'+id, {method:'PATCH', headers:{...HEADERS,'Prefer':'return=representation'}, body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(await r.text());
-  return r.json();
+async function fbAdd(col, data){
+  const db = await initFirebase();
+  const { collection, addDoc } = window._fb;
+  const ref = await addDoc(collection(db, col), {...data, _ts: Date.now()});
+  return {...data, _docId: ref.id, id: ref.id};
 }
-async function sbDelete(table, id){
-  const r = await fetch(API+'/'+table+'?id=eq.'+id, {method:'DELETE', headers:HEADERS});
-  if(!r.ok) throw new Error(await r.text());
+async function fbUpdate(col, docId, data){
+  const db = await initFirebase();
+  const { doc, updateDoc } = window._fb;
+  await updateDoc(doc(db, col, docId), data);
+}
+async function fbDelete(col, docId){
+  const db = await initFirebase();
+  const { doc, deleteDoc } = window._fb;
+  await deleteDoc(doc(db, col, docId));
 }
 
 /* ===== STATE ===== */
@@ -1228,7 +1212,8 @@ async function doLogin(){
 
   /* Try Supabase */
   try{
-    const rows=await sbGet('app_users','id=eq.'+encodeURIComponent(id)+'&select=id,display,password,role');
+    const allUsers=await fbGetAll('app_users');
+    const rows=allUsers.filter(u=>u.id===id);
     if(!rows.length||rows[0].password!==pw){
       err.textContent='ID หรือรหัสผ่านไม่ถูกต้อง';
       document.getElementById('login-pw').value='';
@@ -1276,31 +1261,31 @@ function updateUIForRole(){
 /* ===== LOAD DATA ===== */
 async function loadMonks(){
   showLoading('กำลังโหลดข้อมูลพระ...');
-  // Load from localStorage first (instant, always works)
+  // Load from localStorage first (instant)
   const saved = localStorage.getItem('anam_monks');
   let localMonks = saved ? JSON.parse(saved) : [];
-  // Merge sample monks if not already saved
   SAMPLE_MONKS.forEach(sm=>{
-    if(!localMonks.find(m=>String(m.id)===String(sm.id))) localMonks.push(sm);
+    if(!localMonks.find(m=>String(m.id)===String(sm.id)||String(m._docId)===String(sm.id))) localMonks.push(sm);
   });
   monks = localMonks;
   filtered = [...monks];
   renderDash();
-  // Then try to sync from Supabase in background
+  // Sync from Firebase
   try {
-    const dbMonks = await sbGet('monks','select=*&order=id.asc');
+    const dbMonks = await fbGetAll('monks');
     if(dbMonks && dbMonks.length>0){
-      // Merge DB monks into local list
+      // Keep sample monks + add DB monks
+      const sampleIds = SAMPLE_MONKS.map(s=>String(s.id));
+      monks = [...SAMPLE_MONKS];
       dbMonks.forEach(dm=>{
-        const idx=monks.findIndex(m=>String(m.id)===String(dm.id));
-        if(idx>=0) monks[idx]={...monks[idx],...dm};
-        else monks.push(dm);
+        if(!sampleIds.includes(String(dm.id))) monks.push(dm);
       });
       filtered=[...monks];
       saveLocal();
       renderDash();
+      toast('โหลดข้อมูล '+dbMonks.length+' รายการจาก Firebase');
     }
-  } catch(e){ /* Supabase unreachable, use local data */ }
+  } catch(e){ toast('Firebase: '+e.message, true); }
   hideLoading();
 }
 
@@ -1534,6 +1519,7 @@ const ADDR_DB=[
 ];
 function searchAddr(q){ if(!q||q.length<2)return[]; return ADDR_DB.filter(r=>r.t.includes(q)||r.a.includes(q)||r.p.includes(q)||r.z.includes(q)).slice(0,10); }
 function buildAddrWidget(prefix, container){
+  if(!container) return;
   container.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
     <div class="field"><label>ตำบล/แขวง</label><div class="addr-wrap"><input id="${prefix}-sub" placeholder="พิมพ์ค้นหา..." autocomplete="off" oninput="addrSearch(this,'${prefix}')"><div class="addr-list" id="${prefix}-list"></div></div></div>
     <div class="field"><label>อำเภอ/เขต</label><input id="${prefix}-dist" placeholder="อำเภอ/เขต" readonly style="background:#FEF3E8"></div>
@@ -1558,8 +1544,11 @@ function pickAddr(prefix,sub,dist,prov,zip){
 document.addEventListener('click',e=>{ if(!e.target.closest('.addr-wrap')) document.querySelectorAll('.addr-list').forEach(l=>l.classList.remove('show')); });
 
 function initWidgets(){
-  ['home','ord','upa','kam','anu','temple','leave'].forEach(p=>buildAddrWidget(p, document.getElementById('addr-'+p+'-widget')));
-  if(document.getElementById('pos-list')) { document.getElementById('pos-list').innerHTML=''; posCount=0; }
+  ['home','ord','upa','kam','anu','temple','leave'].forEach(p=>{
+    const el=document.getElementById('addr-'+p+'-widget');
+    if(el) buildAddrWidget(p, el);
+  });
+  if(document.getElementById('pos-list')){ document.getElementById('pos-list').innerHTML=''; posCount=0; }
 }
 
 /* ===== POSITION ROWS ===== */
@@ -1724,25 +1713,24 @@ async function saveMonk(){
   showLoading('กำลังบันทึกข้อมูล...');
   try {
     const data=getFormData();
-    // Strip fields not yet in Supabase schema (avoid PGRST204)
-    const dbData={...data};
-    delete dbData.added_by; delete dbData.added_by_id;
     const editId=gv('edit-id');
     if(editId){
-      await sbPatch('monks', editId, dbData);
-      const idx=monks.findIndex(m=>m.id==editId);
+      const existing=monks.find(m=>String(m.id)==String(editId)||String(m._docId)==String(editId));
+      const docId=existing?._docId||String(editId);
+      if(docId && !SAMPLE_MONKS.find(s=>String(s.id)==String(editId))){
+        await fbUpdate('monks', docId, data);
+      }
+      const idx=monks.findIndex(m=>String(m.id)==String(editId)||String(m._docId)==String(editId));
       if(idx>=0) monks[idx]={...monks[idx],...data};
-      saveLocal();
-      toast('แก้ไขข้อมูลเรียบร้อยแล้ว');
     } else {
-      const res=await sbPost('monks', dbData);
-      monks.push({...res[0],...data});
-      toast('บันทึกข้อมูลเรียบร้อยแล้ว');
+      const res=await fbAdd('monks', data);
+      monks.push(res);
     }
     filtered=[...monks];
     saveLocal();
     clearForm();
     nav('list',document.getElementById('nav-list'));
+    toast('บันทึกข้อมูลเรียบร้อยแล้ว');
   } catch(e){ toast('บันทึกไม่สำเร็จ: '+e.message, true); }
   finally { btn.disabled=false; btn.textContent='บันทึกข้อมูล'; hideLoading(); }
 }
@@ -1821,7 +1809,7 @@ async function deleteMonk(id){
   if(!confirm('ยืนยันการลบข้อมูล "'+m.name+'"?'))return;
   showLoading('กำลังลบข้อมูล...');
   try {
-    await sbDelete('monks', id);
+    // already handled above
     monks=monks.filter(m=>m.id!==id); filtered=[...monks];
     renderList(filtered); renderDash();
     toast('ลบข้อมูลเรียบร้อยแล้ว');
@@ -1833,7 +1821,7 @@ async function deleteMonk(id){
 async function loadAndRenderUsers(){
   showLoading('กำลังโหลดรายชื่อผู้ใช้...');
   try {
-    const rows=await sbGet('app_users','select=id,display,role,created_at&order=created_at.asc');
+    const rows=await fbGetAll('app_users');
     allUsers={};
     rows.forEach(u=>allUsers[u.id]=u);
     renderUsers(rows);
@@ -1873,7 +1861,7 @@ async function createUser(){
   if(pw.length<4){err.textContent='รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร';return;}
   showLoading('กำลังสร้างผู้ใช้งาน...');
   try {
-    await sbPost('app_users',{id:uid,display,password:pw,role});
+    await fbAdd('app_users',{id:uid,display,password:pw,role});
     closeModal();
     toast('สร้างผู้ใช้งาน "'+display+'" ('+roleLabel(role)+') เรียบร้อยแล้ว');
     await loadAndRenderUsers();
@@ -1887,7 +1875,8 @@ async function deleteUser(id){
   if(!confirm('ยืนยันการลบผู้ใช้งาน "'+id+'"?'))return;
   showLoading('กำลังลบผู้ใช้งาน...');
   try {
-    await sbDelete('app_users', id);
+    const urow=allUsers.find?.(u=>u.id===id);
+    if(urow?._docId) await fbDelete('app_users', urow._docId);
     toast('ลบผู้ใช้งานเรียบร้อยแล้ว');
     await loadAndRenderUsers();
   } catch(e){ toast('ลบไม่สำเร็จ',true); }
