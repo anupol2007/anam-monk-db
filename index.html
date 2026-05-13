@@ -1846,6 +1846,7 @@ function fillForm(m){
   sv('f-note', m.note||'');
 
   // select dropdowns for temples
+  // Step 1: set temple selects (triggers onTempleSelect which fills addr)
   setTimeout(()=>{
     ss('f-samanera-temple', m.samanera_temple||'');
     ss('f-ord-temple', m.ord_temple||'');
@@ -1854,14 +1855,16 @@ function fillForm(m){
     ss('f-anu-temple', m.anu_temple||'');
     ss('f-temple', m.temple||'');
     if(m.ord_date){ const op=(m.ord_date||'').split(' '); ss('f-ord-year', op[2]||''); calcPansaNew(); }
-    // Re-fill readonly addr fields after select is set
+  }, 150);
+  // Step 2: override with saved addr values (in case TEMPLE_DB doesn't match exactly)
+  setTimeout(()=>{
+    sv('f-samanera-addr',m.samanera_addr||''); sv('f-samanera-sub',m.samanera_sub||''); sv('f-samanera-dist',m.samanera_dist||''); sv('f-samanera-prov',m.samanera_prov||''); sv('f-samanera-zip',m.samanera_zip||'');
+    sv('f-ord-addr',m.ord_addr||''); sv('f-ord-sub',m.ord_sub||''); sv('f-ord-dist',m.ord_dist||''); sv('f-ord-prov',m.ord_prov||''); sv('f-ord-zip',m.ord_zip||'');
     sv('f-upa-addr',m.upa_addr||''); sv('f-upa-sub',m.upa_sub||''); sv('f-upa-dist',m.upa_dist||''); sv('f-upa-prov',m.upa_prov||''); sv('f-upa-zip',m.upa_zip||'');
     sv('f-kam-addr',m.kam_addr||''); sv('f-kam-sub',m.kam_sub||''); sv('f-kam-dist',m.kam_dist||''); sv('f-kam-prov',m.kam_prov||''); sv('f-kam-zip',m.kam_zip||'');
     sv('f-anu-addr',m.anu_addr||''); sv('f-anu-sub',m.anu_sub||''); sv('f-anu-dist',m.anu_dist||''); sv('f-anu-prov',m.anu_prov||''); sv('f-anu-zip',m.anu_zip||'');
     sv('f-temple-addr',m.temple_addr||''); sv('f-temple-sub',m.temple_sub||''); sv('f-temple-dist',m.temple_dist||''); sv('f-temple-prov',m.temple_prov||''); sv('f-temple-zip',m.temple_zip||'');
-    sv('f-samanera-addr',m.samanera_addr||''); sv('f-samanera-sub',m.samanera_sub||''); sv('f-samanera-dist',m.samanera_dist||''); sv('f-samanera-prov',m.samanera_prov||'');
-    sv('f-ord-addr',m.ord_addr||''); sv('f-ord-sub',m.ord_sub||''); sv('f-ord-dist',m.ord_dist||''); sv('f-ord-prov',m.ord_prov||'');
-  }, 200);
+  }, 400);
 }
 
 function editMonkIdx(idx){
