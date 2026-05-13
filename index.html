@@ -2202,57 +2202,138 @@ function printList(data){
 
 function printMonkDetail(){
   const m=window._currentMonk; if(!m) return;
-  const row=(k,v)=>v?`<tr><td style="width:160px;color:#6b7280;padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6">${k}</td><td style="padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6;font-weight:500">${v}</td></tr>`:'';
+  const row=(k,v)=>v?`<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`:'';
+  const sec=(title,rows)=>`<div class="sec"><div class="sec-title">${title}</div><table>${rows}</table></div>`;
+  const dh=m.dharma_rows&&m.dharma_rows.length?m.dharma_rows.map(r=>row('นักธรรม',[r.level,r.year?'พ.ศ.'+r.year:'',r.school?'('+r.school+')':''].filter(Boolean).join(' '))).join(''):row('นักธรรม',m.dharma||'');
+  const pl=m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>row('ประโยคบาลี',[r.level,r.year?'พ.ศ.'+r.year:'',r.school?'('+r.school+')':''].filter(Boolean).join(' '))).join(''):row('ประโยคบาลี',m.pali||'');
+  const ed=m.edu_rows&&m.edu_rows.length?m.edu_rows.map(r=>row('วุฒิสามัญ',[r.level,r.year?'พ.ศ.'+r.year:'',r.school,r.major?'('+r.major+')':''].filter(Boolean).join(' '))).join(''):row('วุฒิสามัญ',m.edu||'');
+  const th=m.thananu_hist_rows&&m.thananu_hist_rows.length?m.thananu_hist_rows.map(r=>row(r.date||'-',[r.pos,r.name,r.cls,r.owner?'('+r.owner+')':''].filter(Boolean).join(' '))).join(''):'';
+  const tp=m.temple_pos_rows&&m.temple_pos_rows.length?m.temple_pos_rows.map(r=>row(r.start||'-',[r.pos,r.rank,r.temple,r.status?'('+r.status+')':''].filter(Boolean).join(' '))).join(''):'';
+  const sp=m.sangha_pos_rows&&m.sangha_pos_rows.length?m.sangha_pos_rows.map(r=>row(r.start||'-',[r.pos,r.hon?'หน'+r.hon:'',r.phak?'ภาค'+r.phak:'',r.prov,r.dist,r.status?'('+r.status+')':''].filter(Boolean).join(' '))).join(''):'';
+  const xp=m.special_pos_rows&&m.special_pos_rows.length?m.special_pos_rows.map(r=>row(r.date||'-',[r.name,r.pos,r.detail].filter(Boolean).join(' — '))).join(''):'';
   const w=window.open('');
   w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ทะเบียนประวัติ</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
-    body{font-family:'Sarabun',sans-serif;padding:28px 36px;color:#1a1a18;font-size:13px}
-    .header{text-align:center;border-bottom:3px double #8B3A06;padding-bottom:14px;margin-bottom:20px}
-    .header h1{font-size:18px;font-weight:700;color:#5C2A04}
-    .header h2{font-size:22px;font-weight:700;color:#1a1a18;margin:8px 0 4px}
-    .section{margin-bottom:18px}
-    .section-title{background:#8B3A06;color:white;padding:6px 12px;font-size:12px;font-weight:700;border-radius:4px;margin-bottom:0}
-    table{width:100%;border-collapse:collapse;border:1px solid #f0e0d0}
-    .footer{margin-top:24px;display:flex;justify-content:space-around;font-size:12px;border-top:1px solid #ddd;padding-top:16px}
-    .sign-box{text-align:center;width:200px}
-    .sign-line{border-top:1px solid #333;margin:32px auto 6px;width:160px}
-    @media print{body{padding:16px 20px}}
-  </style>
-  </head><body>
+    @page{size:A4 portrait;margin:2.5cm}
+    *{box-sizing:border-box}
+    body{font-family:'Sarabun',sans-serif;color:#1a1a18;font-size:12px;margin:0;padding:0}
+    .header{text-align:center;border-bottom:2px solid #8B3A06;padding-bottom:10px;margin-bottom:14px}
+    .header .logo{font-size:24px;margin-bottom:2px}
+    .header h1{font-size:13px;font-weight:700;color:#5C2A04;margin:2px 0}
+    .header h2{font-size:16px;font-weight:700;color:#1a1a18;margin:4px 0 2px}
+    .header .sub{font-size:11px;color:#8B3A06}
+    .sec{margin-bottom:10px;page-break-inside:avoid}
+    .sec-title{background:#8B3A06;color:white;padding:4px 10px;font-size:11px;font-weight:700}
+    table{width:100%;border-collapse:collapse;border:1px solid #ddd}
+    td{padding:4px 8px;font-size:11px;border-bottom:1px solid #f0e0d0;vertical-align:top}
+    td.k{width:38%;color:#555;font-weight:400}
+    td.v{font-weight:600;color:#1a1a18}
+    .footer{margin-top:16px;display:flex;justify-content:space-around;align-items:flex-end;border-top:1px solid #ccc;padding-top:12px}
+    .sign-box{text-align:center;width:180px}
+    .sign-line{border-top:1px solid #333;margin:28px auto 4px;width:140px}
+    .sign-box div{font-size:11px}
+    .print-date{font-size:10px;color:#888;text-align:right}
+    @media print{body{font-size:12px}}
+  </style></head><body>
   <div class="header">
-    <div style="font-size:30px;margin-bottom:4px">&#9775;</div>
-    <h1>ทะเบียนประวัติ${m.type||'พระภิกษุ'}</h1>
-    <h2>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</h2>
-    <div style="font-size:12px;color:#8B3A06">วัด${m.temple||'-'} | พรรษา ${m.pansa||'-'} | สถานะ: ${m.status||'-'}</div>
+    <div class="logo">&#9775;</div>
+    <h1>สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</h1>
+    <h2>ทะเบียนประวัติ${m.type||'พระภิกษุ'} ${m.name||''}${m.chaya?' ('+m.chaya+')':''}</h2>
+    <div class="sub">วัด${m.temple||'-'} &nbsp;|&nbsp; พรรษา ${m.pansa||'-'} &nbsp;|&nbsp; สถานะ: ${m.status||'-'}</div>
   </div>
-  <div class="section">
-    <div class="section-title">๑. ประวัติเดิม (ก่อนอุปสมบท)</div>
-    <table>${row('ชื่อจริง-นามสกุล',(m.firstname||'')+(m.lastname?' '+m.lastname:''))}${row('วันเกิด',m.bday)}${row('สัญชาติ',m.nation)}${row('เชื้อชาติ',m.race)}${row('เลขบัตรประชาชน',m.idcard)}${row('ที่อยู่เดิม',[m.addr_full,m.addr_sub,m.addr_dist,m.addr_prov].filter(Boolean).join(' '))}${row('บิดา',m.father_name)}${row('มารดา',m.mother_name)}</table>
-  </div>
-  <div class="section">
-    <div class="section-title">๒. การบรรพชาอุปสมบท</div>
-    <table>${row('วันที่อุปสมบท',m.ord_date)}${row('วัดที่อุปสมบท',m.ord_temple)}${row('ที่อยู่วัด',[m.ord_sub,m.ord_dist,m.ord_prov].filter(Boolean).join(' '))}${row('พระอุปัชฌาย์',m.upa)}${row('วัดสังกัดอุปัชฌาย์',m.upa_temple)}${row('พระกรรมวาจาจารย์',m.kam)}${row('พระอนุสาวนาจารย์',m.anu)}${row('ฉายา',m.chaya)}${row('หนังสือสุทธิเลขที่',m.book_no)}${row('พรรษา',m.pansa)}</table>
-  </div>
-  <div class="section">
-    <div class="section-title">๓. สถานภาพปัจจุบัน</div>
-    <table>${row('วัดสังกัด',m.temple)}${row('ที่อยู่วัด',[m.temple_addr,m.temple_sub,m.temple_dist,m.temple_prov,m.temple_zip].filter(Boolean).join(' '))}${row('ชื่อ (ฉายา) เจ้าอาวาส',m.abbot_chaya)}${row('ตำแหน่ง/สมณศักดิ์',m.rank)}${row('เบอร์มือถือ',m.mobile)}${row('สถานะปัจจุบัน',m.status)}</table>
-  </div>
-  <div class="section">
-    <div class="section-title">๔-๕. วิทยฐานะ</div>
-    <table>${row('วุฒิสูงสุด (สามัญ)',m.edu_rows&&m.edu_rows.length?m.edu_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')
-    }${row('ชั้นนักธรรม',m.dharma_rows&&m.dharma_rows.length?m.dharma_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')
-    }${row('ประโยคบาลี',m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>r.level+(r.year?' พ.ศ.'+r.year:'')).join(', '):'')}</table>
-  </div>
-  ${m.note?`<div class="section"><div class="section-title">หมายเหตุ</div><table>${row('',m.note)}</table></div>`:''}
-  <div class="section"><div class="section-title">ข้อมูลการบันทึก</div><table>${row('ผู้เพิ่มข้อมูล (User)',m.added_by||(m.added_by_id?m.added_by_id:'-'))}${row('รหัสผู้เพิ่ม',m.added_by_id||'-')}</table></div>
+
+  ${sec('๑. ประวัติเดิม (ก่อนอุปสมบท)',
+    row('ชื่อจริง',m.firstname||m.name||'')+
+    row('นามสกุล',m.lastname)+
+    row('ชื่อเล่น',m.nickname)+
+    row('วันเกิด',m.bday)+
+    row('อายุ',m.age||'')+
+    row('สัญชาติ',m.nation)+
+    row('เชื้อชาติ',m.race)+
+    row('เลขบัตรประชาชน/Passport',m.idcard)+
+    row('ที่อยู่เดิม',[m.addr_full,m.addr_sub,m.addr_dist,m.addr_prov,m.addr_zip].filter(Boolean).join(' '))+
+    row('ชื่อ-นามสกุล บิดา',m.father_name)+
+    row('ชื่อ-นามสกุล มารดา',m.mother_name)
+  )}
+
+  ${sec('๒. บรรพชา/อุปสมบท',
+    row('วันบรรพชาสามเณร',m.samanera_date)+
+    row('วัดที่บรรพชา',m.samanera_temple)+
+    row('ที่อยู่วัดบรรพชา',[m.samanera_addr,m.samanera_sub,m.samanera_dist,m.samanera_prov,m.samanera_zip].filter(Boolean).join(' '))+
+    row('วันอุปสมบท',m.ord_date)+
+    row('วัดที่อุปสมบท',m.ord_temple)+
+    row('ที่อยู่วัดอุปสมบท',[m.ord_addr,m.ord_sub,m.ord_dist,m.ord_prov,m.ord_zip].filter(Boolean).join(' '))+
+    row('ฉายา',m.chaya)+
+    row('พรรษา',m.pansa)+
+    row('สุทธิเล่มที่/เลขที่',[m.book_vol,m.book_no].filter(Boolean).join('/'))+
+    row('วันที่สุทธิ',m.book_date)
+  )}
+
+  ${sec('๓. พระอุปัชฌาย์/กรรมวาจาจารย์/อนุสาวนาจารย์',
+    row('พระอุปัชฌาย์',m.upa)+
+    row('วัดสังกัดอุปัชฌาย์',m.upa_temple)+
+    row('ที่อยู่วัดอุปัชฌาย์',[m.upa_addr,m.upa_sub,m.upa_dist,m.upa_prov,m.upa_zip].filter(Boolean).join(' '))+
+    row('พระกรรมวาจาจารย์',m.kam)+
+    row('วัดสังกัดกรรมวาจา',m.kam_temple)+
+    row('ที่อยู่วัดกรรมวาจา',[m.kam_addr,m.kam_sub,m.kam_dist,m.kam_prov,m.kam_zip].filter(Boolean).join(' '))+
+    row('พระอนุสาวนาจารย์',m.anu)+
+    row('วัดสังกัดอนุสาวนาจารย์',m.anu_temple)+
+    row('ที่อยู่วัดอนุสาวนาจารย์',[m.anu_addr,m.anu_sub,m.anu_dist,m.anu_prov,m.anu_zip].filter(Boolean).join(' '))
+  )}
+
+  ${sec('๔. วัดสังกัดปัจจุบัน',
+    row('วัดสังกัด',m.temple)+
+    row('ที่อยู่วัด',[m.temple_addr,m.temple_sub,m.temple_dist,m.temple_prov,m.temple_zip].filter(Boolean).join(' '))+
+    row('เบอร์ติดต่อวัด',m.temple_tel)+
+    row('เบอร์มือถือ',m.mobile)+
+    row('ชื่อ (ฉายา) เจ้าอาวาส',m.abbot_chaya)+
+    row('ตำแหน่ง/สมณศักดิ์',m.rank)
+  )}
+
+  ${sec('๕. สถานะ',
+    row('สถานะปัจจุบัน',m.status)+
+    row('วันที่เปลี่ยนสถานะ',m.status_date)
+  )}
+
+  ${sec('๖. อุปัชฌาย์ (บทบาท)',
+    row('ปีที่ได้รับแต่งตั้ง พ.ศ.',m.upajja_year)+
+    row('บทบาทหน้าที่',m.upajja_roles)
+  )}
+
+  ${sec('๗. วิทยฐานะ/การศึกษา', dh+pl+ed)}
+
+  ${sec('๘. สมณศักดิ์',
+    row('วัน/เดือน/ปี รับสมณศักดิ์',m.honor_date)+
+    row('ชั้นสมณศักดิ์',m.honor_class)+
+    row('ราชทินนาม',m.honor_name)+
+    row('ราชทินนามเต็ม',m.honor_fullname)+
+    row('ลำดับชั้น',m.honor_rank)+
+    row('พัดยศ',m.honor_fan)+
+    row('ฝ่าย',m.honor_side)
+  )}
+
+  ${th?sec('๙. ประวัติฐานานุกรม',th):''}
+  ${tp?sec('๑๐. ตำแหน่งประจำวัด',tp):''}
+  ${sp?sec('๑๑. ตำแหน่งการปกครองสงฆ์',sp):''}
+  ${xp?sec('๑๒. ตำแหน่งงานพิเศษ',xp):''}
+
+  ${sec('๑๓. งานเผยแผ่/หมายเหตุ',
+    row('วันเข้าบริหารงานสงฆ์ 6 ด้าน',m.sangha6_date)+
+    row('ประเภทงาน',m.sangha6_type)+
+    row('รายละเอียด',m.sangha6_detail)+
+    row('ตำแหน่งงานเผยแผ่',m.missions)+
+    row('หมายเหตุ',m.note)
+  )}
+
   <div class="footer">
-    <div class="sign-box"><div class="sign-line"></div><div>ผู้บันทึกข้อมูล</div><div style="color:#666;margin-top:4px">(${currentUser?currentUser.display:'................'})</div></div>
-    <div class="sign-box"><div class="sign-line"></div><div>เจ้าอาวาส/ผู้รับรอง</div><div style="color:#666;margin-top:4px">(${m.abbot_chaya||'................'})</div></div>
-    <div style="text-align:right;font-size:11px;color:#888">พิมพ์: ${new Date().toLocaleDateString('th-TH')}<br>ระบบฐานข้อมูลพระ อนัมนิกาย</div>
+    <div class="sign-box"><div class="sign-line"></div><div>เจ้าหน้าที่สำนักงาน</div><div style="color:#666">(...........................)</div></div>
+    <div class="sign-box"><div class="sign-line"></div><div>เจ้าอาวาส/ผู้รับรอง</div><div style="color:#666">(...........................)</div></div>
+    <div class="print-date">พิมพ์: ${new Date().toLocaleDateString('th-TH')}<br>ระบบฐานข้อมูลพระ อนัมนิกาย</div>
   </div>
   </body></html>`);
-  w.focus(); setTimeout(()=>w.print(),400);
+  w.document.close();
+  w.focus(); setTimeout(()=>w.print(),600);
 }
 function showStats(){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์',true);return;}
