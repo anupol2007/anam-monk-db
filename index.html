@@ -1292,21 +1292,21 @@ function renderList(data){
   if(viewer){
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>นามสกุลเดิม</th><th>สังกัดวัด</th><th>เจ้าอาวาส</th><th>อายุ</th><th>พรรษา</th><th>เลขสุทธิ</th><th>วันเกิด</th><th>สถานะ</th>';
     document.getElementById('list-table').innerHTML=data.length
-      ?data.map((m,i)=>`<tr onclick="showDetail('${m._docId||m.id}')" style="cursor:pointer"><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
+      ?data.map((m,i)=>`<tr onclick="showDetail(${i})" style="cursor:pointer"><td>${i+1}</td><td>${m.name||''}${m.chaya?' ('+m.chaya+')':''}</td><td>${m.lastname||'-'}</td><td>${m.temple||'-'}</td><td>${m.abbot_chaya||'-'}</td><td>${m.age||'-'}</td><td>${m.pansa||'-'}</td><td>${m.book_no||'-'}</td><td>${[m.bday,m.bmonth,m.byear?'พ.ศ.'+m.byear:''].filter(Boolean).join(' ')||'-'}</td><td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td></tr>`).join('')
       :'<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
   } else {
     head.innerHTML='<th>#</th><th>ชื่อ/ฉายา</th><th>ประเภท</th><th>เลขบัตรประชาชน</th><th>วัดสังกัด</th><th>พรรษา</th><th>สถานะ</th><th>จัดการ</th>';
     document.getElementById('list-table').innerHTML=data.length
       ?data.map((m,i)=>`<tr><td>${i+1}</td>
-        <td><span style="cursor:pointer;color:#2563eb;text-decoration:underline" onclick="showDetail('${m._docId||m.id}')">${m.name||''}${m.chaya?' ('+m.chaya+')':''}</span></td>
+        <td><span style="cursor:pointer;color:#2563eb;text-decoration:underline" onclick="showDetail(${i})">${m.name||''}${m.chaya?' ('+m.chaya+')':''}</span></td>
         <td>${m.type||'-'}</td>
         <td style="font-family:monospace;font-size:12px">${m.idcard||'-'}</td>
         <td>${m.temple||'-'}</td>
         <td>${m.pansa||'-'}</td>
         <td><span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span></td>
         <td><div class="action-btns">
-          <button class="btn btn-sm" onclick="showDetail('${m._docId||m.id}')">ดู</button>
-          ${isEditor(currentUser)?`<button class="btn btn-sm" onclick="editMonk('${m._docId||m.id}')">แก้ไข</button><button class="btn btn-sm btn-danger" onclick="deleteMonk('${m._docId||m.id}')">ลบ</button>`:''}
+          <button class="btn btn-sm" onclick="showDetail(${i})">ดู</button>
+          ${isEditor(currentUser)?`<button class="btn btn-sm" onclick="editMonkIdx(${i})">แก้ไข</button><button class="btn btn-sm btn-danger" onclick="deleteMonkIdx(${i})">ลบ</button>`:''}
         </div></td></tr>`).join('')
       :'<tr><td colspan="8" style="text-align:center;color:#9ca3af;padding:24px">ยังไม่มีข้อมูล</td></tr>';
   }
@@ -1358,8 +1358,8 @@ function initFilterTemple(){
 /* ===== DETAIL ===== */
 function dr(k,v){ return v?`<div class="d-row"><div class="d-key">${k}</div><div class="d-val">${v}</div></div>`:''; }
 
-function showDetail(id){
-  const m=monks.find(x=>String(x._docId||x.id)===String(id)); if(!m) return;
+function showDetail(idx){
+  const m=filtered[idx]||monks[idx]; if(!m) return;
   const viewer=isViewer(currentUser);
   let html='';
   if(viewer){
@@ -1388,7 +1388,7 @@ function showDetail(id){
       <div style="font-size:13px;color:#6b7280;margin-top:2px">${m.rank||''} · ${m.temple||'-'}</div></div>
       <div style="margin-left:auto;display:flex;gap:8px">
         <span class="badge ${m.status==='บวช'?'badge-active':'badge-inactive'}">${m.status||'-'}</span>
-        ${isEditor(currentUser)?`<button class="btn btn-sm" onclick="editMonk('${m._docId||m.id}')">แก้ไข</button>`:''}
+        ${isEditor(currentUser)?`<button class="btn btn-sm" onclick="editMonkByDocId('${m._docId||m.id||''}')">แก้ไข</button>`:''}
       </div>
     </div>
     <div class="d-section"><div class="d-section-title">ข้อมูลพื้นฐาน</div><div class="d-grid">
@@ -1692,6 +1692,15 @@ function fillForm(m){
   });
 }
 
+function editMonkIdx(idx){
+  const m=filtered[idx]||monks[idx]; if(!m) return;
+  editMonkByDocId(m._docId||m.id);
+}
+function deleteMonkIdx(idx){
+  const m=filtered[idx]||monks[idx]; if(!m) return;
+  deleteMonk(m._docId||m.id);
+}
+function editMonkByDocId(id){ editMonk(id); }
 function editMonk(id){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์แก้ไข',true);return;}
   const m=monks.find(x=>x.id===id); if(!m)return;
