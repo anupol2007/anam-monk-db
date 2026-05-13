@@ -1392,51 +1392,66 @@ function showDetail(idx){
         ${isEditor(currentUser)?`<button class="btn btn-sm" onclick="editMonkByDocId(window._currentMonk._docId||window._currentMonk.id||'')">แก้ไข</button>`:''}
       </div>
     </div>
-    <div class="d-section"><div class="d-section-title">1. ข้อมูลพื้นฐาน</div><div class="d-grid">
-      ${dr('ประเภท',m.type)}${dr('ชื่อจริง',m.firstname||m.name)}${dr('นามสกุล',m.lastname)}${dr('ชื่อเล่น',m.nickname)}
-      ${dr('วันเกิด',m.bday)}${dr('สัญชาติ',m.nation)}${dr('เชื้อชาติ',m.race)}${dr('เลขบัตรประชาชน',m.idcard)}
-      ${dr('ที่อยู่เดิม',[m.addr_full,m.addr_sub,m.addr_dist,m.addr_prov,m.addr_zip].filter(Boolean).join(' '))}
-      ${dr('ชื่อบิดา',m.father_name)}${dr('ชื่อมารดา',m.mother_name)}
+    <div class="d-section"><div class="d-section-title">1. ประวัติเดิม (ก่อนอุปสมบท)</div><div class="d-grid">
+      ${dr('ประเภท',m.type)}
+      ${dr('ชื่อจริง',m.firstname||m.name)}${dr('นามสกุล',m.lastname)}${dr('ชื่อเล่น',m.nickname)}
+      ${dr('วันเกิด',m.bday)}${dr('สัญชาติ',m.nation)}${dr('เชื้อชาติ',m.race)}
+      ${dr('เลขบัตรประชาชน/Passport',m.idcard)}
+      ${dr('ที่อยู่เดิม (จังหวัด)',m.addr_prov)}${dr('ที่อยู่เดิม (อำเภอ/เขต)',m.addr_dist)}
+      ${dr('ที่อยู่เดิม (ตำบล/แขวง)',m.addr_sub)}${dr('รหัสไปรษณีย์',m.addr_zip)}
+      ${dr('ที่อยู่เดิม (บ้านเลขที่ ถนน ซอย)',m.addr_full)}
+      ${dr('ชื่อ-นามสกุล บิดา',m.father_name)}${dr('ชื่อ-นามสกุล มารดา',m.mother_name)}
     </div></div>
     <div class="d-section"><div class="d-section-title">2. บรรพชา/อุปสมบท</div><div class="d-grid">
-      ${dr('วันบรรพชาสามเณร',m.samanera_date)}${dr('วัดที่บรรพชา',[m.samanera_temple,m.samanera_addr,m.samanera_sub,m.samanera_dist,m.samanera_prov].filter(Boolean).join(' '))}
+      ${dr('วันบรรพชาสามเณร',m.samanera_date)}
+      ${dr('วัดที่บรรพชา',m.samanera_temple)}
+      ${dr('ที่อยู่วัดบรรพชา',m.samanera_addr)}${dr('ตำบล/แขวง',m.samanera_sub)}${dr('อำเภอ/เขต',m.samanera_dist)}${dr('จังหวัด',m.samanera_prov)}${dr('รหัสไปรษณีย์',m.samanera_zip)}
       ${dr('วันอุปสมบท',m.ord_date)}${dr('ฉายา',m.chaya)}${dr('พรรษา',m.pansa)}
-      ${dr('วัดที่อุปสมบท',[m.ord_temple,m.ord_addr,m.ord_sub,m.ord_dist,m.ord_prov].filter(Boolean).join(' '))}
-      ${dr('สุทธิเล่มที่/เลขที่',[m.book_vol,m.book_no].filter(Boolean).join('/'))}${dr('วันที่สุทธิ',m.book_date)}
+      ${dr('วัดที่อุปสมบท',m.ord_temple)}
+      ${dr('ที่อยู่วัดอุปสมบท',m.ord_addr)}${dr('ตำบล/แขวง',m.ord_sub)}${dr('อำเภอ/เขต',m.ord_dist)}${dr('จังหวัด',m.ord_prov)}${dr('รหัสไปรษณีย์',m.ord_zip)}
+      ${dr('สุทธิเล่มที่',m.book_vol)}${dr('สุทธิเลขที่',m.book_no)}${dr('วันที่สุทธิ',m.book_date)}
     </div></div>
-    <div class="d-section"><div class="d-section-title">3. พระอุปัชฌาย์/กรรมวาจา</div><div class="d-grid">
-      ${dr('พระอุปัชฌาย์',m.upa)}${dr('วัดอุปัชฌาย์',[m.upa_temple,m.upa_sub,m.upa_dist,m.upa_prov].filter(Boolean).join(' '))}
-      ${dr('พระกรรมวาจาจารย์',m.kam)}${dr('วัดกรรมวาจา',m.kam_temple)}
-      ${dr('พระอนุสาวนาจารย์',m.anu)}${dr('วัดอนุสาวนาจารย์',m.anu_temple)}
+    <div class="d-section"><div class="d-section-title">3. พระอุปัชฌาย์/กรรมวาจาจารย์/อนุสาวนาจารย์</div><div class="d-grid">
+      ${dr('พระอุปัชฌาย์',m.upa)}
+      ${dr('วัดสังกัดอุปัชฌาย์',m.upa_temple)}
+      ${dr('ที่อยู่วัด',m.upa_addr)}${dr('ตำบล/แขวง',m.upa_sub)}${dr('อำเภอ/เขต',m.upa_dist)}${dr('จังหวัด',m.upa_prov)}${dr('รหัสไปรษณีย์',m.upa_zip)}
+      ${dr('พระกรรมวาจาจารย์',m.kam)}
+      ${dr('วัดสังกัดกรรมวาจา',m.kam_temple)}
+      ${dr('ที่อยู่วัด',m.kam_addr)}${dr('ตำบล/แขวง',m.kam_sub)}${dr('อำเภอ/เขต',m.kam_dist)}${dr('จังหวัด',m.kam_prov)}${dr('รหัสไปรษณีย์',m.kam_zip)}
+      ${dr('พระอนุสาวนาจารย์',m.anu)}
+      ${dr('วัดสังกัดอนุสาวนาจารย์',m.anu_temple)}
+      ${dr('ที่อยู่วัด',m.anu_addr)}${dr('ตำบล/แขวง',m.anu_sub)}${dr('อำเภอ/เขต',m.anu_dist)}${dr('จังหวัด',m.anu_prov)}${dr('รหัสไปรษณีย์',m.anu_zip)}
     </div></div>
     <div class="d-section"><div class="d-section-title">4. วัดสังกัดปัจจุบัน</div><div class="d-grid">
-      ${dr('วัด',m.temple)}${dr('ที่อยู่วัด',[m.temple_addr,m.temple_sub,m.temple_dist,m.temple_prov,m.temple_zip].filter(Boolean).join(' '))}
-      ${dr('เบอร์ติดต่อวัด',m.temple_tel)}${dr('เบอร์มือถือ',m.mobile)}
-      ${dr('ฉายาเจ้าอาวาส',m.abbot_chaya)}${dr('ตำแหน่ง/สมณศักดิ์',m.rank)}
+      ${dr('วัดสังกัด',m.temple)}
+      ${dr('ที่อยู่วัด',m.temple_addr)}${dr('ตำบล/แขวง',m.temple_sub)}${dr('อำเภอ/เขต',m.temple_dist)}${dr('จังหวัด',m.temple_prov)}${dr('รหัสไปรษณีย์',m.temple_zip)}
+      ${dr('เบอร์ติดต่อภายในวัด',m.temple_tel)}${dr('เบอร์มือถือ',m.mobile)}
+      ${dr('ชื่อ (ฉายา) ของเจ้าอาวาส',m.abbot_chaya)}${dr('ตำแหน่ง/สมณศักดิ์',m.rank)}
     </div></div>
-    <div class="d-section"><div class="d-section-title">5. สถานะ</div><div class="d-grid">
-      ${dr('สถานะปัจจุบัน',m.status)}${dr('วันที่เปลี่ยนสถานะ',m.status_date)}
+    <div class="d-section"><div class="d-section-title">5. สถานะปัจจุบัน</div><div class="d-grid">
+      ${dr('สถานะ',m.status)}${dr('วันที่เปลี่ยนสถานะ',m.status_date)}
     </div></div>
-    <div class="d-section"><div class="d-section-title">6. อุปัชฌาย์บทบาท</div><div class="d-grid">
-      ${dr('ปีที่ได้รับแต่งตั้ง พ.ศ.',m.upajja_year)}${dr('บทบาท',m.upajja_roles)}
+    <div class="d-section"><div class="d-section-title">6. อุปัชฌาย์ (บทบาท)</div><div class="d-grid">
+      ${dr('ปีที่ได้รับแต่งตั้ง พ.ศ.',m.upajja_year)}${dr('บทบาทหน้าที่',m.upajja_roles)}
     </div></div>
     <div class="d-section"><div class="d-section-title">7. วิทยฐานะ/การศึกษา</div><div class="d-grid">
-      ${(m.dharma_rows&&m.dharma_rows.length?m.dharma_rows.map(r=>dr('นักธรรม',r.level+' พ.ศ.'+r.year+' ('+r.school+')')).join(''): dr('นักธรรม',m.dharma||''))}
-      ${(m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>dr('บาลี',r.level+' พ.ศ.'+r.year+' ('+r.school+')')).join(''):dr('บาลี',m.pali||''))}
-      ${(m.edu_rows&&m.edu_rows.length?m.edu_rows.map(r=>dr('วุฒิสามัญ',r.level+' พ.ศ.'+r.year+' '+r.school)).join(''):dr('วุฒิสามัญ',m.edu||''))}
+      ${(m.dharma_rows&&m.dharma_rows.length?m.dharma_rows.map(r=>dr('นักธรรม',[r.level,r.year?'พ.ศ.'+r.year:'',r.school?'('+r.school+')':''].filter(Boolean).join(' '))).join(''):dr('นักธรรม',m.dharma||''))}
+      ${(m.pali_rows&&m.pali_rows.length?m.pali_rows.map(r=>dr('ประโยคบาลี',[r.level,r.year?'พ.ศ.'+r.year:'',r.school?'('+r.school+')':''].filter(Boolean).join(' '))).join(''):dr('ประโยคบาลี',m.pali||''))}
+      ${(m.edu_rows&&m.edu_rows.length?m.edu_rows.map(r=>dr('วุฒิสามัญ',[r.level,r.year?'พ.ศ.'+r.year:'',r.school,r.major?'('+r.major+')':''].filter(Boolean).join(' '))).join(''):dr('วุฒิสามัญ',m.edu||''))}
     </div></div>
     <div class="d-section"><div class="d-section-title">8. สมณศักดิ์</div><div class="d-grid">
-      ${dr('วันรับสมณศักดิ์',m.honor_date)}${dr('ชั้น',m.honor_class)}
+      ${dr('วัน/เดือน/ปี รับสมณศักดิ์',m.honor_date)}${dr('ชั้นสมณศักดิ์',m.honor_class)}
       ${dr('ราชทินนาม',m.honor_name)}${dr('ราชทินนามเต็ม',m.honor_fullname)}
       ${dr('ลำดับชั้น',m.honor_rank)}${dr('พัดยศ',m.honor_fan)}${dr('ฝ่าย',m.honor_side)}
     </div></div>
-    ${(m.thananu_hist_rows&&m.thananu_hist_rows.length)?`<div class="d-section"><div class="d-section-title">9. ฐานานุกรม</div><div class="d-grid">${m.thananu_hist_rows.map(r=>dr(r.date||'',r.pos+' '+r.name)).join('')}</div></div>`:''}
-    ${(m.temple_pos_rows&&m.temple_pos_rows.length)?`<div class="d-section"><div class="d-section-title">10. ตำแหน่งประจำวัด</div><div class="d-grid">${m.temple_pos_rows.map(r=>dr(r.start||'',r.pos+' '+r.temple)).join('')}</div></div>`:''}
-    ${(m.sangha_pos_rows&&m.sangha_pos_rows.length)?`<div class="d-section"><div class="d-section-title">11. ตำแหน่งการปกครอง</div><div class="d-grid">${m.sangha_pos_rows.map(r=>dr(r.start||'',r.pos)).join('')}</div></div>`:''}
-    ${(m.special_pos_rows&&m.special_pos_rows.length)?`<div class="d-section"><div class="d-section-title">12. ตำแหน่งงานพิเศษ</div><div class="d-grid">${m.special_pos_rows.map(r=>dr(r.date||'',r.name+' '+r.pos)).join('')}</div></div>`:''}
-    <div class="d-section"><div class="d-section-title">13. ตำแหน่งงานเผยแผ่/หมายเหตุ</div><div class="d-grid">
-      ${dr('งานสงฆ์ 6 ด้าน',[m.sangha6_date,m.sangha6_type,m.sangha6_detail].filter(Boolean).join(' '))}
-      ${dr('ตำแหน่งงานเผยแผ่',m.missions)}${dr('หมายเหตุ',m.note)}
+    ${(m.thananu_hist_rows&&m.thananu_hist_rows.length)?`<div class="d-section"><div class="d-section-title">9. ประวัติฐานานุกรม</div><div class="d-grid">${m.thananu_hist_rows.map(r=>dr(r.date||'-',[r.pos,r.name,r.cls,r.owner?'('+r.owner+')':''].filter(Boolean).join(' '))).join('')}</div></div>`:''}
+    ${(m.temple_pos_rows&&m.temple_pos_rows.length)?`<div class="d-section"><div class="d-section-title">10. ตำแหน่งประจำวัด</div><div class="d-grid">${m.temple_pos_rows.map(r=>dr(r.start||'-',[r.pos,r.rank,r.temple,r.status?'('+r.status+')':''].filter(Boolean).join(' '))).join('')}</div></div>`:''}
+    ${(m.sangha_pos_rows&&m.sangha_pos_rows.length)?`<div class="d-section"><div class="d-section-title">11. ตำแหน่งการปกครองสงฆ์</div><div class="d-grid">${m.sangha_pos_rows.map(r=>dr(r.start||'-',[r.pos,r.hon?'หน'+r.hon:'',r.phak?'ภาค'+r.phak:'',r.prov,r.dist,r.sub,r.status?'('+r.status+')':''].filter(Boolean).join(' '))).join('')}</div></div>`:''}
+    ${(m.special_pos_rows&&m.special_pos_rows.length)?`<div class="d-section"><div class="d-section-title">12. ตำแหน่งงานพิเศษ</div><div class="d-grid">${m.special_pos_rows.map(r=>dr(r.date||'-',[r.name,r.pos,r.detail].filter(Boolean).join(' — '))).join('')}</div></div>`:''}
+    <div class="d-section"><div class="d-section-title">13. งานเผยแผ่/หมายเหตุ</div><div class="d-grid">
+      ${dr('วันเข้าบริหารงานสงฆ์ 6 ด้าน',m.sangha6_date)}${dr('ประเภทงาน',m.sangha6_type)}${dr('รายละเอียด',m.sangha6_detail)}
+      ${dr('ตำแหน่งงานเผยแผ่',m.missions)}
+      ${dr('หมายเหตุ',m.note)}
     </div></div>
     <div class="d-section"><div class="d-section-title">ข้อมูลการบันทึก</div><div class="d-grid">
       <div class="d-row"><div class="d-key">ผู้เพิ่มข้อมูล (User)</div><div class="d-val" style="color:#8B3A06;font-weight:600">${m.added_by||m.added_by_id||'ไม่ระบุ'}</div></div>
@@ -1617,13 +1632,16 @@ function getFormData(){
     addr_prov:gv('f-addr-prov'), addr_dist:gv('f-addr-dist'), addr_sub:gv('f-addr-sub'),
     addr_zip:gv('f-addr-zip'), addr_full:gv('f-addr-full'),
     father_name:gv('f-father'), mother_name:gv('f-mother'),
-    samanera_date:[document.getElementById('f-sam-day')&&document.getElementById('f-sam-day').value,document.getElementById('f-sam-month')&&document.getElementById('f-sam-month').value,document.getElementById('f-sam-year')&&document.getElementById('f-sam-year').value].filter(Boolean).join(' '), samanera_temple:gv('f-samanera-temple'), samanera_addr:gv('f-samanera-addr'),samanera_sub:gv('f-samanera-sub'),samanera_dist:gv('f-samanera-dist'),samanera_prov:gv('f-samanera-prov'),
-    ord_date:[document.getElementById('f-ord-day')&&document.getElementById('f-ord-day').value,document.getElementById('f-ord-month')&&document.getElementById('f-ord-month').value,document.getElementById('f-ord-year')&&document.getElementById('f-ord-year').value].filter(Boolean).join(' '), ord_temple:gv('f-ord-temple'), ord_addr:gv('f-ord-addr'),ord_sub:gv('f-ord-sub'),ord_dist:gv('f-ord-dist'),ord_prov:gv('f-ord-prov'),
+    samanera_date:[document.getElementById('f-sam-day')&&document.getElementById('f-sam-day').value,document.getElementById('f-sam-month')&&document.getElementById('f-sam-month').value,document.getElementById('f-sam-year')&&document.getElementById('f-sam-year').value].filter(Boolean).join(' '), samanera_temple:gv('f-samanera-temple'), samanera_addr:gv('f-samanera-addr'),samanera_sub:gv('f-samanera-sub'),samanera_dist:gv('f-samanera-dist'),samanera_prov:gv('f-samanera-prov'),samanera_zip:gv('f-samanera-zip'),
+    ord_date:[document.getElementById('f-ord-day')&&document.getElementById('f-ord-day').value,document.getElementById('f-ord-month')&&document.getElementById('f-ord-month').value,document.getElementById('f-ord-year')&&document.getElementById('f-ord-year').value].filter(Boolean).join(' '), ord_temple:gv('f-ord-temple'), ord_addr:gv('f-ord-addr'),ord_sub:gv('f-ord-sub'),ord_dist:gv('f-ord-dist'),ord_prov:gv('f-ord-prov'),ord_zip:gv('f-ord-zip'),
     pansa:pansaText.startsWith('—')?'':pansaText,
     book_date:[document.getElementById('f-book-day')&&document.getElementById('f-book-day').value,document.getElementById('f-book-month')&&document.getElementById('f-book-month').value,document.getElementById('f-book-year')&&document.getElementById('f-book-year').value].filter(Boolean).join(' '), book_vol:gv('f-book-vol'), book_no:gv('f-book-no'),
     upa:gv('f-upa'), upa_temple:gv('f-upa-temple'),
+    upa_addr:gv('f-upa-addr'), upa_sub:gv('f-upa-sub'), upa_dist:gv('f-upa-dist'), upa_prov:gv('f-upa-prov'), upa_zip:gv('f-upa-zip'),
     kam:gv('f-kam'), kam_temple:gv('f-kam-temple'),
+    kam_addr:gv('f-kam-addr'), kam_sub:gv('f-kam-sub'), kam_dist:gv('f-kam-dist'), kam_prov:gv('f-kam-prov'), kam_zip:gv('f-kam-zip'),
     anu:gv('f-anu'), anu_temple:gv('f-anu-temple'),
+    anu_addr:gv('f-anu-addr'), anu_sub:gv('f-anu-sub'), anu_dist:gv('f-anu-dist'), anu_prov:gv('f-anu-prov'), anu_zip:gv('f-anu-zip'),
     temple:gv('f-temple'), sect:gv('f-sect'), temple_addr:gv('f-temple-addr'),temple_sub:gv('f-temple-sub'),temple_dist:gv('f-temple-dist'),temple_prov:gv('f-temple-prov'),temple_zip:gv('f-temple-zip'),
     temple_tel:gv('f-temple-tel'), mobile:gv('f-mobile'),
     abbot_chaya:gv('f-abbot-chaya'), rank:gv('f-rank'),
@@ -1712,6 +1730,7 @@ function fillForm(m){
   sv('f-samanera-sub', m.samanera_sub||'');
   sv('f-samanera-dist', m.samanera_dist||'');
   sv('f-samanera-prov', m.samanera_prov||'');
+  sv('f-samanera-zip', m.samanera_zip||'');
   if(m.ord_date){
     const op=(m.ord_date||'').split(' ');
     ss('f-ord-day', op[0]||''); ss('f-ord-month', op[1]||''); ss('f-ord-year', op[2]||'');
@@ -1720,6 +1739,7 @@ function fillForm(m){
   sv('f-ord-sub', m.ord_sub||'');
   sv('f-ord-dist', m.ord_dist||'');
   sv('f-ord-prov', m.ord_prov||'');
+  sv('f-ord-zip', m.ord_zip||'');
   sv('f-chaya', m.chaya||'');
   if(m.book_date){
     const bp=(m.book_date||'').split(' ');
@@ -1734,8 +1754,19 @@ function fillForm(m){
   sv('f-upa-sub', m.upa_sub||'');
   sv('f-upa-dist', m.upa_dist||'');
   sv('f-upa-prov', m.upa_prov||'');
+  sv('f-upa-zip', m.upa_zip||'');
   sv('f-kam', m.kam||'');
+  sv('f-kam-addr', m.kam_addr||'');
+  sv('f-kam-sub', m.kam_sub||'');
+  sv('f-kam-dist', m.kam_dist||'');
+  sv('f-kam-prov', m.kam_prov||'');
+  sv('f-kam-zip', m.kam_zip||'');
   sv('f-anu', m.anu||'');
+  sv('f-anu-addr', m.anu_addr||'');
+  sv('f-anu-sub', m.anu_sub||'');
+  sv('f-anu-dist', m.anu_dist||'');
+  sv('f-anu-prov', m.anu_prov||'');
+  sv('f-anu-zip', m.anu_zip||'');
 
   // ข้อ 4: วัดสังกัด
   sv('f-temple-addr', m.temple_addr||'');
@@ -1791,6 +1822,13 @@ function fillForm(m){
     ss('f-anu-temple', m.anu_temple||'');
     ss('f-temple', m.temple||'');
     if(m.ord_date){ const op=(m.ord_date||'').split(' '); ss('f-ord-year', op[2]||''); calcPansaNew(); }
+    // Re-fill readonly addr fields after select is set
+    sv('f-upa-addr',m.upa_addr||''); sv('f-upa-sub',m.upa_sub||''); sv('f-upa-dist',m.upa_dist||''); sv('f-upa-prov',m.upa_prov||''); sv('f-upa-zip',m.upa_zip||'');
+    sv('f-kam-addr',m.kam_addr||''); sv('f-kam-sub',m.kam_sub||''); sv('f-kam-dist',m.kam_dist||''); sv('f-kam-prov',m.kam_prov||''); sv('f-kam-zip',m.kam_zip||'');
+    sv('f-anu-addr',m.anu_addr||''); sv('f-anu-sub',m.anu_sub||''); sv('f-anu-dist',m.anu_dist||''); sv('f-anu-prov',m.anu_prov||''); sv('f-anu-zip',m.anu_zip||'');
+    sv('f-temple-addr',m.temple_addr||''); sv('f-temple-sub',m.temple_sub||''); sv('f-temple-dist',m.temple_dist||''); sv('f-temple-prov',m.temple_prov||''); sv('f-temple-zip',m.temple_zip||'');
+    sv('f-samanera-addr',m.samanera_addr||''); sv('f-samanera-sub',m.samanera_sub||''); sv('f-samanera-dist',m.samanera_dist||''); sv('f-samanera-prov',m.samanera_prov||'');
+    sv('f-ord-addr',m.ord_addr||''); sv('f-ord-sub',m.ord_sub||''); sv('f-ord-dist',m.ord_dist||''); sv('f-ord-prov',m.ord_prov||'');
   }, 200);
 }
 
