@@ -1933,8 +1933,8 @@ function printList(data){
   w.focus(); setTimeout(()=>w.print(),400);
 }
 
-function printMonkDetail(){const m=window._currentMonk; const id=m?m._docId||m.id:null;
-  const m=monks.find(x=>x.id===id); if(!m) return;
+function printMonkDetail(){
+  const m=window._currentMonk; if(!m) return;
   const row=(k,v)=>v?`<tr><td style="width:160px;color:#6b7280;padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6">${k}</td><td style="padding:6px 10px;font-size:12px;border-bottom:1px solid #f3f4f6;font-weight:500">${v}</td></tr>`:'';
   const w=window.open('');
   w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ทะเบียนประวัติ</title>
