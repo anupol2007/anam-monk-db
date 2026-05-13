@@ -1015,93 +1015,6 @@ function onTempleSelect(val,prefix){
 }
 
 
-/* ===== SAMPLE DATA (3 persons for testing) ===== */
-const SAMPLE_MONKS = [
-  {
-    id:9001, type:'พระภิกษุ', name:'พระมหาสมชาย', firstname:'สมชาย', lastname:'วงศ์ทอง', chaya:'ธมฺมปญฺโญ',
-    nickname:'ชาย', bday:'15', bmonth:'มีนาคม', byear:'2510',
-    nation:'ไทย', race:'ไทย', idcard:'1-1001-12345-67-8',
-    addr_prov:'กรุงเทพมหานคร', addr_dist:'สัมพันธวงศ์', addr_sub:'สัมพันธวงศ์', addr_zip:'10100', addr_full:'123 ถนนเยาวราช',
-    father_name:'นายสมพงษ์ วงศ์ทอง', mother_name:'นางสมศรี วงศ์ทอง',
-    samanera_date:'10 เมษายน 2530', samanera_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
-    samanera_addr:'97 ถนนราชวงศ์', samanera_sub:'สัมพันธวงศ์', samanera_dist:'สัมพันธวงศ์', samanera_prov:'กรุงเทพมหานคร',
-    ord_date:'15 กรกฎาคม 2531', ord_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
-    ord_addr:'97 ถนนราชวงศ์', ord_sub:'สัมพันธวงศ์', ord_dist:'สัมพันธวงศ์', ord_prov:'กรุงเทพมหานคร',
-    pansa:'36 พรรษา',
-    book_date:'15 กรกฎาคม 2531', book_vol:'1', book_no:'0012',
-    upa:'พระครูธรรมปัญญาธิวัตร', upa_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
-    kam:'พระอาจารย์สุชาติ', kam_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
-    anu:'พระอาจารย์วิชาญ', anu_temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)',
-    temple:'วัดกุศลสมาคร (โผเพื๊อกตื่อ)', sect:'อนัมนิกาย',
-    temple_addr:'97 ถนนราชวงศ์', temple_sub:'สัมพันธวงศ์', temple_dist:'สัมพันธวงศ์', temple_prov:'กรุงเทพมหานคร', temple_zip:'10100',
-    temple_tel:'02-221-5678', mobile:'081-234-5678',
-    abbot_chaya:'พระครูธรรมปัญญาธิวัตร (ทิดเถี่ยนคาย)', rank:'พระมหา (ป.ธ.4)',
-    status:'บวช', status_date:'15 กรกฎาคม 2531',
-    upajja_year:'', upajja_roles:'',
-    dharma_rows:[{year:'2533',level:'น.ธ.ตรี',school:'วัดกุศลสมาคร'},{year:'2534',level:'น.ธ.โท',school:'วัดกุศลสมาคร'},{year:'2535',level:'น.ธ.เอก',school:'วัดกุศลสมาคร'}],
-    pali_rows:[{year:'2536',level:'ป.ธ.1-2',school:'วัดกุศลสมาคร'},{year:'2537',level:'ป.ธ.3',school:'วัดกุศลสมาคร'},{year:'2538',level:'ป.ธ.4',school:'วัดกุศลสมาคร'}],
-    edu_rows:[{year:'2528',level:'ม.6',school:'โรงเรียนสวนกุหลาบ',major:'วิทย์-คณิต'}],
-    honor_date:'5 ธันวาคม 2560', honor_class:'พระครูสัญญาบัตร', honor_name:'ธมฺมปญฺโญ', honor_fullname:'พระครูปลัดธมฺมปญฺโญ', honor_rank:'ชั้นโท', honor_fan:'พัดงา', honor_side:'คันถธุระ',
-    sangha6_date:'1 มกราคม 2560', sangha6_type:'การเผยแผ่', sangha6_detail:'งานเผยแผ่พระพุทธศาสนาอนัมนิกาย',
-    missions:'พระธรรมทูต', note:'พระเถระอาวุโส ผู้ทรงคุณวุฒิด้านภาษาเวียดนาม-ไทย',
-    added_by:'Theerayut', added_by_id:'theerayut'
-  },
-  {
-    id:9002, type:'พระภิกษุ', name:'พระอาจารย์เหงียน', firstname:'เหงียน', lastname:'หวาน ถั่นห์', chaya:'ขนฺติธมฺโม',
-    nickname:'เหงียน', bday:'8', bmonth:'สิงหาคม', byear:'2495',
-    nation:'เวียดนาม', race:'เวียดนาม', idcard:'3-1001-98765-43-2',
-    addr_prov:'กรุงเทพมหานคร', addr_dist:'สัมพันธวงศ์', addr_sub:'ตลาดน้อย', addr_zip:'10100', addr_full:'864 ถนนเจริญกรุง',
-    father_name:'นายเหงียน วัน อัน', mother_name:'นางเฝิน ถิ ห่า',
-    samanera_date:'10 มกราคม 2510', samanera_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
-    samanera_addr:'864 ถนนเจริญกรุง', samanera_sub:'ตลาดน้อย', samanera_dist:'สัมพันธวงศ์', samanera_prov:'กรุงเทพมหานคร',
-    ord_date:'20 กรกฎาคม 2516', ord_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
-    ord_addr:'864 ถนนเจริญกรุง', ord_sub:'ตลาดน้อย', ord_dist:'สัมพันธวงศ์', ord_prov:'กรุงเทพมหานคร',
-    pansa:'52 พรรษา',
-    book_date:'20 กรกฎาคม 2516', book_vol:'2', book_no:'0034',
-    upa:'พระครูสมณานัมกิจ', upa_temple:'วัดสมณานัมบริหาร (กั๋นเพื๊อกตื่อ)',
-    kam:'พระอาจารย์โง กวาง ลิง', kam_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
-    anu:'พระอาจารย์เจิน ดิงห์ ฟอง', anu_temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',
-    temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)', sect:'อนัมนิกาย',
-    temple_addr:'864 ถนนเจริญกรุง', temple_sub:'ตลาดน้อย', temple_dist:'สัมพันธวงศ์', temple_prov:'กรุงเทพมหานคร', temple_zip:'10100',
-    temple_tel:'02-226-7890', mobile:'089-876-5432',
-    abbot_chaya:'พระครูสังฆาธิการอนัม (เหงียน)', rank:'พระครูสัญญาบัตรชั้นโท',
-    status:'บวช', status_date:'20 กรกฎาคม 2516',
-    upajja_year:'2550', upajja_roles:'พระอุปัชฌาย์',
-    dharma_rows:[{year:'2517',level:'น.ธ.ตรี',school:'วัดอุภัยราชบำรุง'},{year:'2518',level:'น.ธ.โท',school:'วัดอุภัยราชบำรุง'},{year:'2520',level:'น.ธ.เอก',school:'วัดอุภัยราชบำรุง'}],
-    pali_rows:[{year:'2521',level:'ป.ธ.1-2',school:'วัดสมณานัมบริหาร'},{year:'2522',level:'ป.ธ.3',school:'วัดสมณานัมบริหาร'}],
-    edu_rows:[{year:'2513',level:'ม.3',school:'โรงเรียนยานนาวา',major:'-'}],
-    honor_date:'5 ธันวาคม 2545', honor_class:'พระราชาคณะ', honor_name:'ขนฺติธมฺโม', honor_fullname:'พระครูขนฺติธมฺโม', honor_rank:'ชั้นเอก', honor_fan:'พัดแฉกทรงพุ่มข้าวบิณฑ์', honor_side:'คันถธุระ',
-    temple_pos_rows:[{start:'1 มกราคม 2550',end:'',pos:'รองเจ้าอาวาส',rank:'ชั้น 1',temple:'วัดอุภัยราชบำรุง (คั้นเยิงตื่อ)',status:'ดำรงตำแหน่งอยู่'}],
-    sangha6_date:'1 มกราคม 2550', sangha6_type:'การปกครอง', sangha6_detail:'รองเจ้าคณะใหญ่อนัมนิกาย ฝ่ายการปกครอง',
-    missions:'พระจริยานิเทศ, พระธรรมทูต', note:'พระเถระอาวุโส เชี่ยวชาญภาษาเวียดนาม จีน ไทย',
-    added_by:'Anuphon', added_by_id:'anuphon'
-  },
-  {
-    id:9003, type:'สามเณร', name:'สามเณรธีรพงษ์', firstname:'ธีรพงษ์', lastname:'ศรีสวัสดิ์', chaya:'',
-    nickname:'เติ้ล', bday:'22', bmonth:'พฤศจิกายน', byear:'2549',
-    nation:'ไทย', race:'ไทย', idcard:'1-1002-34567-89-0',
-    addr_prov:'นครปฐม', addr_dist:'สามพราน', addr_sub:'บางช้าง', addr_zip:'73110', addr_full:'15 หมู่ 3 บางช้าง',
-    father_name:'นายวิชัย ศรีสวัสดิ์', mother_name:'นางนภา ศรีสวัสดิ์',
-    samanera_date:'15 มิถุนายน 2566', samanera_temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)',
-    samanera_addr:'108/8 หมู่ 8', samanera_sub:'บางช้าง', samanera_dist:'สามพราน', samanera_prov:'นครปฐม',
-    ord_date:'', ord_temple:'', ord_addr:'', ord_sub:'', ord_dist:'', ord_prov:'',
-    pansa:'1 พรรษา (นับแต่บรรพชา)',
-    book_date:'15 มิถุนายน 2566', book_vol:'5', book_no:'0089',
-    upa:'พระครูธรรมปัญญา', upa_temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)',
-    kam:'', kam_temple:'', anu:'', anu_temple:'',
-    temple:'วัดธรรมปัญญารามบางม่วง (ฮึงถั่นตื่อ)', sect:'อนัมนิกาย',
-    temple_addr:'108/8 หมู่ 8', temple_sub:'บางช้าง', temple_dist:'สามพราน', temple_prov:'นครปฐม', temple_zip:'73110',
-    temple_tel:'034-222-333', mobile:'',
-    abbot_chaya:'พระครูธรรมปัญญา', rank:'สามเณร',
-    status:'บวช', status_date:'15 มิถุนายน 2566',
-    upajja_year:'', upajja_roles:'',
-    dharma_rows:[], pali_rows:[],
-    edu_rows:[{year:'2565',level:'ม.3',school:'โรงเรียนสามพราน',major:'-'}],
-    sangha6_date:'', sangha6_type:'', sangha6_detail:'',
-    missions:'', note:'สามเณรในโครงการบรรพชาสามเณรภาคฤดูร้อน วัดธรรมปัญญาราม',
-    added_by:'Admin', added_by_id:'admin'
-  }
-];
 
 /* ===== LOCAL USERS ===== */
 const LOCAL_USERS = {
@@ -1280,29 +1193,17 @@ function updateUIForRole(){
 /* ===== LOAD DATA ===== */
 async function loadMonks(){
   showLoading('กำลังโหลดข้อมูลพระ...');
-  // Load from localStorage first (instant)
-  const saved = localStorage.getItem('anam_monks');
-  let localMonks = saved ? JSON.parse(saved) : [];
-  SAMPLE_MONKS.forEach(sm=>{
-    if(!localMonks.find(m=>String(m.id)===String(sm.id)||String(m._docId)===String(sm.id))) localMonks.push(sm);
-  });
-  monks = localMonks;
+  monks = [];
   filtered = [...monks];
   renderDash();
   // Sync from Firebase
   try {
     const dbMonks = await fbGetAll('monks');
-    if(dbMonks && dbMonks.length>0){
-      // Keep sample monks + add DB monks
-      const sampleIds = SAMPLE_MONKS.map(s=>String(s.id));
-      monks = [...SAMPLE_MONKS];
-      dbMonks.forEach(dm=>{
-        if(!sampleIds.includes(String(dm.id))) monks.push(dm);
-      });
-      filtered=[...monks];
+    if(dbMonks && dbMonks.length>=0){
+      monks = dbMonks;
+      filtered = [...monks];
       saveLocal();
       renderDash();
-      toast('โหลดข้อมูล '+dbMonks.length+' รายการจาก Firebase');
     }
   } catch(e){ toast('Firebase: '+e.message, true); }
   hideLoading();
@@ -1736,7 +1637,7 @@ async function saveMonk(){
     if(editId){
       const existing=monks.find(m=>String(m.id)==String(editId)||String(m._docId)==String(editId));
       const docId=existing?._docId||String(editId);
-      if(docId && !SAMPLE_MONKS.find(s=>String(s.id)==String(editId))){
+      if(docId){
         await fbUpdate('monks', docId, data);
       }
       const idx=monks.findIndex(m=>String(m.id)==String(editId)||String(m._docId)==String(editId));
