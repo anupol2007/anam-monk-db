@@ -1713,15 +1713,18 @@ async function saveMonk(){
   showLoading('กำลังบันทึกข้อมูล...');
   try {
     const data=getFormData();
+    // Strip fields not yet in Supabase schema (avoid PGRST204)
+    const dbData={...data};
+    delete dbData.added_by; delete dbData.added_by_id;
     const editId=gv('edit-id');
     if(editId){
-      await sbPatch('monks', editId, data);
+      await sbPatch('monks', editId, dbData);
       const idx=monks.findIndex(m=>m.id==editId);
       if(idx>=0) monks[idx]={...monks[idx],...data};
       toast('แก้ไขข้อมูลเรียบร้อยแล้ว');
     } else {
-      const res=await sbPost('monks', data);
-      monks.push(res[0]);
+      const res=await sbPost('monks', dbData);
+      monks.push({...res[0],...data});
       toast('บันทึกข้อมูลเรียบร้อยแล้ว');
     }
     filtered=[...monks];
