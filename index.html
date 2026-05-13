@@ -1953,9 +1953,11 @@ function exportXLSX(){
     const tpr=m.temple_pos_rows?m.temple_pos_rows.map(r=>`${r.start||''} ${r.pos||''} ${r.temple||''}`).join('; '):'';
     const spr=m.sangha_pos_rows?m.sangha_pos_rows.map(r=>`${r.start||''} ${r.pos||''}`).join('; '):'';
     const xpr=m.special_pos_rows?m.special_pos_rows.map(r=>`${r.date||''} ${r.name||''} ${r.pos||''}`).join('; '):'';
+    // bday stored as full string e.g. "1 มกราคม 2530"
+    const bdayParts=(m.bday||'').split(' ');
     return [
       i+1, m.type||'', m.firstname||m.name||'', m.lastname||'', m.chaya||'',
-      m.idcard||'', m.age||'', m.bday||'', m.bmonth||'', m.byear||'',
+      m.idcard||'', m.age||'', bdayParts[0]||m.bday||'', bdayParts[1]||'', bdayParts[2]||m.byear||'',
       m.nation||'', m.race||'', m.nickname||'',
       m.addr_prov||'', m.addr_dist||'', m.addr_sub||'', m.addr_zip||'', m.addr_full||'',
       m.father_name||'', m.mother_name||'',
