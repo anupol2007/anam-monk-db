@@ -462,9 +462,7 @@ tr:hover td{background:#f9fafb}
       </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px">
-    <button class="btn btn-primary" onclick="switchTab(1,document.querySelectorAll('.tab-btn')[1])">ถัดไป →</button>
-  </div>
+
 </div>
 
 <!-- TAB 1: บรรพชา/อุปสมบท -->
@@ -901,12 +899,9 @@ tr:hover td{background:#f9fafb}
     </div>
     <div class="field" style="margin-top:8px"><label>หมายเหตุ</label><textarea id="f-note" placeholder="ข้อมูลเพิ่มเติม..." style="min-height:60px"></textarea></div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:8px;margin-bottom:20px">
-    <button class="btn" onclick="switchTab(5,document.querySelectorAll('.tab-btn')[5])">← ก่อนหน้า</button>
-    <div style="display:flex;gap:10px">
-      <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
-      <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
-    </div>
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px;margin-bottom:20px">
+    <button class="btn" onclick="clearForm()">ล้างข้อมูล</button>
+    <button class="btn btn-primary" id="save-btn" onclick="saveMonk()">บันทึกข้อมูล</button>
   </div>
 </div>
 
@@ -1110,7 +1105,7 @@ const SAMPLE_MONKS = [
 
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL = 'https://zyrdihxkpmkbasuiajsd.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_aDbfNHb_77C2xAlhwxTcig_DgJLJK7e';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5cmRpaHhrcG1rYmFzdWlhanNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzQzODMsImV4cCI6MjA4OTE1MDM4M30.Qwt4qf37SspUqGnnqhKJdCNWc6FqK7ZmHEESbYlGr9s';
 const API = SUPABASE_URL + '/rest/v1';
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -1281,20 +1276,36 @@ function updateUIForRole(){
 /* ===== LOAD DATA ===== */
 async function loadMonks(){
   showLoading('กำลังโหลดข้อมูลพระ...');
-  // Always start with sample monks
-  monks = [...SAMPLE_MONKS];
-  try {
-    const dbMonks = await sbGet('monks','select=*&order=id.asc');
-    // Add DB monks that are not already in sample list
-    dbMonks.forEach(dm=>{
-      if(!monks.find(m=>String(m.id)===String(dm.id))) monks.push(dm);
-    });
-  } catch(e){ 
-    // Supabase unreachable — sample data already loaded above
-  }
+  // Load from localStorage first (instant, always works)
+  const saved = localStorage.getItem('anam_monks');
+  let localMonks = saved ? JSON.parse(saved) : [];
+  // Merge sample monks if not already saved
+  SAMPLE_MONKS.forEach(sm=>{
+    if(!localMonks.find(m=>String(m.id)===String(sm.id))) localMonks.push(sm);
+  });
+  monks = localMonks;
   filtered = [...monks];
   renderDash();
+  // Then try to sync from Supabase in background
+  try {
+    const dbMonks = await sbGet('monks','select=*&order=id.asc');
+    if(dbMonks && dbMonks.length>0){
+      // Merge DB monks into local list
+      dbMonks.forEach(dm=>{
+        const idx=monks.findIndex(m=>String(m.id)===String(dm.id));
+        if(idx>=0) monks[idx]={...monks[idx],...dm};
+        else monks.push(dm);
+      });
+      filtered=[...monks];
+      saveLocal();
+      renderDash();
+    }
+  } catch(e){ /* Supabase unreachable, use local data */ }
   hideLoading();
+}
+
+function saveLocal(){
+  try { localStorage.setItem('anam_monks', JSON.stringify(monks)); } catch(e){}
 }
 
 /* ===== NAV ===== */
@@ -1721,6 +1732,7 @@ async function saveMonk(){
       await sbPatch('monks', editId, dbData);
       const idx=monks.findIndex(m=>m.id==editId);
       if(idx>=0) monks[idx]={...monks[idx],...data};
+      saveLocal();
       toast('แก้ไขข้อมูลเรียบร้อยแล้ว');
     } else {
       const res=await sbPost('monks', dbData);
@@ -1728,6 +1740,7 @@ async function saveMonk(){
       toast('บันทึกข้อมูลเรียบร้อยแล้ว');
     }
     filtered=[...monks];
+    saveLocal();
     clearForm();
     nav('list',document.getElementById('nav-list'));
   } catch(e){ toast('บันทึกไม่สำเร็จ: '+e.message, true); }
