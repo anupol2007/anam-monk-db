@@ -1210,28 +1210,10 @@ async function doLogin(){
     return;
   }
 
-  /* Try Supabase */
-  try{
-    const allUsers=await fbGetAll('app_users');
-    const rows=allUsers.filter(u=>u.id===id);
-    if(!rows.length||rows[0].password!==pw){
-      err.textContent='ID หรือรหัสผ่านไม่ถูกต้อง';
-      document.getElementById('login-pw').value='';
-    } else {
-      const u=rows[0];
-      currentUser={id:u.id,display:u.display,role:u.role};
-      document.getElementById('login-screen').style.display='none';
-      document.getElementById('main-app').style.display='block';
-      updateUIForRole();
-      initWidgets();
-      await loadMonks();
-      toast('ยินดีต้อนรับ '+u.display+' ('+roleLabel(u.role)+')');
-    }
-  }catch(e){
-    err.textContent='ไม่สามารถเชื่อมต่อได้: '+e.message;
-  }finally{
-    btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
-  }
+  /* ID/password ไม่อยู่ใน LOCAL_USERS */
+  err.textContent='ID หรือรหัสผ่านไม่ถูกต้อง';
+  document.getElementById('login-pw').value='';
+  btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
 }
 
 function doLogout(){
