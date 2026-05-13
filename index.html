@@ -1694,17 +1694,23 @@ function fillForm(m){
 }
 
 function editMonkIdx(idx){
-  const m=filtered[idx]||monks[idx]; if(!m) return;
-  editMonkByDocId(m._docId||m.id);
+  const data=document.querySelectorAll('#list-table tr');
+  const m=filtered[idx]; 
+  if(!m){toast('ไม่พบข้อมูล',true);return;}
+  window._currentMonk=m;
+  editMonkByDocId(m._docId||m.id||'');
 }
 function deleteMonkIdx(idx){
-  const m=filtered[idx]||monks[idx]; if(!m) return;
-  deleteMonk(m._docId||m.id);
+  const m=filtered[idx];
+  if(!m){toast('ไม่พบข้อมูล',true);return;}
+  window._currentMonk=m;
+  deleteMonk(m._docId||m.id||'');
 }
 function editMonkByDocId(id){ editMonk(id); }
 function editMonk(id){
   if(!isEditor(currentUser)){toast('ไม่มีสิทธิ์แก้ไข',true);return;}
-  const m=monks.find(x=>String(x._docId||x.id)===String(id)); if(!m)return;
+  const m=monks.find(x=>String(x._docId||x.id)===String(id))||window._currentMonk; if(!m)return;
+  window._currentMonk=m;
   nav('add',document.getElementById('nav-add'));
   document.getElementById('edit-id').value=id;
   document.getElementById('save-btn').textContent='บันทึกการแก้ไข';
