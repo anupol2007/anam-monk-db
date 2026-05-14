@@ -8,16 +8,16 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Sarabun',sans-serif;background:#FDF5EC;color:#1a1a18}
 .app-wrap{font-family:'Sarabun',sans-serif}
-.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1A0A00 0%,#4A1C08 25%,#8B3A06 55%,#C8590A 80%,#E8A24A 100%);position:relative;overflow:hidden}
-.login-card{background:rgba(255,252,245,0.97);border:2px solid rgba(200,89,10,0.35);border-radius:20px;padding:44px 48px;width:60%;max-width:900px;min-width:360px;box-shadow:0 24px 80px rgba(26,10,0,0.7),inset 0 1px 0 rgba(255,213,128,0.3)}
-.login-logo-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#C8590A,#E8A24A);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;box-shadow:0 6px 20px rgba(200,89,10,0.45)}
-.login-title{font-size:22px;font-weight:700;text-align:center;margin-bottom:4px;color:#3D1C02}
-.login-sub{font-size:13px;color:#8B5E3C;text-align:center;margin-bottom:28px;font-weight:500}
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 30% 20%,#8B1A1A 0%,#5C0E0E 30%,#3D0808 60%,#1A0303 100%);position:relative;overflow:hidden}
+.login-card{background:linear-gradient(180deg,#FDF8ED 0%,#F5E8C8 100%);border:none;border-radius:4px;padding:44px 40px 36px;width:90%;max-width:420px;min-width:300px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.6)}.login-card::before{content:'';position:absolute;inset:-12px;background:linear-gradient(135deg,#8B6914,#D4A017,#8B6914,#D4A017);border-radius:6px;z-index:-1;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}.login-card::after{content:'';position:absolute;inset:-8px;border:2px solid rgba(212,160,23,0.6);border-radius:5px;pointer-events:none}
+.login-logo-icon{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#C8A42A,#8B6914);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:38px;box-shadow:0 4px 16px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,220,100,0.5);border:2px solid rgba(212,160,23,0.8)}
+.login-title{font-size:21px;font-weight:700;text-align:center;margin-bottom:4px;color:#3D1002;text-shadow:0 1px 0 rgba(255,220,100,0.3)}
+.login-sub{font-size:12px;color:#6B3A1A;text-align:center;margin-bottom:4px;font-weight:400}
 .lf{margin-bottom:16px}
 .lf label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
-.lf input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Sarabun',sans-serif;color:#1a1a18;background:#fff}
-.lf input:focus{outline:none;border-color:#C8590A;box-shadow:0 0 0 3px rgba(200,89,10,0.15),0 2px 8px rgba(200,89,10,0.1)}
-.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,#8B3A06,#C8590A,#E8A24A);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;letter-spacing:0.06em;box-shadow:0 6px 20px rgba(139,58,6,0.5);text-shadow:0 1px 2px rgba(0,0,0,0.3)}
+.lf input{width:100%;padding:10px 12px;border:1px solid rgba(139,105,20,0.5);border-radius:2px;font-size:14px;font-family:'Sarabun',sans-serif;color:#2C1500;background:rgba(255,248,220,0.8);box-shadow:inset 0 1px 3px rgba(0,0,0,0.1)}
+.lf input:focus{outline:none;border-color:rgba(212,160,23,0.8);box-shadow:0 0 0 2px rgba(212,160,23,0.2);background:rgba(255,252,235,0.95)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(180deg,#8B1A1A 0%,#6B0E0E 50%,#8B1A1A 100%);color:#FFD580;border:2px solid rgba(212,160,23,0.7);border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;letter-spacing:0.08em;box-shadow:0 4px 12px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,220,100,0.2);text-shadow:0 1px 3px rgba(0,0,0,0.5)}
 .login-btn:hover{background:linear-gradient(135deg,#8B3A06,#C8590A)}
 .login-btn:disabled{background:#9ca3af;cursor:not-allowed}
 .login-error{color:#dc2626;font-size:13px;text-align:center;margin-top:10px;min-height:20px}
@@ -357,7 +357,21 @@ tr:hover td{background:#f9fafb}
   <div style="position:absolute;font-size:80px;opacity:0.04;color:#FFD580;top:50%;right:5%;transform:translateY(-50%);pointer-events:none;line-height:1">&#9775;</div>
   <div class="login-card">
     <div style="text-align:center;letter-spacing:10px;color:#C8590A;font-size:12px;margin-bottom:8px;opacity:0.8">✦ ✦ ✦</div>
-    <div class="login-logo-icon">&#9775;</div>
+    <div style="position:absolute;top:-6px;left:-6px;width:50px;height:50px;pointer-events:none;opacity:0.85">
+  <svg viewBox="0 0 50 50" width="50" height="50"><path d="M2,2 Q2,25 2,48 Q25,48 48,48" fill="none" stroke="#D4A017" stroke-width="2.5"/><circle cx="6" cy="6" r="4" fill="#D4A017" opacity="0.7"/><path d="M2,2 L14,2 L2,14" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.5"/></svg>
+</div>
+<div style="position:absolute;top:-6px;right:-6px;width:50px;height:50px;pointer-events:none;opacity:0.85;transform:scaleX(-1)">
+  <svg viewBox="0 0 50 50" width="50" height="50"><path d="M2,2 Q2,25 2,48 Q25,48 48,48" fill="none" stroke="#D4A017" stroke-width="2.5"/><circle cx="6" cy="6" r="4" fill="#D4A017" opacity="0.7"/><path d="M2,2 L14,2 L2,14" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.5"/></svg>
+</div>
+<div style="position:absolute;bottom:-6px;left:-6px;width:50px;height:50px;pointer-events:none;opacity:0.85;transform:scaleY(-1)">
+  <svg viewBox="0 0 50 50" width="50" height="50"><path d="M2,2 Q2,25 2,48 Q25,48 48,48" fill="none" stroke="#D4A017" stroke-width="2.5"/><circle cx="6" cy="6" r="4" fill="#D4A017" opacity="0.7"/><path d="M2,2 L14,2 L2,14" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.5"/></svg>
+</div>
+<div style="position:absolute;bottom:-6px;right:-6px;width:50px;height:50px;pointer-events:none;opacity:0.85;transform:scale(-1)">
+  <svg viewBox="0 0 50 50" width="50" height="50"><path d="M2,2 Q2,25 2,48 Q25,48 48,48" fill="none" stroke="#D4A017" stroke-width="2.5"/><circle cx="6" cy="6" r="4" fill="#D4A017" opacity="0.7"/><path d="M2,2 L14,2 L2,14" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.5"/></svg>
+</div>
+<div style="position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.4),rgba(212,160,23,0.7),rgba(212,160,23,0.4),transparent);pointer-events:none"></div>
+<div style="position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.4),rgba(212,160,23,0.7),rgba(212,160,23,0.4),transparent);pointer-events:none"></div>
+<div class="login-logo-icon">&#9775;</div>
     <div style="font-size:13px;color:#8B5E3C;text-align:center;font-weight:500;margin-bottom:4px">ยินดีต้อนรับ เข้าสู่</div><div class="login-title" style="font-size:20px;line-height:1.4">ฐานข้อมูลพระภิกษุ-สามเณร<br>คณะสงฆ์อนัมนิกาย</div>
     <div style="display:flex;align-items:center;gap:8px;margin:0 16px 20px"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,89,10,0.3))"></div><span style="color:#C8590A;font-size:12px">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,89,10,0.3))"></div></div>
     <div class="login-sub" style="margin-bottom:4px;font-size:12px;line-height:1.6">สำนักงานเลขานุการเจ้าคณะใหญ่อนัมนิกายแห่งประเทศไทย</div><div class="login-sub" style="margin-bottom:22px;font-size:12px;line-height:1.6">โดย องปลัดธรรมปัญญาธิวัตร ธีระยุทธ (ทิดเถี่ยนคาย)</div>
@@ -365,7 +379,37 @@ tr:hover td{background:#f9fafb}
     <div class="lf"><label>รหัสผ่าน</label><input type="password" id="login-pw" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
     <div class="login-error" id="login-error"></div>
+    <div style="margin-top:14px;border-top:1px solid rgba(139,80,10,0.3);padding-top:12px">
+      <button onclick="openChantPage()" style="width:100%;padding:10px;background:rgba(80,20,0,0.5);color:#D4A017;border:1px solid rgba(212,160,23,0.4);border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;letter-spacing:0.04em;text-align:center">
+        <div style="font-size:14px;letter-spacing:2px">慈雲懺主淨土文</div>
+        <div style="font-size:11px;color:rgba(212,160,23,0.7);margin-top:2px">Từ Vân Sám Chủ Tịnh Độ Văn</div>
+      </button>
+    </div>
   </div>
+</div>
+
+<!-- CHANT PAGE -->
+<div id="chant-page" style="display:none;position:fixed;inset:0;z-index:500;background:linear-gradient(180deg,#1A0202 0%,#2A0404 100%);overflow-y:auto;font-family:'Sarabun',sans-serif;color:#F5E8C0">
+
+  <!-- TOP BAR -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(90deg,#3D0808,#5C0C0C,#3D0808);border-bottom:1px solid rgba(212,160,23,0.4);position:sticky;top:0;z-index:10">
+    <button onclick="closeChantPage()" style="display:flex;align-items:center;gap:6px;color:#D4A017;font-size:13px;font-weight:600;cursor:pointer;background:none;border:1px solid rgba(212,160,23,0.4);border-radius:4px;padding:6px 12px;font-family:'Sarabun',sans-serif">← กลับ</button>
+    <div style="font-size:14px;font-weight:700;color:#FFD580;text-align:center;flex:1">บทสวดมนต์</div>
+    <div style="width:70px"></div>
+  </div>
+
+  <!-- HEADER -->
+  <div style="text-align:center;padding:20px 16px 12px;border-bottom:1px solid rgba(212,160,23,0.2)">
+    <div style="font-size:22px;font-weight:700;color:#FFD580;letter-spacing:4px;text-shadow:0 0 20px rgba(212,160,23,0.3)">慈雲懺主淨土文</div>
+    <div style="font-size:12px;color:rgba(212,160,23,0.7);margin-top:3px;letter-spacing:1px">Cí Yún Chàn Zhǔ Jìng Tǔ Wén</div>
+    <div style="font-size:12px;color:rgba(212,160,23,0.6);margin-top:2px">Từ Vân Sám Chủ Tịnh Độ Văn</div>
+    <div style="font-size:13px;color:#E8C070;margin-top:2px">ตื่อเยิงซ้ามจู๋ติ่นโด่ยัง</div>
+    <div style="font-size:11px;color:rgba(255,180,100,0.7);margin-top:6px;font-style:italic">( คุกเข่าสวด / Remain kneeling )</div>
+  </div>
+
+  <!-- STANZAS -->
+  <div id="chant-stanzas" style="padding:0 12px 80px"></div>
+
 </div>
 
 <!-- MAIN APP -->
@@ -1288,6 +1332,43 @@ function updateMobNav(page){
   document.querySelectorAll('.mob-nav-item').forEach(b=>b.classList.remove('active'));
   const el=document.getElementById('mob-nav-'+page);
   if(el) el.classList.add('active');
+}
+
+/* ===== CHANT PAGE ===== */
+const CHANTS = [
+  {zh:'一心皈命。極樂世界。阿彌陀佛。',py:'Yī xīn guī mìng. Jí lè shì jiè. Ā mí tuó fó.',vn:'Nhất tâm quy mạng, Cực Lạc Thế Giới, A Di Đà Phật.',en:'Wholeheartedly we take refuge in Amita Buddha of the Western Paradise.',th:'ด้วยจิตใจหนึ่งเดียวที่มี ขอถึงที่พึ่ง ณ โลกสุขาวดี พระอมิตาภพุทธเจ้า'},
+  {zh:'願以淨光照我。慈誓攝我。',py:'Yuàn yǐ jìng guāng zhào wǒ. Cí shì shè wǒ.',vn:'Nguyện dĩ tịnh quang chiếu ngã, từ thệ tiếp ngã.',en:'May his pure light shine upon us, and his kind vows accept us.',th:'แผ่นบารมีอันบริสุทธิ์ส่องลงมายังข้าพเจ้า ปณิธานแห่งพระเมตตาของพระองค์โปรดรับข้าพเจ้าไว้'},
+  {zh:'我今正念。稱如來名。為菩提道。',py:'Wǒ jīn zhèng niàn. Chēng rú lái míng. Wèi pú tí dào.',vn:'Ngã kim chánh niệm, xưng Như Lai danh, vì Bồ Đề Đạo.',en:'We are now mindful, and invoke the name of Tathagata; Aiming at Bodhi.',th:'ข้าพเจ้าบัดนี้มีสติ ขอเรียกขานพระนามตถาคต เพื่อมรรคาแห่งโพธิ'},
+  {zh:'求生淨土。佛昔本誓。若有眾生。',py:'Qiú shēng jìng tǔ. Fó xī běn shì. Ruò yǒu zhòng shēng.',vn:'Cầu sanh Tịnh Độ. Phật tích bản thệ, nhược hữu chúng sanh,',en:'We seek rebirth into the Pure Land. The Buddha made his own vow that if any sentient being who',th:'ขอตั้งปณิธานที่จะเกิดในแดนบริสุทธิ์ (สุขาวดี) พระพุทธองค์ทรงตั้งปณิธานไว้ว่า หากมีสัตว์โลกใด'},
+  {zh:'欲生我國。志心信樂。乃至十念。',py:'Yù shēng wǒ guó. Zhì xīn xìn yào. Nǎi zhì shí niàn.',vn:'Dục sanh ngã quốc, chí tâm tín nhạo, nãi chí thập niệm,',en:'might wish to be reborn in his land, with determination and faith, or with even only ten invocations,',th:'ปรารถนาจะเกิดในแดนของเรา ด้วยจิตมุ่งมั่นศรัทธา แม้เพียงภาวนาสิบครั้ง'},
+  {zh:'若不生者。不取正覺。',py:'Ruò bù shēng zhě. Bù qǔ zhèng jué.',vn:'Nhược bất sanh giả, bất thủ Chánh Giác.',en:'Should yet fail to be reborn there, he would not have attained Supreme Enlightenment.',th:'หากยังไม่ได้เกิดในแดนนั้น เราจะไม่บรรลุพระสัมมาสัมโพธิญาณ'},
+  {zh:'以此念佛因緣。得入如來。大誓海中。承佛慈力。眾罪消滅。',py:'Yǐ cǐ niàn fó yīn yuán. Dé rù rú lái. Dà shì hǎi zhōng. Chéng fó cí lì. Zhòng zuì xiāo miè.',vn:'Dĩ thử niệm Phật nhân duyên, đắc nhập Như Lai, Đại thệ hải trung, thừa Phật từ lực, chúng tội tiêu diệt,',en:'By virtue of this mindfulness of Buddha, we may enter the great ocean of Tathagata&#39;s vows. By the Buddha&#39;s mercy, may all iniquities be eradicated.',th:'ด้วยเหตุแห่งการระลึกถึงพระพุทธเจ้า จึงได้เข้าสู่ตถาคต ในมหาสมุทรแห่งปณิธาน ด้วยพลังเมตตาแห่งพระพุทธเจ้า บาปทั้งปวงจงดับสิ้น'},
+  {zh:'善根增長。若臨命終。自知時至。身無病苦。心不貪戀。意不顛倒。',py:'Shàn gēn zēng zhǎng. Ruò lín mìng zhōng. Zì zhī shí zhì. Shēn wú bìng kǔ. Xīn bù tān liàn. Yì bù diān dǎo.',vn:'Thiện căn tăng trưởng. Nhược lâm mạng chung, tự tri thời chí, thân vô bệnh khổ, tâm bất tham luyến, ý bất điên đảo,',en:'And good roots increased. At life&#39;s end, may we know when the time is up. May the body suffer no ills, the mind harbor no attachments, and the senses yield no confusions.',th:'กุศลมูลเจริญงอกงาม เมื่อใกล้จะสิ้นชีวิต ขอให้รู้ด้วยตนเองว่าถึงเวลาแล้ว ขอกายปราศจากโรคภัย จิตไม่ยึดติด สติไม่วิปลาส'},
+  {zh:'如入禪定。佛及聖眾。手執金臺。來迎接我。於一念頃。生極樂國。',py:'Rú rù chán dìng. Fó jí shèng zhòng. Shǒu zhí jīn tái. Lái yíng jiē wǒ. Yú yī niàn qǐng. Shēng jí lè guó.',vn:'Như nhập thiền định, Phật cập thánh chúng, thủ chấp kim đài, lai nghinh tiếp ngã, ư nhất niệm khoảnh, sanh Cực Lạc Quốc.',en:'As in Dhyana serenity — Buddha and the holy ones, carrying the platform of gold, come to meet us, that we may, in a split second, be reborn in Paradise.',th:'ดุจเข้าฌานสมาธิ พระพุทธเจ้าและหมู่พระอริยสงฆ์ ถือแท่นทองคำ มารับข้าพเจ้า ในชั่วขณะจิตเดียว ได้เกิดในแดนสุขาวดี'},
+  {zh:'花開見佛。即聞佛乘。頓開佛慧。廣度眾生。滿菩提願。',py:'Huā kāi jiàn fó. Jí wén fó shèng. Dùn kāi fó huì. Guǎng dù zhòng shēng. Mǎn pú tí yuàn.',vn:'Hoa khai kiến Phật, tức văn Phật thừa, đốn khai Phật tuệ, quảng độ chúng sanh, mãn Bồ Đề nguyện.',en:'As the lotus unfolds we see Buddha, at once hear the Buddha Vehicle, suddenly penetrate Buddha&#39;s wisdom, and deliver all sentient beings — in fulfillment of Bodhi wishes.',th:'เมื่อดอกบัวบาน ได้เห็นพระพุทธเจ้า ได้ฟังพุทธยาน บรรลุปัญญาแห่งพุทธะโดยฉับพลัน โปรดสัตว์โลกอย่างกว้างขวาง เติมเต็มปณิธานแห่งโพธิ'},
+  {zh:'十方三世一切佛。一切菩薩摩訶薩。摩訶般若波羅蜜。',py:'Shí fāng sān shì yī qiè fó. Yī qiè pú sà mó hē sà. Mó hē bō rě bō luó mì.',vn:'Thập phương tam thế nhất thiết Phật. Nhất thiết Bồ Tát Ma Ha Tát. Ma Ha Bát Nhã Ba La Mật.',en:'Buddhas in all places at all times. Bodhisattvas, Mahasattvas. Mahaprajnaparamita.',th:'พระพุทธเจ้าทั้งสิบทิศ ทั้งสามกาล พระโพธิสัตว์ พระมหาสัตว์ทั้งปวง มหาปรัชญาปารมิตา'}
+];
+
+function openChantPage(){
+  document.getElementById('chant-page').style.display='block';
+  renderChants();
+  document.getElementById('chant-page').scrollTop=0;
+}
+function closeChantPage(){
+  document.getElementById('chant-page').style.display='none';
+}
+function renderChants(){
+  const c=document.getElementById('chant-stanzas'); if(!c) return;
+  c.innerHTML=CHANTS.map((s,i)=>`
+    <div style="border-bottom:1px solid rgba(212,160,23,0.12);padding:14px 4px">
+      <div style="font-size:20px;font-weight:600;color:#FFD580;letter-spacing:3px;line-height:1.6;text-shadow:0 1px 8px rgba(212,160,23,0.2)">${s.zh}</div>
+      <div style="font-size:12px;color:rgba(212,160,23,0.65);margin-top:3px;line-height:1.5;letter-spacing:0.5px">${s.py}</div>
+      <div style="font-size:13px;color:#D4B080;margin-top:3px;line-height:1.5;font-style:italic">${s.vn}</div>
+      <div style="font-size:12px;color:rgba(200,180,140,0.65);margin-top:3px;line-height:1.5;font-style:italic">${s.en}</div>
+      <div style="font-size:14px;color:#F0D090;margin-top:6px;line-height:1.7;font-weight:500">${s.th}</div>
+    </div>
+    ${i<CHANTS.length-1?'<div style="text-align:center;color:rgba(212,160,23,0.35);font-size:11px;letter-spacing:8px;padding:3px 0">· · ·</div>':''}
+  `).join('');
 }
 
 function toggleSidebar(){
