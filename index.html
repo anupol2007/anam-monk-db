@@ -169,6 +169,34 @@ tr:hover td{background:#f9fafb}
 .export-title{font-size:14px;font-weight:600;margin-bottom:4px}
 .export-desc{font-size:12px;color:#6b7280}
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600&display=swap');
+
+/* ===== MOBILE RESPONSIVE ===== */
+.hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(200,89,10,0.1);border:1px solid rgba(200,89,10,0.25);border-radius:8px;cursor:pointer;flex-shrink:0;font-size:20px;color:#8B3A06}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:998}
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .login-card{width:94%;min-width:unset;padding:28px 18px}
+  .app{position:relative;overflow:hidden}
+  .sidebar{position:fixed;left:-240px;top:0;height:100vh;z-index:999;width:220px;transition:left .25s;overflow-y:auto}
+  .sidebar.mob-open{left:0;box-shadow:4px 0 24px rgba(0,0,0,0.4)}
+  .sidebar-overlay.mob-open{display:block}
+  .main{width:100%;min-width:0}
+  .topbar{padding:10px 12px;gap:8px}
+  .topbar-search{max-width:150px}
+  .page-content{padding:10px!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important;gap:8px}
+  .stat-card{padding:12px 10px!important}
+  .stat-value{font-size:24px!important}
+  .charts-grid{grid-template-columns:1fr!important}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{min-width:560px}
+  .fg2,.fg3,.fg4{grid-template-columns:1fr!important}
+  .field-full{grid-column:1!important}
+  .form-section{padding:12px!important}
+  .d-grid{grid-template-columns:1fr!important}
+  .export-grid{grid-template-columns:1fr!important}
+  .btn-add-top{font-size:12px!important;padding:7px 10px!important}
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -302,7 +330,7 @@ tr:hover td{background:#f9fafb}
 <!-- MAIN APP -->
 <div class="main-app" id="main-app">
 <div class="app">
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <div class="sidebar-logo-title">&#9775; อนัมนิกาย</div>
     <div class="sidebar-logo-sub">ระบบฐานข้อมูลพระ</div>
@@ -1215,7 +1243,24 @@ function saveLocal(){
 }
 
 /* ===== NAV ===== */
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sidebar-overlay');
+  if(!sb||!ov) return;
+  sb.classList.toggle('mob-open');
+  ov.classList.toggle('mob-open');
+}
+
+// Close sidebar when nav item clicked on mobile
+function closeSidebarMobile(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sidebar-overlay');
+  if(sb) sb.classList.remove('mob-open');
+  if(ov) ov.classList.remove('mob-open');
+}
+
 function nav(page, el){
+  closeSidebarMobile();
   if(page==='add'&&!isEditor(currentUser)){toast('ไม่มีสิทธิ์เพิ่ม/แก้ไขข้อมูล',true);return;}
   if(page==='export'&&!isEditor(currentUser)){toast('ไม่มีสิทธิ์ Export',true);return;}
   if(page==='users'&&!isAdmin(currentUser)){toast('เฉพาะ Admin เท่านั้น',true);return;}
